@@ -1,4 +1,3 @@
-dist
 node_modules
 .parcel-chache/**
 .parcel-cache/data.mdb
