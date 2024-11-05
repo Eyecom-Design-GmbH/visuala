@@ -5,6 +5,8 @@ module.exports = {
   entry: {
     ["global"]: "./src/global.js",
     ["slider-about-us"]: "./src/slider-about-us.js",
+    ["slider-impressions"]: "./src/slider-impressions.js",
+    // ["gsap-animations"]: "./src/gsap-animations.js",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
