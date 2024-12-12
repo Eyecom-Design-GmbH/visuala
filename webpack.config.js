@@ -3,10 +3,7 @@ const path = require("path");
 module.exports = {
   mode: "production",
   entry: {
-    ["global"]: "./src/global.js",
-    ["slider-about-us"]: "./src/slider-about-us.js",
-    ["slider-impressions"]: "./src/slider-impressions.js",
-    // ["gsap-animations"]: "./src/gsap-animations.js",
+    ["slider-feedback"]: "./src/slider-feedback.js",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
