@@ -1,4 +1,4 @@
-$(".feedback-slider_component").each(function (index) {
+$(".slider-impressionen_component").each(function (index) {
     const swiperImpression = new Swiper($(this).find(".swiper")[0], {
       autoHeight: false,
       followFinger: true,
@@ -25,7 +25,11 @@ $(".feedback-slider_component").each(function (index) {
       navigation: {
         nextEl: $(this).find(".swiper-next")[0],
         prevEl: $(this).find(".swiper-prev")[0],
+        disabledClass: "is-disabled"
       },
+  
+      slideActiveClass: "is-active",
+      slideDuplicateActiveClass: "is-active"
     });
   });
   
