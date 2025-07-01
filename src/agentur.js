@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     card.style.marginTop = (3 + (index) * 2) + 'rem';
     card.style.zIndex = 30 - index;
   });
-
+// TEst
   // Initialize typewriter effect for changing words
   if (window.createTypewriter && document.querySelector('.changing-word')) {
     createTypewriter('.changing-word', [
