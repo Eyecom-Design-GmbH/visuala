@@ -1,17 +1,16 @@
-$(".slider-impressionen_component").each(function (index) {
+console.log("Projects");
+
+document.addEventListener('DOMContentLoaded', function () {
+  $(".slider-impressionen_component").each(function (index) {
     const swiperImpression = new Swiper($(this).find(".swiper")[0], {
       autoHeight: false,
       followFinger: true,
       draggable: true,
       freeMode: false,
       slideToClickedSlide: true,
-      centeredSlides: true,
-      slidesPerView: 'auto', // Displays the slides with a partial view on the sides
+      slidesPerView: 1,
       spaceBetween: "4%",
       allowTouchMove: true,
-      autoplay: {
-        delay: 5000,
-      },
       rewind: false,
       loop: true,
       mousewheel: {
@@ -33,3 +32,4 @@ $(".slider-impressionen_component").each(function (index) {
     });
   });
   
+});
