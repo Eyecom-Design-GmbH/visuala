@@ -18,7 +18,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].js",
+    filename: "[name].[contenthash:8].js",
     library: "[name]",
     libraryTarget: "umd",
     globalObject: "this",
