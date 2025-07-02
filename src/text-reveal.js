@@ -10,6 +10,30 @@ const isMobile = (() => {
     return isMobileUserAgent || (isTouchDevice && isSmallScreen);
 })();
 
+// ===== PERFORMANCE OPTIMIZATION UTILITIES =====
+const PERFORMANCE_CONFIG = {
+  maxWords: isMobile ? 15 : 50,           // Limit word count
+  useBlur: !isMobile,                     // Disable blur on mobile
+  useBatching: true,                      // Batch DOM operations
+  useForce3D: true,                       // Force GPU acceleration
+  preferredFPS: isMobile ? 30 : 60        // Adaptive frame rate
+};
+
+// Batch DOM operations for better performance
+function batchDOMOperations(operations) {
+  if (!PERFORMANCE_CONFIG.useBatching) {
+    operations.forEach(op => op());
+    return;
+  }
+  
+  return new Promise(resolve => {
+    requestAnimationFrame(() => {
+      operations.forEach(op => op());
+      resolve();
+    });
+  });
+}
+
 // Modular Text Blur Reveal Animation
 function createTextReveal(selector, options = {}) {
   // Default options
@@ -36,7 +60,7 @@ function createTextReveal(selector, options = {}) {
     settings.blurAmount = 0;  // Disable blur on mobile (expensive)
     settings.moveDistance = Math.min(settings.moveDistance, 30); // Reduce movement
     settings.duration = Math.max(0.4, settings.duration * 0.7); // Faster animation
-    settings.staggerAmount = Math.max(0.01, settings.staggerAmount * 0.5); // Faster stagger
+    settings.staggerAmount = Math.max(0.03, settings.staggerAmount * 2); // INCREASE stagger for mobile
     settings.splitSpaces = false; // Don't animate spaces on mobile
     
     console.log('🔋 Text Reveal: Mobile optimization applied');
@@ -90,8 +114,11 @@ function createTextReveal(selector, options = {}) {
       const transform = getTransformProperties(settings.direction, settings.moveDistance);
       wordSpan.style.cssText = `
         opacity: 0;
-        transform: translateX(${transform.x}px) translateY(${transform.y}px);
+        ${settings.blurAmount > 0 && PERFORMANCE_CONFIG.useBlur ? `filter: blur(${settings.blurAmount}px);` : ''}
+        transform: translateX(${transform.x}px) translateY(${transform.y}px) ${PERFORMANCE_CONFIG.useForce3D ? 'translateZ(0)' : ''};
         display: inline-block;
+        ${PERFORMANCE_CONFIG.useForce3D ? 'will-change: transform, opacity;' : ''}
+        backface-visibility: hidden;
       `;
       fragment.appendChild(wordSpan);
       
@@ -144,9 +171,11 @@ function createTextReveal(selector, options = {}) {
           const transform = getTransformProperties(settings.direction, settings.moveDistance);
           wordSpan.style.cssText = `
             opacity: 0;
-            filter: blur(${settings.blurAmount}px);
-            transform: translateX(${transform.x}px) translateY(${transform.y}px);
+            ${settings.blurAmount > 0 && PERFORMANCE_CONFIG.useBlur ? `filter: blur(${settings.blurAmount}px);` : ''}
+            transform: translateX(${transform.x}px) translateY(${transform.y}px) ${PERFORMANCE_CONFIG.useForce3D ? 'translateZ(0)' : ''};
             display: inline-block;
+            ${PERFORMANCE_CONFIG.useForce3D ? 'will-change: transform, opacity;' : ''}
+            backface-visibility: hidden;
           `;
           textNode.parentNode.replaceChild(wordSpan, textNode);
         }
@@ -166,9 +195,11 @@ function createTextReveal(selector, options = {}) {
           const transform = getTransformProperties(settings.direction, settings.moveDistance);
           wordSpan.style.cssText = `
             opacity: 0;
-            filter: blur(${settings.blurAmount}px);
-            transform: translateX(${transform.x}px) translateY(${transform.y}px);
+            ${settings.blurAmount > 0 && PERFORMANCE_CONFIG.useBlur ? `filter: blur(${settings.blurAmount}px);` : ''}
+            transform: translateX(${transform.x}px) translateY(${transform.y}px) ${PERFORMANCE_CONFIG.useForce3D ? 'translateZ(0)' : ''};
             display: inline-block;
+            ${PERFORMANCE_CONFIG.useForce3D ? 'will-change: transform, opacity;' : ''}
+            backface-visibility: hidden;
           `;
           fragment.appendChild(wordSpan);
         }
@@ -183,9 +214,11 @@ function createTextReveal(selector, options = {}) {
             const transform = getTransformProperties(settings.direction, settings.moveDistance);
             spaceSpan.style.cssText = `
               opacity: 0;
-              filter: blur(${settings.blurAmount}px);
-              transform: translateX(${transform.x}px) translateY(${transform.y}px);
+              ${settings.blurAmount > 0 && PERFORMANCE_CONFIG.useBlur ? `filter: blur(${settings.blurAmount}px);` : ''}
+              transform: translateX(${transform.x}px) translateY(${transform.y}px) ${PERFORMANCE_CONFIG.useForce3D ? 'translateZ(0)' : ''};
               display: inline-block;
+              ${PERFORMANCE_CONFIG.useForce3D ? 'will-change: transform, opacity;' : ''}
+              backface-visibility: hidden;
             `;
             fragment.appendChild(spaceSpan);
           } else {
@@ -221,16 +254,30 @@ function createTextReveal(selector, options = {}) {
     
     if (spans.length === 0) return;
 
-    // Create animation configuration
+    // Limit words for performance
+    const maxSpans = Math.min(spans.length, PERFORMANCE_CONFIG.maxWords);
+    const spansToAnimate = Array.from(spans).slice(0, maxSpans);
+    
+    if (maxSpans < spans.length) {
+      console.log(`🔧 Performance: Limited to ${maxSpans}/${spans.length} words for performance`);
+    }
+
+    // GSAP Performance Optimizations
     const animationConfig = {
       x: 0,
       y: 0,
-      filter: "blur(0px)",
       opacity: 1,
       duration: settings.duration,
       ease: settings.ease,
-      stagger: settings.staggerAmount
+      stagger: settings.staggerAmount,
+      force3D: PERFORMANCE_CONFIG.useForce3D,  // Force GPU acceleration
+      transformOrigin: "center center"         // Optimize transform calculations
     };
+    
+    // Only add filter if blur is enabled and supported
+    if (settings.blurAmount > 0 && PERFORMANCE_CONFIG.useBlur) {
+      animationConfig.filter = "blur(0px)";
+    }
 
     // Add ScrollTrigger if auto-initializing
     if (settings.autoInit) {
@@ -240,12 +287,14 @@ function createTextReveal(selector, options = {}) {
         end: settings.triggerEnd,
         toggleActions: settings.toggleActions,
         scrub: settings.scrub,
-        markers: false
+        markers: false,
+        fastScrollEnd: true,           // Optimize for fast scrolling
+        refreshPriority: 1             // Lower priority for better performance
       };
     }
 
     // Create the animation
-    const tl = gsap.to(spans, animationConfig);
+    const tl = gsap.to(spansToAnimate, animationConfig);
 
     return tl;
   }
@@ -282,12 +331,18 @@ function createTextReveal(selector, options = {}) {
       processedElements.forEach(element => {
         const spans = element.querySelectorAll('.text-reveal-word, .text-reveal-whitespace');
         const transform = getTransformProperties(settings.direction, settings.moveDistance);
-        gsap.set(spans, {
+        const resetConfig = {
           opacity: 0,
-          filter: `blur(${settings.blurAmount}px)`,
           x: transform.x,
           y: transform.y
-        });
+        };
+        
+        // Only add filter reset if blur was used
+        if (settings.blurAmount > 0 && PERFORMANCE_CONFIG.useBlur) {
+          resetConfig.filter = `blur(${settings.blurAmount}px)`;
+        }
+        
+        gsap.set(spans, resetConfig);
       });
     }
   };
@@ -346,4 +401,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Export for manual use
-window.createTextReveal = createTextReveal; 
+window.createTextReveal = createTextReveal;

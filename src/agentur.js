@@ -46,15 +46,15 @@ document.addEventListener('DOMContentLoaded', function () {
     smooth: true           // Smooth continuous animation
   });
 
-  // Initialize text reveal animation for the main paragraph
+  // Initialize text reveal animation for the main paragraph - OPTIMIZED
   if (window.createTextReveal && document.querySelector('.text-reveal-animation')) {
     createTextReveal('.text-reveal-animation', {
       direction: 'left',         // Words slide in from left
-      blurAmount: 10,             // 8px blur effect
-      moveDistance: 40,          // 80px horizontal movement
-      duration: 0.8,             // 1.2s animation duration
-      staggerAmount: 0.01,       // 0.04s between each word
-      ease: "power4.out",        // Smooth easing
+      blurAmount: 0,             // REMOVED: Blur is expensive, use opacity instead
+      moveDistance: 30,          // REDUCED: Smaller movement for better performance
+      duration: 0.6,             // FASTER: Shorter duration
+      staggerAmount: 0.05,       // INCREASED: Less frequent staggers (20ms -> 50ms)
+      ease: "power2.out",        // SIMPLER: Less complex easing
       autoInit: true,            // Auto-trigger on scroll
       triggerStart: "top 85%",   // Start when 85% in view
       scrub: false               // No scroll scrubbing, just trigger once
