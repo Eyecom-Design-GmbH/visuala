@@ -166,9 +166,9 @@ $(document).ready(function () {
             };
             
             createTypewriter('.changing-word', [
-                'Kundenbindung',
-                'Erfolg',
-                'Vertrauen',
+                'Kundenbindung.',
+                'Erfolg.',
+                'Vertrauen.',
             ], typewriterOptions);
         }
     }
