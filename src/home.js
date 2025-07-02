@@ -13,7 +13,6 @@ import './call-embed.js'
 gsap.registerPlugin(SplitText);
 
 document.fonts.ready.then(() => {
-  gsap.set(".container", { opacity: 1 });
   let split = SplitText.create(".animate-me", { type: "words", aria: "hidden" });
 
   gsap.from(split.words, {
