@@ -10,18 +10,34 @@ import './image-animations.js';
 import './title-animations.js'
 import './call-embed.js'
 
-gsap.registerPlugin(SplitText);
+document.addEventListener("DOMContentLoaded", (event) => { gsap.registerPlugin(ScrollTrigger,Draggable,InertiaPlugin,ScrambleTextPlugin,SplitText)
 
-document.fonts.ready.then(() => {
-  let split = SplitText.create(".animate-me", { type: "words", aria: "hidden" });
+// TEXT FADING IN ANIMATION ON SCROLL
+document.querySelectorAll('[animation-container="text-fade-in"]').forEach(container => {
+container.querySelectorAll('[animation-element="text-fade-in"]').forEach(el => {
+    const split = new SplitText(el, { type: "words,chars" });
+    const totalChars = split.chars.length;
+    const staggerTime = 1 / totalChars;  // Total duration divided by number of characters for stagger
 
-  gsap.from(split.words, {
-    opacity: 0,
-    duration: 2,
-    ease: "sine.out",
-    stagger: 0.1,
-  });
+    gsap.fromTo(
+    split.chars,
+    { opacity: 0.1 },
+    {
+        opacity: 1,
+        ease: "none",
+        stagger: staggerTime, // Set stagger based on the total time and number of characters
+        duration: 1, // Total duration for all characters
+        scrollTrigger: {
+        trigger: el,
+        start: "top 90%",
+        end: "top 20%",
+        once: true
+        }
+    }
+    );
 });
+});
+// END TEXT FADING IN ANIMATION ON SCROLL
 
 // ===== MOBILE PERFORMANCE DETECTION (SHARED) =====
 const isMobile = (() => {
