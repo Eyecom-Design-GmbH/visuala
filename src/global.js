@@ -2,6 +2,39 @@ console.log("Hello from global.js");
 import './text-reveal.js';
 import './typewriter.js';
 
+// ===== MOBILE PERFORMANCE DETECTION =====
+const isMobile = (() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
+    const isMobileUserAgent = mobileKeywords.some(keyword => userAgent.includes(keyword));
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isSmallScreen = window.innerWidth <= 768;
+    return isMobileUserAgent || (isTouchDevice && isSmallScreen);
+})();
+
+const isLowPerformanceDevice = (() => {
+    // Check for low-end devices
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const slowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
+    const lowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
+    const oldDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+    
+    return slowConnection || lowMemory || oldDevice;
+})();
+
+// Performance settings based on device
+const PERFORMANCE_CONFIG = {
+    // Reduce animation complexity on mobile/low-end devices
+    reducedAnimations: isMobile || isLowPerformanceDevice,
+    disableBlur: isMobile || isLowPerformanceDevice,
+    limitScrollTriggers: isMobile,
+    simplifyTextAnimations: isMobile,
+    reducedStagger: isMobile ? 0.005 : 0.01, // Faster stagger on mobile
+    maxAnimatedElements: isMobile ? 10 : 50  // Limit number of animated elements
+};
+
+console.log('Performance config:', PERFORMANCE_CONFIG);
+
 // Cleanup function to remove event listeners and animations
 function cleanup() {
     // Kill all GSAP animations
@@ -19,7 +52,7 @@ function cleanup() {
 window.addEventListener('pagehide', cleanup, {passive: true});
 
 document.addEventListener('DOMContentLoaded', function() {
-    // ===== GLOBAL MINIMALISTIC IMAGE REVEAL ANIMATION =====
+    // ===== OPTIMIZED GLOBAL IMAGE REVEAL ANIMATION =====
     
     // Wait for GSAP to be available
     function initGlobalImageAnimations() {
@@ -32,34 +65,59 @@ document.addEventListener('DOMContentLoaded', function() {
         const images = document.querySelectorAll('img:not(.no-animation):not(.skip-reveal)');
         
         if (images.length > 0) {
-            console.log(`Setting up minimalistic reveal for ${images.length} images`);
+            // Limit number of animated images on mobile
+            const imagesToAnimate = PERFORMANCE_CONFIG.limitScrollTriggers 
+                ? Array.from(images).slice(0, PERFORMANCE_CONFIG.maxAnimatedElements)
+                : images;
             
-            images.forEach((img, index) => {
-                // Skip if already processed
-                if (img.classList.contains('image-reveal-processed')) return;
-                img.classList.add('image-reveal-processed');
-                
-                // Set initial state - subtle and minimalistic
-                gsap.set(img, {
-                    opacity: 0,
-                    y: 50,
+            console.log(`Setting up reveal for ${imagesToAnimate.length}/${images.length} images (performance: ${PERFORMANCE_CONFIG.reducedAnimations ? 'reduced' : 'full'})`);
+            
+            if (PERFORMANCE_CONFIG.reducedAnimations) {
+                // Simple, lightweight animation for mobile
+                imagesToAnimate.forEach((img, index) => {
+                    if (img.classList.contains('image-reveal-processed')) return;
+                    img.classList.add('image-reveal-processed');
+                    
+                    gsap.set(img, { opacity: 0 });
+                    
+                    gsap.to(img, {
+                        opacity: 1,
+                        duration: 0.6,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: img,
+                            start: "top 85%",
+                            toggleActions: "play none none none",
+                            once: true
+                        }
+                    });
                 });
-                
-                // Create reveal animation
-                gsap.to(img, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: img,
-                        start: "top 90%",           // Start early for smooth reveal
-                        end: "bottom 10%",
-                        toggleActions: "play none none none",
-                        once: true                  // Only animate once
-                    }
+            } else {
+                // Full animation for desktop
+                imagesToAnimate.forEach((img, index) => {
+                    if (img.classList.contains('image-reveal-processed')) return;
+                    img.classList.add('image-reveal-processed');
+                    
+                    gsap.set(img, {
+                        opacity: 0,
+                        y: 50,
+                    });
+                    
+                    gsap.to(img, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: img,
+                            start: "top 90%",
+                            end: "bottom 10%",
+                            toggleActions: "play none none none",
+                            once: true
+                        }
+                    });
                 });
-            });
+            }
         }
     }
 
@@ -70,17 +128,30 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.createTextReveal) {
         const h1Element = document.querySelector('.h1');
         if (h1Element) {
-            createTextReveal('.h1', {
-                direction: 'left',         // Words slide in from left
-                blurAmount: 10,            // 8px blur effect
-                moveDistance: 40,          // 80px horizontal movement
-                duration: 0.8,             // 1.2s animation duration
-                staggerAmount: 0.01,       // 0.04s between each word
-                ease: "power4.out",        // Smooth easing
-                autoInit: true,            // Auto-trigger on scroll
-                triggerStart: "top 85%",   // Start when 85% in view
-                scrub: false               // No scroll scrubbing, just trigger once
-            });
+            // Use simplified text animation on mobile
+            const textRevealOptions = PERFORMANCE_CONFIG.simplifyTextAnimations ? {
+                direction: 'left',
+                blurAmount: 0,            // Disable blur on mobile
+                moveDistance: 20,         // Reduced movement
+                duration: 0.6,            // Faster duration
+                staggerAmount: PERFORMANCE_CONFIG.reducedStagger,
+                ease: "power2.out",       // Simpler easing
+                autoInit: true,
+                triggerStart: "top 85%",
+                scrub: false
+            } : {
+                direction: 'left',
+                blurAmount: PERFORMANCE_CONFIG.disableBlur ? 0 : 10,
+                moveDistance: 40,
+                duration: 0.8,
+                staggerAmount: 0.01,
+                ease: "power4.out",
+                autoInit: true,
+                triggerStart: "top 85%",
+                scrub: false
+            };
+            
+            createTextReveal('.h1', textRevealOptions);
         }
     }
 
@@ -88,25 +159,39 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.createTypewriter) {
         const changingQuestion = document.querySelector('.changing-question');
         if (changingQuestion) {
+            // Simplified typewriter for mobile
+            const typewriterOptions = PERFORMANCE_CONFIG.reducedAnimations ? {
+                typeSpeed: 0.12,           // Faster typing
+                deleteSpeed: 0.08,         // Faster deletion
+                pauseTime: 2,              // Shorter pause
+                cursor: true,
+                cursorWidth: '1px',
+                cursorColor: '#f2f200',
+                naturalVariation: false,   // Disable variations on mobile
+                blurEffect: false,         // Disable blur on mobile
+                loop: true
+            } : {
+                typeSpeed: 0.09,
+                deleteSpeed: 0.05,
+                pauseTime: 3,
+                cursor: true,
+                cursorWidth: '1px',
+                cursorColor: '#f2f200',
+                naturalVariation: true,
+                blurEffect: !PERFORMANCE_CONFIG.disableBlur,
+                loop: true
+            };
+            
             createTypewriter('.changing-question', [
                 'im Kopf?',
                 'in Planung?',
                 'am Start?',
-            ], {
-                typeSpeed: 0.09,           // Slightly slower for more natural feel
-                deleteSpeed: 0.05,         // Natural deletion speed
-                pauseTime: 3,              // Longer pause to read the word
-                cursor: true,              // Show professional cursor
-                cursorWidth: '1px',        // Thin professional cursor line
-                cursorColor: '#f2f200',    // Lime color to match your design
-                naturalVariation: true,    // Add human-like timing variations
-                blurEffect: true,          // Professional blur transitions
-                loop: true
-            });
+            ], typewriterOptions);
         }
     }
 
-
-
-
+    // ===== PERFORMANCE MONITORING =====
+    if (PERFORMANCE_CONFIG.reducedAnimations) {
+        console.log('🔋 Mobile/Low-performance mode: Animations simplified for better performance');
+    }
 });

@@ -10,12 +10,28 @@ import './image-animations.js';
 import './title-animations.js'
 import './call-embed.js'
 
+// ===== MOBILE PERFORMANCE DETECTION (SHARED) =====
+const isMobile = (() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
+    const isMobileUserAgent = mobileKeywords.some(keyword => userAgent.includes(keyword));
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isSmallScreen = window.innerWidth <= 768;
+    return isMobileUserAgent || (isTouchDevice && isSmallScreen);
+})();
+
+const PERFORMANCE_CONFIG = {
+    reducedAnimations: isMobile,
+    disableBlur: isMobile,
+    simplifyTypewriter: isMobile
+};
 
 $(document).ready(function () {
-    // Add passive event listeners for better scroll performance
-    document.addEventListener('touchstart', function() {}, {passive: true});
-    document.addEventListener('wheel', function() {}, {passive: true});
-    document.addEventListener('scroll', function() {}, {passive: true});
+    // Only add performance-related passive listeners, not empty ones
+    if (isMobile) {
+        // Minimal touch handling for mobile performance
+        console.log('🔋 Mobile mode: Optimizing touch events');
+    }
 
     var buttonThatOpenedModal;
     var findModal = function (elem) {
@@ -126,25 +142,36 @@ $(document).ready(function () {
     if (window.createTypewriter) {
         const changingWord = document.querySelector('.changing-word');
         if (changingWord) {
+            // Optimize typewriter for mobile
+            const typewriterOptions = PERFORMANCE_CONFIG.simplifyTypewriter ? {
+                typeSpeed: 0.12,           // Faster on mobile
+                deleteSpeed: 0.08,         // Faster deletion
+                pauseTime: 2,              // Shorter pause
+                cursor: true,
+                cursorWidth: '1px',
+                cursorColor: '#f2f200',
+                naturalVariation: false,   // Disable variations on mobile
+                blurEffect: false,         // Disable blur on mobile
+                loop: true
+            } : {
+                typeSpeed: 0.09,
+                deleteSpeed: 0.05,
+                pauseTime: 3,
+                cursor: true,
+                cursorWidth: '1px',
+                cursorColor: '#f2f200',
+                naturalVariation: true,
+                blurEffect: true,
+                loop: true
+            };
+            
             createTypewriter('.changing-word', [
                 'Kundenbindung',
                 'Erfolg',
                 'Vertrauen',
-            ], {
-                typeSpeed: 0.09,           // Slightly slower for more natural feel
-                deleteSpeed: 0.05,         // Natural deletion speed
-                pauseTime: 3,              // Longer pause to read the word
-                cursor: true,              // Show professional cursor
-                cursorWidth: '1px',        // Thin professional cursor line
-                cursorColor: '#f2f200',    // Lime color to match your design
-                naturalVariation: true,    // Add human-like timing variations
-                blurEffect: true,          // Professional blur transitions
-                loop: true
-            });
+            ], typewriterOptions);
         }
     }
-
-
 
     /********* POPUP OPEN/CLOSE ANIMATION STEPS *********/
 

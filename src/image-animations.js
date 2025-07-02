@@ -1,5 +1,15 @@
 console.log("Image Animations loaded");
 
+// ===== MOBILE PERFORMANCE DETECTION =====
+const isMobile = (() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
+    const isMobileUserAgent = mobileKeywords.some(keyword => userAgent.includes(keyword));
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isSmallScreen = window.innerWidth <= 768;
+    return isMobileUserAgent || (isTouchDevice && isSmallScreen);
+})();
+
 // Modular Image Animation System
 function createImageAnimation(selector, options = {}) {
   // Default options
@@ -25,6 +35,17 @@ function createImageAnimation(selector, options = {}) {
   
   const settings = { ...defaults, ...options };
   
+  // ===== MOBILE PERFORMANCE OPTIMIZATION =====
+  if (isMobile) {
+    // Simplify animations for mobile
+    settings.blur = 0;  // Disable blur on mobile (expensive)
+    settings.distance = Math.min(settings.distance, 30); // Reduce movement
+    settings.duration = Math.max(0.3, settings.duration * 0.7); // Faster animation
+    settings.stagger = Math.min(settings.stagger, 0.05); // Reduce stagger
+    
+    console.log('🔋 Image Animation: Mobile optimization applied');
+  }
+  
   // Get elements
   const elements = typeof selector === 'string' 
     ? document.querySelectorAll(selector)
@@ -33,6 +54,13 @@ function createImageAnimation(selector, options = {}) {
   if (elements.length === 0) {
     console.warn(`Image Animation: No elements found for selector "${selector}"`);
     return null;
+  }
+  
+  // Limit number of images on mobile to prevent performance issues
+  const elementsToAnimate = isMobile ? Array.from(elements).slice(0, 8) : elements;
+  
+  if (isMobile && elementsToAnimate.length < elements.length) {
+    console.log(`🔋 Image Animation: Limited to ${elementsToAnimate.length} images on mobile (${elements.length} total)`);
   }
 
   // Function to get initial animation properties based on type
@@ -204,9 +232,9 @@ function createImageAnimation(selector, options = {}) {
     return null;
   }
 
-  // Process all elements
+  // Process all elements (use optimized list for mobile)
   const processedImages = [];
-  elements.forEach((element, index) => {
+  elementsToAnimate.forEach((element, index) => {
     // Apply stagger delay
     const staggeredOptions = { ...settings };
     if (settings.stagger > 0) {

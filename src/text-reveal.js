@@ -1,5 +1,15 @@
 console.log("Text Reveal Animation loaded");
 
+// ===== MOBILE PERFORMANCE DETECTION =====
+const isMobile = (() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
+    const isMobileUserAgent = mobileKeywords.some(keyword => userAgent.includes(keyword));
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isSmallScreen = window.innerWidth <= 768;
+    return isMobileUserAgent || (isTouchDevice && isSmallScreen);
+})();
+
 // Modular Text Blur Reveal Animation
 function createTextReveal(selector, options = {}) {
   // Default options
@@ -19,6 +29,18 @@ function createTextReveal(selector, options = {}) {
   };
   
   const settings = { ...defaults, ...options };
+  
+  // ===== MOBILE PERFORMANCE OPTIMIZATION =====
+  if (isMobile) {
+    // Simplify animation for mobile
+    settings.blurAmount = 0;  // Disable blur on mobile (expensive)
+    settings.moveDistance = Math.min(settings.moveDistance, 30); // Reduce movement
+    settings.duration = Math.max(0.4, settings.duration * 0.7); // Faster animation
+    settings.staggerAmount = Math.max(0.01, settings.staggerAmount * 0.5); // Faster stagger
+    settings.splitSpaces = false; // Don't animate spaces on mobile
+    
+    console.log('🔋 Text Reveal: Mobile optimization applied');
+  }
   
   // Get elements
   const elements = typeof selector === 'string' 
@@ -44,8 +66,52 @@ function createTextReveal(selector, options = {}) {
     }
   }
 
+  // Mobile-optimized simple text processing
+  function processMobileText(element) {
+    const text = element.textContent;
+    const words = text.split(' ').filter(word => word.trim() !== '');
+    
+    // Limit number of words on mobile to prevent performance issues
+    const maxWords = 15;
+    const wordsToAnimate = words.slice(0, maxWords);
+    
+    if (wordsToAnimate.length < words.length) {
+      console.log(`🔋 Text Reveal: Limited to ${maxWords} words on mobile (${words.length} total)`);
+    }
+    
+    element.innerHTML = '';
+    const fragment = document.createDocumentFragment();
+    
+    wordsToAnimate.forEach((word, index) => {
+      const wordSpan = document.createElement('span');
+      wordSpan.className = 'text-reveal-word';
+      wordSpan.textContent = word;
+      
+      const transform = getTransformProperties(settings.direction, settings.moveDistance);
+      wordSpan.style.cssText = `
+        opacity: 0;
+        transform: translateX(${transform.x}px) translateY(${transform.y}px);
+        display: inline-block;
+      `;
+      fragment.appendChild(wordSpan);
+      
+      // Add space after word (except for the last word)
+      if (index < wordsToAnimate.length - 1) {
+        fragment.appendChild(document.createTextNode(' '));
+      }
+    });
+    
+    element.appendChild(fragment);
+  }
+
   // Function to recursively process text nodes while preserving HTML structure
   function processTextNodes(node) {
+    // Use mobile optimization if on mobile
+    if (isMobile) {
+      processMobileText(node);
+      return;
+    }
+    
     const walker = document.createTreeWalker(
       node,
       NodeFilter.SHOW_TEXT,
