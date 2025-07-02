@@ -46,18 +46,18 @@ document.addEventListener('DOMContentLoaded', function () {
     smooth: true           // Smooth continuous animation
   });
 
-  // Initialize text reveal animation for the main paragraph - OPTIMIZED
-  if (window.createTextReveal && document.querySelector('.text-reveal-animation')) {
-    createTextReveal('.text-reveal-animation', {
-      direction: 'left',         // Words slide in from left
-      blurAmount: 0,             // REMOVED: Blur is expensive, use opacity instead
-      moveDistance: 30,          // REDUCED: Smaller movement for better performance
-      duration: 0.6,             // FASTER: Shorter duration
-      staggerAmount: 0.05,       // INCREASED: Less frequent staggers (20ms -> 50ms)
-      ease: "power2.out",        // SIMPLER: Less complex easing
-      autoInit: true,            // Auto-trigger on scroll
-      triggerStart: "top 85%",   // Start when 85% in view
-      scrub: false               // No scroll scrubbing, just trigger once
-    });
-  }
+  // // Initialize text reveal animation for the main paragraph - OPTIMIZED
+  // if (window.createTextReveal && document.querySelector('.text-reveal-animation')) {
+  //   createTextReveal('.text-reveal-animation', {
+  //     direction: 'left',         // Words slide in from left
+  //     blurAmount: 0,             // REMOVED: Blur is expensive, use opacity instead
+  //     moveDistance: 30,          // REDUCED: Smaller movement for better performance
+  //     duration: 0.6,             // FASTER: Shorter duration
+  //     staggerAmount: 0.05,       // INCREASED: Less frequent staggers (20ms -> 50ms)
+  //     ease: "power2.out",        // SIMPLER: Less complex easing
+  //     autoInit: true,            // Auto-trigger on scroll
+  //     triggerStart: "top 85%",   // Start when 85% in view
+  //     scrub: false               // No scroll scrubbing, just trigger once
+  //   });
+  // }
 });
