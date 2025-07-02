@@ -15,24 +15,40 @@ document.addEventListener('DOMContentLoaded', function () {
     card.style.zIndex = 30 - index;
   });
 // TEst
-  // Initialize typewriter effect for changing words
-  if (window.createTypewriter && document.querySelector('.changing-word')) {
-    createTypewriter('.changing-word', [
-      'Herz',
-      'Liebe',
-      'Erfolg',
-      'Vertrauen',
-      'Innovation'
-    ], {
-      typeSpeed: 0.09,           // Slightly slower for more natural feel
-      deleteSpeed: 0.05,         // Natural deletion speed
-      pauseTime: 3,              // Longer pause to read the word
-      cursor: true,              // Show professional cursor
-      cursorWidth: '1px',        // Thin professional cursor line
-      cursorColor: '#f2f200',    // Lime color to match your design (adjust as needed)
-      naturalVariation: true,    // Add human-like timing variations
-      blurEffect: true,          // Professional blur transitions
-      loop: true
+  // Initialize typewriter animations using data attributes - GSAP Best Practices
+  if (window.createTypewriter) {
+    const typewriterElements = document.querySelectorAll('[anim-element="typewriter"]');
+    
+    typewriterElements.forEach((element, index) => {
+      const wordsData = element.getAttribute('anim-words');
+      if (!wordsData) {
+        console.warn('Typewriter element missing anim-words attribute:', element);
+        return;
+      }
+      
+      const words = wordsData.split(',').map(word => word.trim());
+      
+      // Give element a unique ID if it doesn't have one
+      if (!element.id) {
+        element.id = `typewriter-${Date.now()}-${index}`;
+      }
+      
+      // Optimized default configuration - GSAP best practices
+      const config = {
+        typeSpeed: 0.08,           // Optimized for all devices
+        deleteSpeed: 0.06,         // Smooth deletion
+        pauseTime: 2.5,            // Balanced timing
+        cursor: true,              // Show cursor
+        cursorWidth: '1px',        // Thin line
+        cursorColor: '#f2f200',    // Brand color
+        naturalVariation: false,   // Consistent performance
+        blurEffect: false,         // Better performance
+        loop: true,                // Continuous loop
+        ease: 'power2.out'         // Smooth easing
+      };
+      
+      // Pass the ID selector instead of the element object
+      createTypewriter(`#${element.id}`, words, config);
     });
   }
 
