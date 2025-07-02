@@ -70,22 +70,38 @@ function createTypewriter(selector, words, options = {}) {
     const tl = gsap.timeline();
     
     if (!isFirstWord) {
-      // Delete previous word
-      for (let i = textContainer.textContent.length; i > 0; i--) {
+      // Delete previous word - capture current text length
+      const currentText = textContainer.textContent;
+      
+      // Add deletion calls with proper timing
+      for (let i = currentText.length; i > 0; i--) {
         tl.call(() => {
           textContainer.textContent = textContainer.textContent.slice(0, -1);
-        }, null, i === textContainer.textContent.length ? 0 : settings.deleteSpeed);
+        });
+        
+        // Add delay after each deletion (except the last one)
+        if (i > 1) {
+          tl.to({}, { duration: settings.deleteSpeed });
+        }
       }
       
       // Pause before new word
       tl.to({}, { duration: 0.3 });
+    } else {
+      // Initial delay for first word
+      tl.to({}, { duration: 0.5 });
     }
     
     // Type new word
     for (let i = 0; i < word.length; i++) {
       tl.call(() => {
         textContainer.textContent += word[i];
-      }, null, i === 0 ? (isFirstWord ? 0.5 : 0) : settings.typeSpeed);
+      });
+      
+      // Add delay after each character (except the last one)
+      if (i < word.length - 1) {
+        tl.to({}, { duration: settings.typeSpeed });
+      }
     }
     
     // Pause after word completion
