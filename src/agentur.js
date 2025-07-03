@@ -52,14 +52,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Initialize your team marquee
+  // Initialize your team marquee with Webflow style preservation
   createInfiniteMarquee('.team-marquee', {
     speed: 150,              // Fast smooth scroll
-    direction: 'left',      // Left-to-right movement
-    pauseOnHover: false,    // Don't pause on hover
-    gap: 0,              // Space between VISUALA and Team
-    duplicateContent: true, // Seamless infinite loop
-    smooth: true           // Smooth continuous animation
+    direction: 'left',       // Left-to-right movement
+    pauseOnHover: false,     // Don't pause on hover
+    gap: 0,                  // Space between VISUALA and Team
+    duplicateContent: true,  // Seamless infinite loop
+    smooth: true,            // Smooth continuous animation
+    preserveStyles: true     // Preserve Webflow positioning
   });
 
   // // Initialize text reveal animation for the main paragraph - OPTIMIZED

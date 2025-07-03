@@ -1,6 +1,4 @@
-console.log("Infinite Marquee loaded");
-
-// Modular Infinite Marquee Animation
+// GSAP Optimized Infinite Marquee Animation
 function createInfiniteMarquee(selector, options = {}) {
   // Default options
   const defaults = {
@@ -12,7 +10,12 @@ function createInfiniteMarquee(selector, options = {}) {
     autoStart: true,       // Start animation immediately
     smooth: true,          // Use smooth animation (vs discrete steps)
     responsive: true,      // Adjust speed on smaller screens
-    minDuplicates: 3       // Minimum number of content duplicates
+    minDuplicates: 3,      // Minimum number of content duplicates
+    preserveStyles: true,  // Preserve original Webflow styles
+    containerStyles: {     // Optional container style overrides
+      overflow: 'hidden',
+      whiteSpace: 'nowrap'
+    }
   };
   
   const settings = { ...defaults, ...options };
@@ -34,91 +37,135 @@ function createInfiniteMarquee(selector, options = {}) {
     
     container.classList.add('marquee-processed');
     
-    // Find the content wrapper (or create one)
+    // Store original styles for potential restoration
+    const originalContainerStyles = {
+      overflow: container.style.overflow || getComputedStyle(container).overflow,
+      whiteSpace: container.style.whiteSpace || getComputedStyle(container).whiteSpace,
+      position: container.style.position || getComputedStyle(container).position
+    };
+
+    // Find the content wrapper (or create one if needed)
     let content = container.querySelector('.marquee-content');
+    let contentCreated = false;
+    
     if (!content) {
-      // If no .marquee-content, wrap all children
-      content = document.createElement('div');
-      content.className = 'marquee-content';
-      while (container.firstChild) {
-        content.appendChild(container.firstChild);
+      // Check if we should create wrapper (only if multiple children or specific structure needed)
+      const children = Array.from(container.children);
+      if (children.length > 1 || settings.duplicateContent) {
+        content = document.createElement('div');
+        content.className = 'marquee-content';
+        
+        // Move children to content wrapper
+        children.forEach(child => content.appendChild(child));
+        container.appendChild(content);
+        contentCreated = true;
+      } else {
+        // Use the single child as content
+        content = children[0] || container;
       }
-      container.appendChild(content);
     }
 
-    // Set up container styles
-    container.style.cssText += `
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
-    `;
+    // GSAP Best Practice: Use gsap.set() for styling instead of direct CSS
+    
+    // Only apply container styles if not preserving original styles
+    if (!settings.preserveStyles) {
+      gsap.set(container, {
+        overflow: settings.containerStyles.overflow,
+        whiteSpace: settings.containerStyles.whiteSpace,
+        position: originalContainerStyles.position === 'static' ? 'relative' : originalContainerStyles.position,
+        force3D: true // GPU acceleration
+      });
+    } else {
+      // Minimal required styles only
+      gsap.set(container, {
+        overflow: 'hidden', // This is required for marquee to work
+        force3D: true
+      });
+    }
 
     // Set up content styles based on direction
     const isHorizontal = settings.direction === 'left' || settings.direction === 'right';
     
-    content.style.cssText += `
-      display: ${isHorizontal ? 'inline-flex' : 'flex'};
-      ${isHorizontal ? 'flex-direction: row;' : 'flex-direction: column;'}
-      ${isHorizontal ? 'align-items: center;' : 'align-items: stretch;'}
-      gap: ${settings.gap}px;
-      white-space: nowrap;
-    `;
+    // GSAP Best Practice: Use gsap.set() with performance optimizations
+    if (contentCreated || !settings.preserveStyles) {
+      gsap.set(content, {
+        display: isHorizontal ? 'inline-flex' : 'flex',
+        flexDirection: isHorizontal ? 'row' : 'column',
+        gap: `${settings.gap}px`,
+        whiteSpace: 'nowrap',
+        willChange: 'transform', // Performance hint
+        force3D: true,
+        backfaceVisibility: 'hidden' // Performance optimization
+      });
+      
+      // Only add alignment if not preserving styles
+      if (!settings.preserveStyles) {
+        gsap.set(content, {
+          alignItems: isHorizontal ? 'center' : 'stretch'
+        });
+      }
+    }
 
     // Function to calculate required duplicates and duplicate content
     function setupContentDuplication() {
-      if (!settings.duplicateContent) return;
+      if (!settings.duplicateContent) {
+        // No duplication needed, just create animation directly
+        requestAnimationFrame(() => {
+          animation = createAnimation();
+        });
+        return;
+      }
 
       // Store original content
       const originalContent = content.innerHTML;
       
-      // Temporarily clear content to measure original size
+      // Use GSAP to force layout calculation
+      gsap.set(content, { visibility: 'hidden' });
       content.innerHTML = originalContent;
+      gsap.set(content, { visibility: 'visible' });
       
-      // Force layout recalculation
-      container.offsetHeight;
-      
-      // Get dimensions
-      const containerSize = isHorizontal ? container.offsetWidth : container.offsetHeight;
-      const contentSize = isHorizontal ? content.scrollWidth : content.scrollHeight;
-      
-      if (contentSize === 0) {
-        console.warn('Marquee: Content size is 0, retrying...');
-        setTimeout(() => setupContentDuplication(), 100);
-        return;
-      }
-      
-      // Calculate how many duplicates we need to fill the container + buffer
-      const bufferMultiplier = 2; // Extra buffer to ensure no gaps
-      const requiredSize = containerSize * bufferMultiplier;
-      const duplicatesNeeded = Math.max(
-        settings.minDuplicates, 
-        Math.ceil(requiredSize / contentSize) + 1
-      );
-      
-      console.log(`Marquee: Container ${containerSize}px, Content ${contentSize}px, Creating ${duplicatesNeeded} duplicates`);
-      
-      // Create the duplicated content
-      let duplicatedHTML = '';
-      for (let i = 0; i < duplicatesNeeded; i++) {
-        duplicatedHTML += originalContent;
-        if (i < duplicatesNeeded - 1) {
-          // Add gap between duplicates (except the last one)
-          if (isHorizontal) {
-            duplicatedHTML += `<div style="width: ${settings.gap}px; flex-shrink: 0;"></div>`;
-          } else {
-            duplicatedHTML += `<div style="height: ${settings.gap}px; flex-shrink: 0;"></div>`;
-          }
+      // Get dimensions using RequestAnimationFrame for better performance
+      requestAnimationFrame(() => {
+        const containerSize = isHorizontal ? container.offsetWidth : container.offsetHeight;
+        const contentSize = isHorizontal ? content.scrollWidth : content.scrollHeight;
+        
+        if (contentSize === 0) {
+          console.warn('Marquee: Content size is 0, retrying...');
+          setTimeout(() => {
+            setupContentDuplication();
+          }, 100);
+          return;
         }
-      }
-      
-      content.innerHTML = duplicatedHTML;
-      
-      // Store the number of duplicates for animation calculation
-      content.setAttribute('data-duplicates-count', duplicatesNeeded);
+        
+        // Calculate duplicates needed
+        const bufferMultiplier = 2;
+        const requiredSize = containerSize * bufferMultiplier;
+        const duplicatesNeeded = Math.max(
+          settings.minDuplicates, 
+          Math.ceil(requiredSize / contentSize) + 1
+        );
+        
+        console.log(`Marquee: Container ${containerSize}px, Content ${contentSize}px, Creating ${duplicatesNeeded} duplicates`);
+        
+        // Create duplicated content with proper structure
+        const duplicatedContent = document.createDocumentFragment();
+        for (let i = 0; i < duplicatesNeeded; i++) {
+          const wrapper = document.createElement('div');
+          wrapper.innerHTML = originalContent;
+          wrapper.style.display = 'contents'; // Preserve layout
+          duplicatedContent.appendChild(wrapper);
+        }
+        
+        content.innerHTML = '';
+        content.appendChild(duplicatedContent);
+        content.setAttribute('data-duplicates-count', duplicatesNeeded);
+        
+        // Trigger animation creation after content is ready
+        requestAnimationFrame(() => {
+          animation = createAnimation();
+        });
+      });
     }
-
-    // Setup content duplication
-    setupContentDuplication();
 
     // Calculate animation properties
     function getAnimationDistance() {
@@ -133,50 +180,58 @@ function createInfiniteMarquee(selector, options = {}) {
       }
     }
 
-    // Create the animation
+    // Create the animation using GSAP best practices
     function createAnimation() {
       const distance = getAnimationDistance();
       const duration = distance / settings.speed;
       
       if (distance === 0) {
         console.warn('Marquee: Animation distance is 0, retrying...');
-        setTimeout(createAnimation, 100);
+        setTimeout(() => {
+          animation = createAnimation();
+        }, 100);
         return null;
       }
       
-      // Set initial position based on direction
+      // GSAP Best Practice: Set initial position with gsap.set()
       let startPos, endPos;
       
       switch (settings.direction) {
         case 'left':
-          startPos = { x: 0 };
-          endPos = { x: -distance };
+          startPos = { x: 0, y: 0 };
+          endPos = { x: -distance, y: 0 };
           break;
         case 'right':
-          startPos = { x: -distance };
-          endPos = { x: 0 };
+          startPos = { x: -distance, y: 0 };
+          endPos = { x: 0, y: 0 };
           break;
         case 'up':
-          startPos = { y: 0 };
-          endPos = { y: -distance };
+          startPos = { x: 0, y: 0 };
+          endPos = { x: 0, y: -distance };
           break;
         case 'down':
-          startPos = { y: -distance };
-          endPos = { y: 0 };
+          startPos = { x: 0, y: -distance };
+          endPos = { x: 0, y: 0 };
           break;
       }
 
-      // Set initial position
-      gsap.set(content, startPos);
+      // GSAP Best Practice: Set initial state
+      gsap.set(content, {
+        ...startPos,
+        force3D: true,
+        willChange: 'transform'
+      });
 
-      // Create the infinite animation
+      // GSAP Best Practice: Create optimized animation
       const animation = gsap.to(content, {
         ...endPos,
         duration: duration,
         ease: settings.smooth ? "none" : "power1.inOut",
         repeat: -1,
         repeatRefresh: true,
-        paused: !settings.autoStart
+        paused: !settings.autoStart,
+        force3D: true, // GPU acceleration
+        transformOrigin: "0 0" // Optimize transform calculations
       });
 
       return animation;
@@ -188,66 +243,50 @@ function createInfiniteMarquee(selector, options = {}) {
       return null;
     }
 
-    const animation = createAnimation();
+    // Setup content and create animation
+    setupContentDuplication();
+    let animation = null;
 
-    // Add pause on hover functionality
-    if (settings.pauseOnHover && animation) {
+    // Add pause on hover functionality with GSAP best practices
+    if (settings.pauseOnHover) {
       container.addEventListener('mouseenter', () => {
-        animation.pause();
-      });
+        if (animation) animation.pause();
+      }, { passive: true });
       
       container.addEventListener('mouseleave', () => {
-        animation.play();
-      });
+        if (animation) animation.play();
+      }, { passive: true });
     }
 
-    // Handle responsive behavior and window resize
+    // GSAP Best Practice: Use ResizeObserver with RequestAnimationFrame
+    let resizeTimeout;
     if (settings.responsive) {
       const resizeObserver = new ResizeObserver(() => {
-        if (animation) {
-          // Recalculate duplicates and animation on resize
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          if (animation) {
+            animation.kill();
+            animation = null;
+          }
           setupContentDuplication();
-          
-          // Update animation
-          setTimeout(() => {
-            const newDistance = getAnimationDistance();
-            const newDuration = newDistance / settings.speed;
-            if (newDistance > 0) {
-              animation.duration(newDuration);
-            }
-          }, 50);
-        }
+        }, 100);
       });
       
       resizeObserver.observe(container);
       
-      // Also listen to window resize for better responsiveness
-      const handleResize = () => {
-        setTimeout(() => {
-          setupContentDuplication();
-          if (animation) {
-            const newDistance = getAnimationDistance();
-            const newDuration = newDistance / settings.speed;
-            if (newDistance > 0) {
-              animation.duration(newDuration);
-            }
-          }
-        }, 100);
-      };
-      
-      window.addEventListener('resize', handleResize);
-      
       // Store cleanup function
       container._marqueeCleanup = () => {
-        window.removeEventListener('resize', handleResize);
         resizeObserver.disconnect();
+        clearTimeout(resizeTimeout);
+        if (animation) animation.kill();
       };
     }
 
     return {
       element: container,
       content: content,
-      animation: animation,
+      get animation() { return animation; },
+      setAnimation(anim) { animation = anim; },
       play: () => animation?.play(),
       pause: () => animation?.pause(),
       restart: () => animation?.restart(),
@@ -264,6 +303,10 @@ function createInfiniteMarquee(selector, options = {}) {
         if (container._marqueeCleanup) {
           container._marqueeCleanup();
         }
+        // Restore original styles if needed
+        if (settings.preserveStyles) {
+          gsap.set(container, originalContainerStyles);
+        }
       }
     };
   }
@@ -275,7 +318,7 @@ function createInfiniteMarquee(selector, options = {}) {
     if (marquee) processedMarquees.push(marquee);
   });
 
-  console.log(`Marquee: Processed ${processedMarquees.length} marquee elements`);
+  console.log(`Marquee: Processed ${processedMarquees.length} marquee elements with GSAP best practices`);
 
   // Return control object
   return {
@@ -319,11 +362,8 @@ document.addEventListener('DOMContentLoaded', function() {
       if (element.hasAttribute('data-marquee-duplicate')) {
         options.duplicateContent = element.getAttribute('data-marquee-duplicate') === 'true';
       }
-      if (element.hasAttribute('data-marquee-auto-start')) {
-        options.autoStart = element.getAttribute('data-marquee-auto-start') === 'true';
-      }
-      if (element.hasAttribute('data-marquee-min-duplicates')) {
-        options.minDuplicates = parseInt(element.getAttribute('data-marquee-min-duplicates'));
+      if (element.hasAttribute('data-marquee-preserve-styles')) {
+        options.preserveStyles = element.getAttribute('data-marquee-preserve-styles') === 'true';
       }
       
       createInfiniteMarquee(element, options);

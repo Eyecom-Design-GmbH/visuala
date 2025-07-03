@@ -1,5 +1,3 @@
-console.log("Call embed");
-
 (function (C, A, L) {
     let p = function (a, ar) {
         a.q.push(ar);

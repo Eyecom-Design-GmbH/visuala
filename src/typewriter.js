@@ -1,11 +1,11 @@
-console.log("Typewriter effect loaded - GSAP Optimized");
+console.log("Typewriter effect loaded - Simple & Reliable");
 
-// GSAP Optimized Typewriter Effect Function
+// Simple, Reliable Typewriter Effect Function
 function createTypewriter(selector, words, options = {}) {
-  // Default options following GSAP best practices
+  // Default options
   const defaults = {
-    typeSpeed: 0.08,          // Base speed of typing (seconds per character)
-    deleteSpeed: 0.06,        // Base speed of deleting (seconds per character)
+    typeSpeed: 0.08,          // Speed of typing (seconds per character)
+    deleteSpeed: 0.06,        // Speed of deleting (seconds per character)
     pauseTime: 2.5,           // Pause time between words (seconds)
     loop: true,               // Whether to loop infinitely
     cursor: true,             // Whether to show a blinking cursor
@@ -39,7 +39,7 @@ function createTypewriter(selector, words, options = {}) {
     cursorElement = document.createElement('span');
     cursorElement.className = 'typewriter-cursor';
     
-    // GSAP Best Practice: Use gsap.set() for initial styles
+    // Set cursor styles
     gsap.set(cursorElement, {
       display: 'inline-block',
       width: settings.cursorWidth,
@@ -47,136 +47,121 @@ function createTypewriter(selector, words, options = {}) {
       backgroundColor: settings.cursorColor,
       marginLeft: '2px',
       opacity: 1,
-      force3D: true  // GPU acceleration
+      force3D: true
     });
     
     element.appendChild(cursorElement);
     
-    // GSAP Best Practice: Use timeline for cursor animation
-    const cursorTl = gsap.timeline({ repeat: -1, yoyo: true });
-    cursorTl.to(cursorElement, {
+    // Cursor blinking animation
+    gsap.to(cursorElement, {
       opacity: 0,
       duration: 0.8,
+      repeat: -1,
+      yoyo: true,
       ease: settings.ease
     });
   }
   
-  // State management
+  // State variables
   let currentWordIndex = 0;
-  let masterTimeline = gsap.timeline();
+  let isRunning = false;
   
-  // GSAP Best Practice: Use timeline for animation sequences
-  function createWordAnimation(word, isFirstWord = false) {
-    const tl = gsap.timeline();
+  // Main animation function
+  function startAnimation() {
+    if (isRunning) return;
+    isRunning = true;
     
-    if (!isFirstWord) {
-      // Delete previous word - capture current text length
-      const currentText = textContainer.textContent;
-      
-      // Add deletion calls with proper timing
-      for (let i = currentText.length; i > 0; i--) {
-        tl.call(() => {
-          textContainer.textContent = textContainer.textContent.slice(0, -1);
+    // Clear text and start typing first word
+    textContainer.textContent = '';
+    currentWordIndex = 0;
+    
+    // Start typing the first word after initial delay
+    gsap.delayedCall(0.5, () => {
+      typeWord(words[currentWordIndex]);
+    });
+  }
+  
+  // Type a word character by character
+  function typeWord(word) {
+    let charIndex = 0;
+    
+    function typeNextChar() {
+      if (charIndex < word.length) {
+        textContainer.textContent += word[charIndex];
+        charIndex++;
+        gsap.delayedCall(settings.typeSpeed, typeNextChar);
+      } else {
+        // Word complete, pause then delete
+        gsap.delayedCall(settings.pauseTime, () => {
+          deleteWord();
         });
+      }
+    }
+    
+    typeNextChar();
+  }
+  
+  // Delete word character by character
+  function deleteWord() {
+    function deleteNextChar() {
+      if (textContainer.textContent.length > 0) {
+        textContainer.textContent = textContainer.textContent.slice(0, -1);
+        gsap.delayedCall(settings.deleteSpeed, deleteNextChar);
+      } else {
+        // Deletion complete, move to next word
+        currentWordIndex = (currentWordIndex + 1) % words.length;
         
-        // Add delay after each deletion (except the last one)
-        if (i > 1) {
-          tl.to({}, { duration: settings.deleteSpeed });
-        }
-      }
-      
-      // Pause before new word
-      tl.to({}, { duration: 0.3 });
-    } else {
-      // Initial delay for first word
-      tl.to({}, { duration: 0.5 });
-    }
-    
-    // Type new word
-    for (let i = 0; i < word.length; i++) {
-      tl.call(() => {
-        textContainer.textContent += word[i];
-      });
-      
-      // Add delay after each character (except the last one)
-      if (i < word.length - 1) {
-        tl.to({}, { duration: settings.typeSpeed });
-      }
-    }
-    
-    // Pause after word completion
-    tl.to({}, { duration: settings.pauseTime });
-    
-    return tl;
-  }
-  
-  function startTypewriter() {
-    // GSAP Best Practice: Kill existing animations before starting new ones
-    masterTimeline.kill();
-    masterTimeline = gsap.timeline({ 
-      repeat: settings.loop ? -1 : 0,
-      onComplete: () => {
-        if (!settings.loop) {
+        // Check if we should continue
+        if (settings.loop || currentWordIndex !== 0) {
+          gsap.delayedCall(0.3, () => {
+            typeWord(words[currentWordIndex]);
+          });
+        } else {
+          // Not looping and reached end
           textContainer.textContent = originalText;
-          if (cursorElement) {
-            gsap.killTweensOf(cursorElement);
-            cursorElement.remove();
-          }
+          isRunning = false;
         }
       }
-    });
+    }
     
-    // GSAP Best Practice: Set initial state
-    gsap.set(textContainer, { 
-      textContent: '',
-      force3D: true 
-    });
-    
-    // Create animation sequence for all words
-    words.forEach((word, index) => {
-      const wordTl = createWordAnimation(word, index === 0);
-      masterTimeline.add(wordTl);
-    });
-    
-    return masterTimeline;
+    deleteNextChar();
   }
   
-  // Initialize the animation
-  const animation = startTypewriter();
+  // Initialize
+  startAnimation();
   
-  // GSAP Best Practice: Return control object with proper cleanup
+  // Return control object
   return {
-    timeline: animation,
-    
-    play: () => animation.play(),
-    
-    pause: () => animation.pause(),
-    
     stop: () => {
-      animation.kill();
+      gsap.killDelayedCallsTo(typeWord);
+      gsap.killDelayedCallsTo(deleteWord);
+      gsap.killDelayedCallsTo(startAnimation);
       if (cursorElement) {
         gsap.killTweensOf(cursorElement);
         cursorElement.remove();
       }
       textContainer.textContent = originalText;
+      isRunning = false;
     },
     
     restart: () => {
-      currentWordIndex = 0;
-      return startTypewriter();
+      gsap.killDelayedCallsTo(typeWord);
+      gsap.killDelayedCallsTo(deleteWord);
+      gsap.killDelayedCallsTo(startAnimation);
+      isRunning = false;
+      startAnimation();
     },
     
-    // GSAP Best Practice: Provide access to timeline for advanced control
-    getTimeline: () => animation,
-    
-    // Performance: Cleanup method
     destroy: () => {
-      animation.kill();
+      gsap.killDelayedCallsTo(typeWord);
+      gsap.killDelayedCallsTo(deleteWord);
+      gsap.killDelayedCallsTo(startAnimation);
       if (cursorElement) {
         gsap.killTweensOf(cursorElement);
         cursorElement.remove();
       }
       element.innerHTML = originalText;
+      isRunning = false;
     }
   };
 }
@@ -198,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       const words = wordsData.split(',').map(word => word.trim());
       
-      // Get options from data attributes with performance defaults
+      // Get options from data attributes
       const options = {
         typeSpeed: parseFloat(element.getAttribute('data-type-speed')) || 0.08,
         deleteSpeed: parseFloat(element.getAttribute('data-delete-speed')) || 0.06,
@@ -217,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
       createTypewriter(`#${element.id}`, words, options);
     });
     
-    console.log(`Initialized ${typewriterElements.length} typewriter elements with GSAP best practices`);
+    console.log(`Initialized ${typewriterElements.length} typewriter elements`);
   }
   
   setTimeout(initTypewriters, 100);

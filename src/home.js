@@ -1,58 +1,29 @@
-console.log("Home1");
-
 import './typewriter.js';
+import './marquee.js';
+import './call-embed.js'
+import './popup-video.js'
 
-// // Import the module on any page that needs it
-// import './text-reveal.js';
-// import './marquee.js';
 // import './image-animations.js';
 // import './title-animations.js'
-// import './call-embed.js'
+// // Import the module on any page that needs it
+// import './text-reveal.js';
 
-// document.addEventListener("DOMContentLoaded", (event) => { gsap.registerPlugin(ScrollTrigger,Draggable,InertiaPlugin,ScrambleTextPlugin,SplitText)
 
-// // TEXT FADING IN ANIMATION ON SCROLL
-// document.querySelectorAll('[animation-container="text-fade-in"]').forEach(container => {
-// container.querySelectorAll('[animation-element="text-fade-in"]').forEach(el => {
-//     const split = new SplitText(el, { type: "words,chars" });
-//     const totalChars = split.chars.length;
-//     const staggerTime = 1 / totalChars;  // Total duration divided by number of characters for stagger
+// ===== MOBILE PERFORMANCE DETECTION (SHARED) =====
+const isMobile = (() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
+    const isMobileUserAgent = mobileKeywords.some(keyword => userAgent.includes(keyword));
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isSmallScreen = window.innerWidth <= 768;
+    return isMobileUserAgent || (isTouchDevice && isSmallScreen);
+})();
 
-//     gsap.fromTo(
-//     split.chars,
-//     { opacity: 0.1 },
-//     {
-//         opacity: 1,
-//         ease: "none",
-//         stagger: staggerTime, // Set stagger based on the total time and number of characters
-//         duration: 1, // Total duration for all characters
-//         scrollTrigger: {
-//         trigger: el,
-//         start: "top 90%",
-//         end: "top 20%",
-//         once: true
-//         }
-//     }
-//     );
-// });
-// });
-// // END TEXT FADING IN ANIMATION ON SCROLL
-
-// // ===== MOBILE PERFORMANCE DETECTION (SHARED) =====
-// const isMobile = (() => {
-//     const userAgent = navigator.userAgent.toLowerCase();
-//     const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
-//     const isMobileUserAgent = mobileKeywords.some(keyword => userAgent.includes(keyword));
-//     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-//     const isSmallScreen = window.innerWidth <= 768;
-//     return isMobileUserAgent || (isTouchDevice && isSmallScreen);
-// })();
-
-// const PERFORMANCE_CONFIG = {
-//     reducedAnimations: isMobile,
-//     disableBlur: isMobile,
-//     simplifyTypewriter: isMobile
-// };
+const PERFORMANCE_CONFIG = {
+    reducedAnimations: isMobile,
+    disableBlur: isMobile,
+    simplifyTypewriter: isMobile
+};
 
 // $(document).ready(function () {
 //     // Only add performance-related passive listeners, not empty ones
@@ -166,332 +137,6 @@ import './typewriter.js';
 //         closeModal();
 //     });
 
-
-
-//     /********* POPUP OPEN/CLOSE ANIMATION STEPS *********/
-
-//     const videoPopupOpenSteps = [
-//         { opacity: "0" },
-//         { opacity: "1" }
-//     ]
-
-//     const videoPopupCloseSteps = [
-//         { opacity: "1" },
-//         { opacity: "0" }
-//     ]
-
-//     /******************/
-
-//     // Grab all the instance of the video popup component
-//     const videoPopupComponents = document.querySelectorAll('[fc-video-popup ^= "component"]')
-
-//     const vimeoComponents = Array.from(videoPopupComponents).filter(component => {
-//         const iframe = component.querySelector('iframe')
-//         const src = iframe.getAttribute('src')
-//         return src.includes('vimeo')
-//     })
-
-//     const youtubeComponents = Array.from(videoPopupComponents).filter(component => {
-//         const iframe = component.querySelector('iframe')
-//         const src = iframe.getAttribute('src')
-//         return src.includes('youtube')
-//     })
-
-//     if (vimeoComponents.length > 0) {
-//         var script = document.createElement('script')
-//         script.type = 'text/javascript'
-//         script.src = 'https://player.vimeo.com/api/player.js'
-//         var firstScriptTag = document.getElementsByTagName('script')[0]
-//         firstScriptTag.parentNode.insertBefore(script, firstScriptTag)
-
-//         script.onload = () => {
-//             for (const component of vimeoComponents) {
-//                 // Take the button that will be used to play the video
-//                 const playButton = component.querySelector('[fc-video-popup = play]')
-
-//                 // Extrapolate the group the component belongs to in case there are more than one instance on the page
-//                 let group = component.getAttribute('fc-video-popup').split('component')[1]
-//                 if (group === undefined)
-//                     group = ''
-
-//                 // Get all the open and close buttons associated with the component
-//                 const openButtons = document.querySelectorAll(`[fc-video-popup = open${group}]`)
-//                 const closeButtons = component.querySelectorAll('[fc-video-popup = close]')
-
-//                 // ...Get the animation parameters...
-//                 const videoPopupParameters = {
-//                     duration: parseFloat(component.getAttribute('duration')),
-//                     easing: component.getAttribute('easing')
-//                 }
-
-//                 if (isNaN(videoPopupParameters.duration))
-//                     videoPopupParameters.duration = 300
-
-//                 if (videoPopupParameters.easing === null)
-//                     videoPopupParameters.easing = 'ease'
-
-//                 // ...And create the corresponding parameters object to animate the popup
-//                 const videoPopupTiming = {
-//                     duration: videoPopupParameters.duration,
-//                     fill: 'forwards',
-//                     easing: videoPopupParameters.easing
-//                 }
-
-//                 // Take the corresponding iframe and creates the player
-//                 const iframe = component.querySelector('iframe')
-//                 const player = new Vimeo.Player(iframe)
-
-//                 // When the player is on pause, the play button fades in
-//                 player.on('pause', function () {
-//                     playButtonFadeIn(playButton)
-//                 })
-
-//                 // When the player is on play, the play button fades out
-//                 player.on('play', function () {
-//                     playButtonFadeOut(playButton)
-//                 })
-
-//                 // When the play button is clicked, the corresponding player gets started
-//                 playButton.addEventListener('click', function () {
-//                     player.play()
-//                 })
-
-//                 // For every open button associated with the current component...
-//                 for (const openButton of openButtons) {
-//                     // The popup fades in, the video starts playing, and page scrolling is disabled
-//                     openButton.addEventListener('click', function () {
-//                         player.play()
-//                         component.style.display = 'flex'
-//                         component.animate(videoPopupOpenSteps, videoPopupTiming)
-//                         document.querySelector('body').style.overflow = 'hidden'
-//                     })
-//                 }
-
-//                 // For every close button associated with the current component...
-//                 for (const closeButton of closeButtons) {
-//                     // The popup fades out, the video gets paused, and page scrolling is enabled
-//                     closeButton.addEventListener('click', function () {
-//                         player.pause()
-//                         component.animate(videoPopupCloseSteps, videoPopupTiming)
-//                         setTimeout(function () { component.style.display = 'none' }, videoPopupParameters.duration)
-//                         document.querySelector('body').style.overflow = 'visible'
-//                     })
-//                 }
-//             }
-//         }
-//     }
-
-//     if (youtubeComponents.length > 0) {
-//         var script = document.createElement('script')
-//         script.type = 'text/javascript'
-//         script.src = 'https://www.youtube.com/iframe_api'
-//         var firstScriptTag = document.getElementsByTagName('script')[0]
-//         firstScriptTag.parentNode.insertBefore(script, firstScriptTag)
-
-//         // Make onYouTubeIframeAPIReady globally accessible
-//         window.onYouTubeIframeAPIReady = function () {
-//             initYouTubeComponents();
-//         }
-//     }
-
-//     function initYouTubeComponents() {
-//         for (const component of youtubeComponents) {
-//             // Take the button that will be used to play the video
-//             const playButton = component.querySelector('[fc-video-popup = play]')
-
-//             // Extrapolate the group the component belongs to in case there are more than one instance on the page
-//             let group = component.getAttribute('fc-video-popup').split('component')[1]
-//             if (group === undefined)
-//                 group = ''
-
-//             // Get all the open and close buttons associated with the component
-//             const openButtons = document.querySelectorAll(`[fc-video-popup = open${group}]`)
-//             const closeButtons = component.querySelectorAll('[fc-video-popup = close]')
-
-//             // ...Get the animation parameters...
-//             const videoPopupParameters = {
-//                 duration: parseFloat(component.getAttribute('duration')),
-//                 easing: component.getAttribute('easing')
-//             }
-
-//             if (isNaN(videoPopupParameters.duration))
-//                 videoPopupParameters.duration = 300
-
-//             if (videoPopupParameters.easing === null)
-//                 videoPopupParameters.easing = 'ease'
-
-//             // ...And create the corresponding parameters object to animate the popup
-//             const videoPopupTiming = {
-//                 duration: videoPopupParameters.duration,
-//                 fill: 'forwards',
-//                 easing: videoPopupParameters.easing
-//             }
-
-//             // Take the corresponding iframe and creates the player
-//             const iframe = component.querySelector('iframe')
-//             const player = new YT.Player(iframe)
-
-//             player.addEventListener('onStateChange', (e) => {
-//                 const state = e.data
-
-//                 switch (state) {
-//                     // When the player is on play, the play button fades out
-//                     case 1:
-//                         playButtonFadeOut(playButton)
-//                         break
-//                     // When the player is on pause, the play button fades in
-//                     case 2:
-//                         playButtonFadeIn(playButton)
-//                         break
-//                 }
-//             })
-
-//             // When the play button is clicked, the corresponding player gets started
-//             playButton.addEventListener('click', function () {
-//                 player.playVideo()
-//             })
-
-//             // For every open button associated with the current component...
-//             for (const openButton of openButtons) {
-//                 // The popup fades in, the video starts playing, and page scrolling is disabled
-//                 openButton.addEventListener('click', function () {
-//                     player.playVideo()
-//                     component.style.display = 'flex'
-//                     component.animate(videoPopupOpenSteps, videoPopupTiming)
-//                     document.querySelector('body').style.overflow = 'hidden'
-//                 })
-//             }
-
-//             // For every close button associated with the current component...
-//             for (const closeButton of closeButtons) {
-//                 // The popup fades out, the video gets paused, and page scrolling is enabled
-//                 closeButton.addEventListener('click', function () {
-//                     player.pauseVideo()
-//                     component.animate(videoPopupCloseSteps, videoPopupTiming)
-//                     setTimeout(function () { component.style.display = 'none' }, videoPopupParameters.duration)
-//                     document.querySelector('body').style.overflow = 'visible'
-//                 })
-//             }
-//         }
-//     }
-
-//     // Fade-out animation for the play button
-//     function playButtonFadeOut(playButton) {
-//         const fadeOutSteps = [
-//             { opacity: "1" },
-//             { opacity: "0" }
-//         ]
-
-//         const timing = {
-//             duration: 300,
-//             fill: 'forwards'
-//         }
-
-//         playButton.parentNode.animate(fadeOutSteps, timing)
-
-//         setTimeout(function () {
-//             playButton.parentNode.style.display = 'none'
-//         }, 300)
-//     }
-
-//     // Fade-in animation for the play button
-//     function playButtonFadeIn(playButton) {
-//         const fadeInSteps = [
-//             { opacity: "0" },
-//             { opacity: "1" }
-//         ]
-
-//         const timing = {
-//             duration: 300,
-//             fill: 'forwards'
-//         }
-
-//         playButton.parentNode.style.display = 'flex'
-
-//         playButton.parentNode.animate(fadeInSteps, timing)
-//     }
-
-//     // Initialize text reveal animation for the main paragraph
-//     if (window.createTextReveal && document.querySelector('.text-reveal-animation')) {
-//         createTextReveal('.text-reveal-animation', {
-//             direction: 'left',         // Words slide in from left
-//             blurAmount: 10,             // 8px blur effect
-//             moveDistance: 40,          // 80px horizontal movement
-//             duration: 0.8,             // 1.2s animation duration
-//             staggerAmount: 0.01,       // 0.04s between each word
-//             ease: "power4.out",        // Smooth easing
-//             autoInit: true,            // Auto-trigger on scroll
-//             triggerStart: "top 85%",   // Start when 85% in view
-//             scrub: false               // No scroll scrubbing, just trigger once
-//         });
-
-//         createTextReveal('.text-reveal-animation', {
-//             direction: 'left',         // Words slide in from left
-//             blurAmount: 10,             // 8px blur effect
-//             moveDistance: 40,          // 80px horizontal movement
-//             duration: 0.8,             // 1.2s animation duration
-//             staggerAmount: 0.01,       // 0.04s between each word
-//             ease: "power4.out",        // Smooth easing
-//             autoInit: true,            // Auto-trigger on scroll
-//             triggerStart: "top 85%",   // Start when 85% in view
-//             scrub: false               // No scroll scrubbing, just trigger once
-//         });
-//     }
-
-//     let tl = gsap.timeline({
-//         scrollTrigger: {
-//             trigger: '.section-features',
-//             start: 'top top', // Section becomes sticky immediately
-//             end: 'bottom bottom', // End when section would naturally end
-//             scrub: true,
-//             toggleActions: 'restart none reverse',
-//             pin: '.features-wrapper',
-//         },
-//     })
-
-//     // Set initial state - cards are stacked with offsets like in your original design
-//     gsap.set('.features-card', {
-//         opacity: 1,
-//         yPercent: 0,
-//         xPercent: 0,
-//         scale: 1,
-//         rotation: (index) => {
-//             // Create stacked effect with slight rotation offsets
-//             if (index === 0) return -8;  // First card rotated left
-//             if (index === 1) return 5;   // Second card rotated right  
-//             return 0;                    // Third card straight (visible on top)
-//         },
-//     })
-
-//     // Add delay before animation starts (cards stay stacked for first 30% of scroll)
-//     tl.to('.features-card', {
-//         // Dummy animation to create delay - no visual change
-//         duration: 0.5, // 30% of timeline = delay period
-//     })
-
-//         // Animate cards flying away as you scroll with fancy effects
-//         .to('.features-card', {
-//             yPercent: -130,
-//             xPercent: (index) => (index % 2 === 0 ? 35 : -35), // Even cards go right, odd cards go left
-//             scale: 1.25,
-//             rotation: (index) => (index % 2 === 0 ? 15 : -15), // Alternate rotation direction
-//             duration: 1.8, // Increased from 1.05 to make it much slower
-//             ease: "power2.out", // Changed to smoother, less bouncy easing
-//             stagger: { each: 1.8, from: 'start' }, // Increased stagger timing significantly
-//         })
-//         .to('.features-card', {
-//             opacity: 0,
-//             yPercent: -150,
-//             xPercent: (index) => (index % 2 === 0 ? 50 : -50), // More spread as they exit
-//             rotation: (index) => (index % 2 === 0 ? 25 : -25), // More rotation as they fade
-//             scale: 1.1, // Shrink as they disappear
-//             duration: 0.8, // Increased fade duration for slower exit
-//             ease: "power1.in", // Gentler accelerating fade out
-//             stagger: { each: 1.8, from: 'start' }, // Match the stagger timing
-//         }, "-=0.5") // Longer overlap for smoother transition
-
-
-//     // ===== PROJECTS COLUMN FLYING ANIMATION WITH SCROLL SCRUB =====
 
 //     // Check if the project columns exist on this page
 //     if (document.querySelector('.work_left') && document.querySelector('.work_right')) {
@@ -640,17 +285,7 @@ import './typewriter.js';
 
 //     // ===== END PROJECTS ANIMATION =====
 
-//     // Initialize your team marquee
-//     createInfiniteMarquee('.team-marquee', {
-//         speed: 150,              // Fast smooth scroll
-//         direction: 'left',      // Left-to-right movement
-//         pauseOnHover: false,    // Don't pause on hover
-//         gap: 0,              // Space between VISUALA and Team
-//         duplicateContent: true, // Seamless infinite loop
-//         smooth: true           // Smooth continuous animation
-//     });
 
-//     console.log("Intialized team marquee");
 
 //     // Animate gallery images with stagger
 //     createImageAnimation('.gallery7_image-wrapper', {
@@ -667,212 +302,6 @@ import './typewriter.js';
 // register plugins
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(ScrollTrigger, Draggable, InertiaPlugin, ScrambleTextPlugin, SplitText)
-    //Match media accessibility for reduce motion
-
-    // let mm = gsap.matchMedia();
-
-    // mm.add({
-    // isDesktop: "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
-    // isMobile: "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
-    // }, (context)  => {
-    //   let { isMobile, isDesktop } = context.conditions;
-
-    // gsap code here! ...
-
-    // HERO ON LOAD ANIMATION
-    // Hero image scale + fade in
-    //   gsap.fromTo(
-    //     ".hero_visuals",
-    //     { scale: 1.05, opacity: 0 },
-    //     {
-    //       scale: 1,
-    //       opacity: 1,
-    //       duration: 4,
-    //       ease: "power4.out"
-    //     }
-    //   );
-
-    //     // SPLIT TEXT ANIMATION WITH GSAP SPLITTEXT
-    //   const split = new SplitText(".hero-title", { type: "chars" });
-
-    //     // Set initial opacity to 0 for all characters
-    //   gsap.set(split.chars, { opacity: 0 });
-
-    //     // Animate characters in
-    //   gsap.to(split.chars, {
-    //     opacity: 1,
-    //     duration: 1,
-    //     stagger: {
-    //       each: 1 / split.chars.length,
-    //       from: "random"
-    //     },
-    //     ease: "power2.out"
-    //   });
-    //     // END HERO on load ANIMATION
-
-
-
-    //     // MARQUEE
-    //   gsap.to(".marquee_inner-wrapper", {
-    //     x: isMobile ? "-16vw" : "-8vw",  // matchmedia query for mobile
-    //     scrollTrigger: {
-    //       trigger: ".section_vision",
-    //       start: "top bottom",
-    //       end: "bottom top",
-    //       scrub: 0.3,
-    //       markers: false
-    //     },
-    //     transformOrigin: "50% 50%",  // optional: make sure it animates from center
-    //     force3D: true                // optional: force GPU acceleration
-    //   });
-    //     // END MARQUEE
-
-    //     // VISION PIN/SCRUB ANIMATION
-    //     // Split the text of the h2 element
-    //   const h2Element = document.querySelector(".vision_overlay-text");
-    //   const splitText = new SplitText(h2Element, { type: "words,chars" });
-    //   const chars = splitText.chars;
-
-    //     // Set initial opacity to 0 for all characters
-    //   gsap.set(chars, { opacity: 0 });
-
-    //   gsap.set(".vision_image-wrapper.is-image-large", {
-    //     width: isMobile ? "50vw" : "36vw",
-    //     height: isMobile ? "60vh" : "80vh"
-    //   });
-    //     // Create a single timeline (no media queries)
-    //   const tl = gsap.timeline({
-    //     scrollTrigger: {
-    //       trigger: ".vision_content-bottom",
-    //       start: "top top",
-    //       end: "bottom 60%",
-    //       scrub: 0.5,
-    //       pin: true,
-    //       pinSpacing: true,
-    //       anticipatePin: 1,
-    //       markers: false
-    //     }
-    //   });
-
-    //     // Animate the image wrapper and groups
-    //   tl.to(".vision_image-wrapper.is-image-large", {
-    //     width: "100vw",
-    //     height: "100vh",
-    //     borderRadius: "0px",
-    //     x: isMobile ? "-25vw" : "-32vw", 
-    //     ease: "power2.inOut"
-    //   }, 0)
-    //   .to(".vision_image-group-left", {
-    //     x: isMobile ? "-25vw" : "-32vw",
-    //     ease: "power2.inOut"
-    //   }, 0)
-    //   .to(".vision_image-group-right", {
-    //     x: isMobile ? "25vw" : "32vw",
-    //     ease: "power2.inOut"
-    //   }, 0);
-
-    //      // Character animation that plays/reverses on scroll (non-scrubbing)
-    //   gsap.timeline({
-    //     scrollTrigger: {
-    //       trigger: ".vision_content-bottom",
-    //       start: "center 48%",
-    //       end: "bottom bottom",
-    //       toggleActions: "play none reverse none",
-    //       markers: false
-    //     }
-    //   })
-    //   .to(chars, {
-    //     opacity: 1,
-    //     duration: 1.5,
-    //     stagger: {
-    //       each: 1 / chars.length,
-    //       from: "random"
-    //     },
-    //     ease: "power2.out"
-    //   });
-
-    //   // Refresh ScrollTrigger on window resize
-    //   window.addEventListener("resize", () => {
-    //     ScrollTrigger.refresh();
-    //   });
-    //     // END VISION PIN/SCRUB ANIMATION
-
-
-    //     // TEXT SCRAMBLE INTO VIEW
-    //     // Animate numbers on scroll using ScrambleText
-    //   document.querySelectorAll('.stats_number').forEach(el => {
-    //     const finalValue = el.textContent.trim();
-
-    //     // Clear the initial value
-    //     gsap.set(el, { textContent: "0" });
-
-    //     // ScrollTrigger to fire when element is in view
-    //     ScrollTrigger.create({
-    //       trigger: el,
-    //       start: "top 80%",
-    //       once: true,
-    //       onEnter: () => {
-    //         gsap.to(el, {
-    //           duration: 2,
-    //           scrambleText: {
-    //             text: finalValue,
-    //             chars: "0123456789",
-    //             revealDelay: 0.3
-    //           },
-    //           ease: "power2.out"
-    //         });
-    //       }
-    //     });
-    //   });
-    //     // END TEXT SCRAMBLE INTO VIEW
-
-    //     // DRAGGABLE CTA ANIMATION
-    //   document.querySelectorAll('#container-draggable .hand-icon.draggable').forEach((el, index) => {
-    //     // Set initial opacity and scale using GSAP (no need for random positioning anymore)
-    //     gsap.set(el, {
-    //       opacity: 0,  // Start with opacity 0
-    //       scale: 0.9,  // Start with scale 0.9
-    //       rotation: gsap.utils.random(-20, 20)  // Optional: add random rotation for variety
-    //     });
-
-    //     // Create timeline for the appearance animation
-    //     const appearTimeline = gsap.timeline({ paused: true });
-
-    //     appearTimeline.to(el, {
-    //       opacity: 1, // Fade in to opacity 1
-    //       scale: 1,   // Scale up to normal size
-    //       rotation: gsap.utils.random(-20, 20), // Random rotation for variety
-    //       duration: 1, // Duration of the appearance animation
-    //       ease: "back.out(1.7)" // Bounce ease for that small bounce effect
-    //     });
-
-    //     // ScrollTrigger to start the animation when the container comes into view
-    //     ScrollTrigger.create({
-    //       trigger: el,
-    //       start: "top 80%",
-    //       once: true,
-    //       onEnter: () => {
-    //         gsap.delayedCall(index * 0.2, () => { // Staggered start for each element
-    //           appearTimeline.play();
-    //         });
-
-    //         // Re-enable Draggable after the animation starts
-    //         Draggable.create(el, {
-    //           bounds: "#container-draggable",
-    //           inertia: true,
-    //           type: "x,y",
-    //           edgeResistance: 0.65,
-    //           throwProps: true,
-    //           zIndexBoost: false
-    //         });
-    //       }
-    //     });
-    //   });
-    //     // END DRAGGABLE CTA ANIMATION
-
-    // // END matchMedia
-    // })
-    // end gsap code...
 
     // TEXT FADING IN ANIMATION ON SCROLL
     document.querySelectorAll('[animation-container="text-fade-in"]').forEach(container => {
@@ -901,38 +330,118 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
     // END TEXT FADING IN ANIMATION ON SCROLL
 
-          // Initialize typewriter animations using data attributes - GSAP Best Practices
-      if (window.createTypewriter) {
-          const typewriterElements = document.querySelectorAll('[anim-element="typewriter"]');
-          
-          typewriterElements.forEach((element, index) => {
-              const wordsData = element.getAttribute('anim-words');
-              if (!wordsData) {
-                  console.warn('Typewriter element missing anim-words attribute:', element);
-                  return;
-              }
-              
-              const words = wordsData.split(',').map(word => word.trim());
-              
-              if (!element.id) {
-                  element.id = `typewriter-${Date.now()}-${index}`;
-              }
-              
-              const config = {
-                  typeSpeed: 0.08,           // Optimized for all devices
-                  deleteSpeed: 0.06,         // Smooth deletion
-                  pauseTime: 2.5,            // Balanced timing
-                  cursor: true,              // Show cursor
-                  cursorWidth: '1px',        // Thin line
-                  cursorColor: '#f2f200',    // Brand color
-                  naturalVariation: false,   // Consistent performance
-                  blurEffect: false,         // Better performance
-                  loop: true,                // Continuous loop
-                  ease: 'power2.out'         // Smooth easing
-              };
-              
-              // Pass the ID selector instead of the element object
-              createTypewriter(`#${element.id}`, words, config);
-          });
+    // Initialize typewriter animations using data attributes - GSAP Best Practices
+    if (window.createTypewriter) {
+        const typewriterElements = document.querySelectorAll('[anim-element="typewriter"]');
+        
+        // Debug logging
+        console.log(`Found ${typewriterElements.length} typewriter elements`);
+        console.log('Device info:', {
+            isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+            screenWidth: window.innerWidth,
+            userAgent: navigator.userAgent
+        });
+
+        typewriterElements.forEach((element, index) => {
+            console.log(`Processing typewriter ${index + 1}:`, element);
+            
+            const wordsData = element.getAttribute('anim-words');
+            if (!wordsData) {
+                console.warn('Typewriter element missing anim-words attribute:', element);
+                return;
+            }
+            
+            console.log(`Words data for element ${index + 1}:`, wordsData);
+
+            const words = wordsData.split(',').map(word => word.trim());
+
+            if (!element.id) {
+                element.id = `typewriter-${Date.now()}-${index}`;
+            }
+
+            const config = {
+                typeSpeed: 0.08,           // Optimized for all devices
+                deleteSpeed: 0.06,         // Smooth deletion
+                pauseTime: 2.5,            // Balanced timing
+                cursor: true,              // Show cursor
+                cursorWidth: '1px',        // Thin line
+                cursorColor: '#f2f200',    // Brand color
+                naturalVariation: false,   // Consistent performance
+                blurEffect: false,         // Better performance
+                loop: true,                // Continuous loop
+                ease: 'power2.out'         // Smooth easing
+            };
+
+            // Pass the ID selector instead of the element object
+            createTypewriter(`#${element.id}`, words, config);
+        });
     }
+
+
+    let tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.section-features',
+            start: 'top top', // Section becomes sticky immediately
+            end: 'bottom bottom', // End when section would naturally end
+            scrub: true,
+            toggleActions: 'restart none reverse',
+            pin: '.features-wrapper',
+        },
+    })
+
+    // Set initial state - cards are stacked with offsets like in your original design
+    gsap.set('.features-card', {
+        opacity: 1,
+        yPercent: 0,
+        xPercent: 0,
+        scale: 1,
+        rotation: (index) => {
+            // Create stacked effect with slight rotation offsets
+            if (index === 0) return -8;  // First card rotated left
+            if (index === 1) return 5;   // Second card rotated right  
+            return 0;                    // Third card straight (visible on top)
+        },
+    })
+
+    // Add delay before animation starts (cards stay stacked for first 30% of scroll)
+    tl.to('.features-card', {
+        // Dummy animation to create delay - no visual change
+        duration: 0.5, // 30% of timeline = delay period
+    })
+
+        // Animate cards flying away as you scroll with fancy effects
+        .to('.features-card', {
+            yPercent: -130,
+            xPercent: (index) => (index % 2 === 0 ? 35 : -35), // Even cards go right, odd cards go left
+            scale: 1.25,
+            rotation: (index) => (index % 2 === 0 ? 15 : -15), // Alternate rotation direction
+            duration: 1.8, // Increased from 1.05 to make it much slower
+            ease: "power2.out", // Changed to smoother, less bouncy easing
+            stagger: { each: 1.8, from: 'start' }, // Increased stagger timing significantly
+        })
+        .to('.features-card', {
+            opacity: 0,
+            yPercent: -150,
+            xPercent: (index) => (index % 2 === 0 ? 50 : -50), // More spread as they exit
+            rotation: (index) => (index % 2 === 0 ? 25 : -25), // More rotation as they fade
+            scale: 1.1, // Shrink as they disappear
+            duration: 0.8, // Increased fade duration for slower exit
+            ease: "power1.in", // Gentler accelerating fade out
+            stagger: { each: 1.8, from: 'start' }, // Match the stagger timing
+        }, "-=0.5") // Longer overlap for smoother transition
+
+
+    // ===== PROJECTS COLUMN FLYING ANIMATION WITH SCROLL SCRUB =====
+
+
+    // Initialize your team marquee
+    createInfiniteMarquee('.team-marquee', {
+        speed: 50,              // Fast smooth scroll
+        direction: 'left',       // Left-to-right movement
+        pauseOnHover: false,     // Don't pause on hover
+        gap: 0,                  // Space between VISUALA and Team
+        duplicateContent: true,  // Seamless infinite loop
+        smooth: true,            // Smooth continuous animation
+        preserveStyles: true     // Preserve Webflow positioning
+    });
 });
