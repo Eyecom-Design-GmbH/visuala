@@ -235,4 +235,31 @@ document.addEventListener("DOMContentLoaded", (event) => {
             createTypewriter(`#${element.id}`, words, config);
         });
     }
+
+    // TEXT FADING IN ANIMATION ON SCROLL
+    document.querySelectorAll('[animation-container="text-fade-in"]').forEach(container => {
+        container.querySelectorAll('[animation-element="text-fade-in"]').forEach(el => {
+            const split = new SplitText(el, { type: "words,chars" });
+            const totalChars = split.chars.length;
+            const staggerTime = 1 / totalChars;  // Total duration divided by number of characters for stagger
+
+            gsap.fromTo(
+                split.chars,
+                { opacity: 0.1 },
+                {
+                    opacity: 1,
+                    ease: "none",
+                    stagger: staggerTime, // Set stagger based on the total time and number of characters
+                    duration: 1, // Total duration for all characters
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 90%",
+                        end: "top 20%",
+                        once: true
+                    }
+                }
+            );
+        });
+    });
+    // END TEXT FADING IN ANIMATION ON SCROLL
 });
