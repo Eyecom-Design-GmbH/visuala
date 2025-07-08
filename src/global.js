@@ -1,6 +1,6 @@
 // console.log("Hello from global.js");
 // import './text-reveal.js';
-// import './typewriter.js';
+import './typewriter.js';
 
 // // ===== MOBILE PERFORMANCE DETECTION =====
 // const isMobile = (() => {
