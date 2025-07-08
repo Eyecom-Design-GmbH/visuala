@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     // TEXT FADING IN ANIMATION ON SCROLL
-    container.querySelectorAll('[animation-element="text-fade-in"]').forEach(el => {
+    document.querySelectorAll('[animation-element="text-fade-in"]').forEach(el => {
         const split = new SplitText(el, { type: "words,chars" });
         const totalChars = split.chars.length;
         const staggerTime = 1 / totalChars;  // Total duration divided by number of characters for stagger
