@@ -136,108 +136,108 @@ const PERFORMANCE_CONFIG = {
 //     });
 
 
-//     // Check if the project columns exist on this page
-//     if (document.querySelector('.work_left') && document.querySelector('.work_right')) {
+    // Check if the project columns exist on this page
+    if (document.querySelector('.work_left') && document.querySelector('.work_right')) {
 
-//         // Create timeline for projects animation
-//         let projectsTl = gsap.timeline({
-//             scrollTrigger: {
-//                 trigger: '.work_wrap',
-//                 start: 'top 70%',     // Start when section enters viewport
-//                 end: 'top 20%',          // End when section is mostly in view
-//                 scrub: 1.5,              // Smooth scrubbing tied to scroll
-//                 toggleActions: 'play none none reverse'
-//             }
-//         });
+        // Create timeline for projects animation
+        let projectsTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.work_wrap',
+                start: 'top 70%',     // Start when section enters viewport
+                end: 'top 20%',          // End when section is mostly in view
+                scrub: 1.5,              // Smooth scrubbing tied to scroll
+                toggleActions: 'play none none reverse'
+            }
+        });
 
-//         // Set initial state for entire columns to be off-screen and huge
-//         gsap.set('.work_left', {
-//             x: '-100vw',
-//             scale: 2,
-//             opacity: 0,
-//             filter: 'blur(20px)'
+        // Set initial state for entire columns to be off-screen and huge
+        gsap.set('.work_left', {
+            x: '-100vw',
+            scale: 2,
+            opacity: 0,
+            filter: 'blur(20px)'
 
-//         });
+        });
 
-//         gsap.set('.work_right', {
-//             x: '100vw',
-//             scale: 2,
-//             opacity: 0,
-//             filter: 'blur(20px)'
+        gsap.set('.work_right', {
+            x: '100vw',
+            scale: 2,
+            opacity: 0,
+            filter: 'blur(20px)'
 
-//         });
+        });
 
-//         // Add animations to timeline
-//         projectsTl
-//             // Animate left column
-//             .to('.work_left', {
-//                 x: 0,
-//                 scale: 1,
-//                 opacity: 1,
-//                 duration: 1,
-//                 filter: 'blur(0px)',
-//                 ease: "power2.out"
-//             })
-//             // Animate right column with slight overlap
-//             .to('.work_right', {
-//                 x: 0,
-//                 scale: 1,
-//                 opacity: 1,
-//                 duration: 1,
-//                 filter: 'blur(0px)',
-//                 ease: "power2.out"
-//             }, "-=0.8"); // Start 0.8s before left column finishes
-//     }
+        // Add animations to timeline
+        projectsTl
+            // Animate left column
+            .to('.work_left', {
+                x: 0,
+                scale: 1,
+                opacity: 1,
+                duration: 1,
+                filter: 'blur(0px)',
+                ease: "power2.out"
+            })
+            // Animate right column with slight overlap
+            .to('.work_right', {
+                x: 0,
+                scale: 1,
+                opacity: 1,
+                duration: 1,
+                filter: 'blur(0px)',
+                ease: "power2.out"
+            }, "-=0.8"); // Start 0.8s before left column finishes
+    }
 
-//     // ===== PROJECTS COLUMN FLYING ANIMATION WITH SCROLL SCRUB =====
+    // ===== PROJECTS COLUMN FLYING ANIMATION WITH SCROLL SCRUB =====
 
-//     // Check if the project columns exist on this page
-//     if (document.querySelector('.work_left') && document.querySelector('.work_right')) {
+    // Check if the project columns exist on this page
+    if (document.querySelector('.work_left') && document.querySelector('.work_right')) {
 
-//         // Create timeline for projects animation
-//         let projectsTl = gsap.timeline({
-//             scrollTrigger: {
-//                 trigger: '.work_wrap',
-//                 start: 'top bottom',     // Start when section enters viewport
-//                 end: 'top 20%',          // End when section is mostly in view
-//                 scrub: 1.5               // Smooth scrubbing tied to scroll
-//             }
-//         });
+        // Create timeline for projects animation
+        let projectsTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.work_wrap',
+                start: 'top bottom',     // Start when section enters viewport
+                end: 'top 20%',          // End when section is mostly in view
+                scrub: 1.5               // Smooth scrubbing tied to scroll
+            }
+        });
 
-//         // Set initial state for entire columns to be off-screen and huge
-//         gsap.set('.work_left', {
-//             x: '-100vw',
-//             scale: 3,
-//             opacity: 0
-//         });
+        // Set initial state for entire columns to be off-screen and huge
+        gsap.set('.work_left', {
+            x: '-100vw',
+            scale: 3,
+            opacity: 0
+        });
 
-//         gsap.set('.work_right', {
-//             x: '100vw',
-//             scale: 3,
-//             opacity: 0
-//         });
+        gsap.set('.work_right', {
+            x: '100vw',
+            scale: 3,
+            opacity: 0
+        });
 
-//         // Add animations to timeline
-//         projectsTl
-//             // Animate left column
-//             .to('.work_left', {
-//                 x: 0,
-//                 scale: 1,
-//                 opacity: 1,
-//                 duration: 1,
-//                 ease: "power2.out"
-//             })
-//             // Animate right column with slight overlap
-//             .to('.work_right', {
-//                 x: 0,
-//                 scale: 1,
-//                 opacity: 1,
-//                 duration: 1,
-//                 ease: "power2.out"
-//             }, "-=0.8"); // Start 0.8s before left column finishes
-//     }
+        // Add animations to timeline
+        projectsTl
+            // Animate left column
+            .to('.work_left', {
+                x: 0,
+                scale: 1,
+                opacity: 1,
+                duration: 1,
+                ease: "power2.out"
+            })
+            // Animate right column with slight overlap
+            .to('.work_right', {
+                x: 0,
+                scale: 1,
+                opacity: 1,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=0.8"); // Start 0.8s before left column finishes
+    }
 
-//     // ===== PROJECT TITLES ANIMATION =====
+    // ===== PROJECT TITLES ANIMATION =====
 
 //     // Check if the project title elements exist
 //     if (document.querySelector('.project-tile_wrapper') && document.querySelector('.text-display-left') && document.querySelector('.text-display-right')) {
@@ -300,48 +300,6 @@ const PERFORMANCE_CONFIG = {
 // register plugins
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(ScrollTrigger, Draggable, InertiaPlugin, ScrambleTextPlugin, SplitText)
-
-
-
-    // // Initialize typewriter animations using data attributes - GSAP Best Practices
-    // if (window.createTypewriter) {
-    //     const typewriterElements = document.querySelectorAll('[anim-element="typewriter"]');
-
-    //     typewriterElements.forEach((element, index) => {
-    //         console.log(`Processing typewriter ${index + 1}:`, element);
-            
-    //         const wordsData = element.getAttribute('anim-words');
-    //         if (!wordsData) {
-    //             console.warn('Typewriter element missing anim-words attribute:', element);
-    //             return;
-    //         }
-            
-    //         console.log(`Words data for element ${index + 1}:`, wordsData);
-
-    //         const words = wordsData.split(',').map(word => word.trim());
-
-    //         if (!element.id) {
-    //             element.id = `typewriter-${Date.now()}-${index}`;
-    //         }
-
-    //         const config = {
-    //             typeSpeed: 0.08,           // Optimized for all devices
-    //             deleteSpeed: 0.06,         // Smooth deletion
-    //             pauseTime: 2.5,            // Balanced timing
-    //             cursor: true,              // Show cursor
-    //             cursorWidth: '1px',        // Thin line
-    //             cursorColor: '#f2f200',    // Brand color
-    //             naturalVariation: false,   // Consistent performance
-    //             blurEffect: false,         // Better performance
-    //             loop: true,                // Continuous loop
-    //             ease: 'power2.out'         // Smooth easing
-    //         };
-
-    //         // Pass the ID selector instead of the element object
-    //         createTypewriter(`#${element.id}`, words, config);
-    //     });
-    // }
-
 
     let tl = gsap.timeline({
         scrollTrigger: {

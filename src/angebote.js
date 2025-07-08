@@ -168,7 +168,6 @@ $(document).ready(function () {
         const title = accordion.querySelector('.angebot_accordion-title');
         const answer = accordion.querySelector('.angebot_accordion-answer');
         const icon = accordion.querySelector('.angebot_accordion-icon');
-        const iconWrapper = accordion.querySelector('.angebot_icon-wrapper');
         
         // Track accordion state
         let isOpen = false;
@@ -190,8 +189,8 @@ $(document).ready(function () {
             });
             
             // Optional: Yellow background for icon wrapper
-            gsap.to(iconWrapper, {
-                backgroundColor: 'rgba(242, 242, 0, 0.1)', // Subtle yellow background
+            gsap.to(icon, {
+                borderColor: '#f2f200', // Subtle yellow background
                 duration: 0.3,
                 ease: "power2.out"
             });
@@ -232,8 +231,8 @@ $(document).ready(function () {
                 });
                 
                 // Reset icon wrapper background
-                gsap.to(iconWrapper, {
-                    backgroundColor: 'transparent',
+                gsap.to(icon, {
+                    borderColor: 'white',
                     duration: 0.3,
                     ease: "power2.out"
                 });
@@ -321,8 +320,8 @@ $(document).ready(function () {
                 });
                 
                 // Reset icon wrapper background
-                gsap.to(iconWrapper, {
-                    backgroundColor: 'transparent',
+                gsap.to(icon, {
+                    borderColor: 'white',
                     duration: 0.3,
                     ease: "power2.out"
                 });
