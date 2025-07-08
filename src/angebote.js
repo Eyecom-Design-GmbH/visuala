@@ -18,7 +18,7 @@ $(document).ready(function () {
     }
 
     // ===== ANGEBOT SECTIONS TITLE ANIMATIONS =====
-    
+
     // Configuration for each section
     const sectionConfigs = [
         {
@@ -86,10 +86,10 @@ $(document).ready(function () {
     // Loop through each section configuration
     sectionConfigs.forEach(config => {
         const section = document.querySelector(config.id);
-        
+
         if (section) {
             console.log(`Setting up animations for section: ${config.id}`);
-            
+
             // Left heading animation
             const leftHeading = section.querySelector('.angebot_display-heading-left');
             if (leftHeading) {
@@ -107,7 +107,7 @@ $(document).ready(function () {
                     ease: "power2.out"
                 });
             }
-            
+
             // Right heading animation
             const rightHeading = section.querySelector('.angebot_display-heading-right');
             if (rightHeading) {
@@ -131,7 +131,7 @@ $(document).ready(function () {
     });
 
     // ===== ACCORDION HOVER AND CLICK ANIMATIONS =====
-    
+
     // Create blurred yellow cursor circle
     const yellowCursor = document.createElement('div');
     yellowCursor.style.cssText = `
@@ -162,12 +162,13 @@ $(document).ready(function () {
 
     // Setup accordion animations
     const accordions = document.querySelectorAll('.angebot_accordion');
-    
+
     accordions.forEach((accordion, index) => {
         const question = accordion.querySelector('.angebot_accordion-question');
         const title = accordion.querySelector('.angebot_accordion-title');
         const answer = accordion.querySelector('.angebot_accordion-answer');
         const icon = accordion.querySelector('.angebot_accordion-icon');
+        const iconWrapper = accordion.querySelector('.angebot_icon-wrapper');
         
         // Track accordion state
         let isOpen = false;
@@ -181,7 +182,19 @@ $(document).ready(function () {
                 ease: "power2.out"
             });
             
-
+            // Yellow color for the arrow/icon (targeting the SVG path)
+            gsap.to(icon.querySelector('path'), {
+                fill: '#f2f200',
+                duration: 0.3,
+                ease: "power2.out"
+            });
+            
+            // Optional: Yellow background for icon wrapper
+            gsap.to(iconWrapper, {
+                backgroundColor: 'rgba(242, 242, 0, 0.1)', // Subtle yellow background
+                duration: 0.3,
+                ease: "power2.out"
+            });
             
             // Show yellow cursor
             gsap.to(yellowCursor, {
@@ -194,13 +207,33 @@ $(document).ready(function () {
             // Hide default cursor
             question.style.cursor = 'pointer';
             
+            // Scale effect
+            gsap.to(accordion, {
+                scale: 1.02,
+                duration: 0.3,
+                ease: "power2.out"
+            });
         });
-                scale: 1.0,
+        
         question.addEventListener('mouseleave', () => {
             // Reset text color if not open
             if (!isOpen) {
                 gsap.to(title, {
                     color: 'white',
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+                
+                // Reset arrow/icon color
+                gsap.to(icon.querySelector('path'), {
+                    fill: 'currentColor', // or 'white' if you prefer explicit color
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+                
+                // Reset icon wrapper background
+                gsap.to(iconWrapper, {
+                    backgroundColor: 'transparent',
                     duration: 0.3,
                     ease: "power2.out"
                 });
@@ -217,9 +250,9 @@ $(document).ready(function () {
             // Restore default cursor
             question.style.cursor = 'pointer';
             
-            // Scale effect - MODIFY THIS TO CHANGE SCALING
+            // Reset scale
             gsap.to(accordion, {
-                scale: 1.02,              // Change this value: 1 = no scale, 1.05 = more scale, etc.
+                scale: 1.0,
                 duration: 0.3,
                 ease: "power2.out"
             });
@@ -251,6 +284,13 @@ $(document).ready(function () {
                     ease: "power2.out"
                 });
                 
+                // Keep arrow yellow when open
+                gsap.to(icon.querySelector('path'), {
+                    fill: '#ffff00',
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+                
             } else {
                 // Close accordion
                 gsap.to(answer, {
@@ -273,6 +313,19 @@ $(document).ready(function () {
                     ease: "power2.out"
                 });
                 
+                // Reset arrow color
+                gsap.to(icon.querySelector('path'), {
+                    fill: 'currentColor',
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+                
+                // Reset icon wrapper background
+                gsap.to(iconWrapper, {
+                    backgroundColor: 'transparent',
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
             }
         });
         
@@ -332,28 +385,28 @@ $(document).ready(function () {
             stagger: { each: 1.8, from: 'start' }, // Match the stagger timing
         }, "-=0.5") // Longer overlap for smoother transition
 
-        // Animation für alle .angebot_img Elemente
-        gsap.utils.toArray('.angebot_img').forEach((img, index) => {
-            gsap.fromTo(img, {
-                // Initial state - translateY(50%) und opacity: 0
-                y: '50%',
-                opacity: 0,
-                scale: 1
-            }, {
-                // Final state - translateY(0%) und opacity: 1
-                y: '0%',
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                ease: "cubic-bezier(0.53, 0.03, 0.83, 0.25)", // Gleiche Easing wie im Original
-                delay: index * 0.1, // Gestaffelte Animation
-                scrollTrigger: {
-                    trigger: img,
-                    start: "top 80%", // Animation startet wenn das Element 80% im Viewport ist
-                    end: "bottom 20%",
-                    toggleActions: "play none none reverse", // Animation beim rein/rauscrollen
-                    // markers: true, // Uncomment für Debugging
-                }
-            });
+    // Animation für alle .angebot_img Elemente
+    gsap.utils.toArray('.angebot_img').forEach((img, index) => {
+        gsap.fromTo(img, {
+            // Initial state - translateY(50%) und opacity: 0
+            y: '50%',
+            opacity: 0,
+            scale: 1
+        }, {
+            // Final state - translateY(0%) und opacity: 1
+            y: '0%',
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            ease: "cubic-bezier(0.53, 0.03, 0.83, 0.25)", // Gleiche Easing wie im Original
+            delay: index * 0.1, // Gestaffelte Animation
+            scrollTrigger: {
+                trigger: img,
+                start: "top 80%", // Animation startet wenn das Element 80% im Viewport ist
+                end: "bottom 20%",
+                toggleActions: "play none none reverse", // Animation beim rein/rauscrollen
+                // markers: true, // Uncomment für Debugging
+            }
         });
+    });
 });
