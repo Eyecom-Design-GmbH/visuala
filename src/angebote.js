@@ -332,5 +332,28 @@ $(document).ready(function () {
             stagger: { each: 1.8, from: 'start' }, // Match the stagger timing
         }, "-=0.5") // Longer overlap for smoother transition
 
-
+        // Animation für alle .angebot_img Elemente
+        gsap.utils.toArray('.angebot_img').forEach((img, index) => {
+            gsap.fromTo(img, {
+                // Initial state - translateY(50%) und opacity: 0
+                y: '50%',
+                opacity: 0,
+                scale: 1
+            }, {
+                // Final state - translateY(0%) und opacity: 1
+                y: '0%',
+                opacity: 1,
+                scale: 1,
+                duration: 0.8,
+                ease: "cubic-bezier(0.53, 0.03, 0.83, 0.25)", // Gleiche Easing wie im Original
+                delay: index * 0.1, // Gestaffelte Animation
+                scrollTrigger: {
+                    trigger: img,
+                    start: "top 80%", // Animation startet wenn das Element 80% im Viewport ist
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse", // Animation beim rein/rauscrollen
+                    // markers: true, // Uncomment für Debugging
+                }
+            });
+        });
 });
