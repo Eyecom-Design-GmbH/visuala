@@ -1,8 +1,6 @@
 import './typewriter.js';
 import './marquee.js';
 import './call-embed.js'
-import './popup-video.js'
-
 // import './image-animations.js';
 // import './title-animations.js'
 // // Import the module on any page that needs it
@@ -330,52 +328,44 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
     // END TEXT FADING IN ANIMATION ON SCROLL
 
-    // Initialize typewriter animations using data attributes - GSAP Best Practices
-    if (window.createTypewriter) {
-        const typewriterElements = document.querySelectorAll('[anim-element="typewriter"]');
-        
-        // Debug logging
-        console.log(`Found ${typewriterElements.length} typewriter elements`);
-        console.log('Device info:', {
-            isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
-            screenWidth: window.innerWidth,
-            userAgent: navigator.userAgent
-        });
+    // // Initialize typewriter animations using data attributes - GSAP Best Practices
+    // if (window.createTypewriter) {
+    //     const typewriterElements = document.querySelectorAll('[anim-element="typewriter"]');
 
-        typewriterElements.forEach((element, index) => {
-            console.log(`Processing typewriter ${index + 1}:`, element);
+    //     typewriterElements.forEach((element, index) => {
+    //         console.log(`Processing typewriter ${index + 1}:`, element);
             
-            const wordsData = element.getAttribute('anim-words');
-            if (!wordsData) {
-                console.warn('Typewriter element missing anim-words attribute:', element);
-                return;
-            }
+    //         const wordsData = element.getAttribute('anim-words');
+    //         if (!wordsData) {
+    //             console.warn('Typewriter element missing anim-words attribute:', element);
+    //             return;
+    //         }
             
-            console.log(`Words data for element ${index + 1}:`, wordsData);
+    //         console.log(`Words data for element ${index + 1}:`, wordsData);
 
-            const words = wordsData.split(',').map(word => word.trim());
+    //         const words = wordsData.split(',').map(word => word.trim());
 
-            if (!element.id) {
-                element.id = `typewriter-${Date.now()}-${index}`;
-            }
+    //         if (!element.id) {
+    //             element.id = `typewriter-${Date.now()}-${index}`;
+    //         }
 
-            const config = {
-                typeSpeed: 0.08,           // Optimized for all devices
-                deleteSpeed: 0.06,         // Smooth deletion
-                pauseTime: 2.5,            // Balanced timing
-                cursor: true,              // Show cursor
-                cursorWidth: '1px',        // Thin line
-                cursorColor: '#f2f200',    // Brand color
-                naturalVariation: false,   // Consistent performance
-                blurEffect: false,         // Better performance
-                loop: true,                // Continuous loop
-                ease: 'power2.out'         // Smooth easing
-            };
+    //         const config = {
+    //             typeSpeed: 0.08,           // Optimized for all devices
+    //             deleteSpeed: 0.06,         // Smooth deletion
+    //             pauseTime: 2.5,            // Balanced timing
+    //             cursor: true,              // Show cursor
+    //             cursorWidth: '1px',        // Thin line
+    //             cursorColor: '#f2f200',    // Brand color
+    //             naturalVariation: false,   // Consistent performance
+    //             blurEffect: false,         // Better performance
+    //             loop: true,                // Continuous loop
+    //             ease: 'power2.out'         // Smooth easing
+    //         };
 
-            // Pass the ID selector instead of the element object
-            createTypewriter(`#${element.id}`, words, config);
-        });
-    }
+    //         // Pass the ID selector instead of the element object
+    //         createTypewriter(`#${element.id}`, words, config);
+    //     });
+    // }
 
 
     let tl = gsap.timeline({

@@ -195,3 +195,44 @@
 //         console.log('🔋 Mobile/Low-performance mode: Animations simplified for better performance');
 //     }
 // });
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    // Initialize typewriter animations using data attributes - GSAP Best Practices
+    if (window.createTypewriter) {
+        const typewriterElements = document.querySelectorAll('[anim-element="typewriter"]');
+
+        typewriterElements.forEach((element, index) => {
+            console.log(`Processing typewriter ${index + 1}:`, element);
+            
+            const wordsData = element.getAttribute('anim-words');
+            if (!wordsData) {
+                console.warn('Typewriter element missing anim-words attribute:', element);
+                return;
+            }
+            
+            console.log(`Words data for element ${index + 1}:`, wordsData);
+
+            const words = wordsData.split(',').map(word => word.trim());
+
+            if (!element.id) {
+                element.id = `typewriter-${Date.now()}-${index}`;
+            }
+
+            const config = {
+                typeSpeed: 0.08,           // Optimized for all devices
+                deleteSpeed: 0.06,         // Smooth deletion
+                pauseTime: 2.5,            // Balanced timing
+                cursor: true,              // Show cursor
+                cursorWidth: '1px',        // Thin line
+                cursorColor: '#f2f200',    // Brand color
+                naturalVariation: false,   // Consistent performance
+                blurEffect: false,         // Better performance
+                loop: true,                // Continuous loop
+                ease: 'power2.out'         // Smooth easing
+            };
+
+            // Pass the ID selector instead of the element object
+            createTypewriter(`#${element.id}`, words, config);
+        });
+    }
+});

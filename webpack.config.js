@@ -15,7 +15,6 @@ module.exports = {
     ["image-animations"]: "./src/image-animations.js",
     ["title-animations"]: "./src/title-animations.js",
     ["call-embed"]: "./src/call-embed.js",
-    ["popup-video"]: "./src/popup-video.js",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
