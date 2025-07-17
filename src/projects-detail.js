@@ -1,11 +1,7 @@
-document.addEventListener('DOMContentLoaded', function () {
-
+document.addEventListener("DOMContentLoaded", function () {
   gsap.registerPlugin(ScrollTrigger);
 
-
-  // ===== SWIPER CAROUSEL INITIALIZATION =====
   $(".slider-impressionen_component").each(function (index) {
-    // Function to update slide styles
     function updateSlideStyles(swiper) {
       const activeIndex = swiper.activeIndex;
       const totalSlides = swiper.slides.length;
@@ -13,39 +9,36 @@ document.addEventListener('DOMContentLoaded', function () {
       swiper.slides.forEach((slide, index) => {
         const $slide = $(slide);
 
-        // Calculate distance from active slide
         let distance = Math.abs(index - activeIndex);
 
-        // Handle loop mode - find shortest distance
         if (swiper.params.loop) {
           const distanceFromEnd = Math.abs(index - (activeIndex + totalSlides));
-          const distanceFromStart = Math.abs(index - (activeIndex - totalSlides));
+          const distanceFromStart = Math.abs(
+            index - (activeIndex - totalSlides),
+          );
           distance = Math.min(distance, distanceFromEnd, distanceFromStart);
         }
 
-        // Determine if this is the active slide
         const isActive = distance === 0;
 
-        // Apply scaling
         if (isActive) {
-          slide.style.transform = 'scale(1)';
-          slide.style.zIndex = '999';
+          slide.style.transform = "scale(1)";
+          slide.style.zIndex = "999";
         } else {
-          slide.style.transform = 'scale(0.8)';
-          slide.style.zIndex = '1';
+          slide.style.transform = "scale(0.8)";
+          slide.style.zIndex = "1";
         }
 
-        // Handle overlay
-        let overlay = slide.querySelector('.slide-overlay');
+        let overlay = slide.querySelector(".slide-overlay");
         if (!isActive) {
           if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.className = 'slide-overlay';
+            overlay = document.createElement("div");
+            overlay.className = "slide-overlay";
             slide.appendChild(overlay);
           }
-          overlay.style.opacity = '0.6';
+          overlay.style.opacity = "0.6";
         } else if (overlay) {
-          overlay.style.opacity = '0';
+          overlay.style.opacity = "0";
         }
       });
     }
@@ -67,16 +60,16 @@ document.addEventListener('DOMContentLoaded', function () {
       loop: true,
       centeredSlides: true,
       mousewheel: {
-        forceToAxis: true
+        forceToAxis: true,
       },
       keyboard: {
         enabled: true,
-        onlyInViewport: true
+        onlyInViewport: true,
       },
       navigation: {
         nextEl: $(this).find(".swiper-next")[0],
         prevEl: $(this).find(".swiper-prev")[0],
-        disabledClass: "is-disabled"
+        disabledClass: "is-disabled",
       },
       slideActiveClass: "is-active",
       slideDuplicateActiveClass: "is-active",
@@ -89,33 +82,36 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         slideChangeTransitionEnd: function () {
           updateSlideStyles(this);
-        }
-      }
+        },
+      },
     });
   });
 
   const fimageTl = gsap.timeline();
 
-  fimageTl.fromTo(".feature-img", {
-    opacity: 0,
-    yPercent: 100
-  }, {
-    opacity: 1,
-    yPercent: 0,
-    duration: 0.7,
-    ease: "power2.inOut"
-  });
+  fimageTl.fromTo(
+    ".feature-img",
+    {
+      opacity: 0,
+      yPercent: 100,
+    },
+    {
+      opacity: 1,
+      yPercent: 0,
+      duration: 0.7,
+      ease: "power2.inOut",
+    },
+  );
 
   fimageTl.to(".feature-img", {
     y: -20,
     duration: 1.5,
     ease: "sine.inOut",
     repeat: -1,
-    yoyo: true
+    yoyo: true,
   });
 
-
-  gsap.utils.toArray(".image-projects_wrapper").forEach(wrapper => {
+  gsap.utils.toArray(".image-projects_wrapper").forEach((wrapper) => {
     const images = wrapper.querySelectorAll(".project-image");
 
     gsap.from(images, {
@@ -128,11 +124,11 @@ document.addEventListener('DOMContentLoaded', function () {
       opacity: 0,
       duration: 0.5,
       ease: "power2.out",
-      stagger: 0.05
+      stagger: 0.05,
     });
   });
 
-  gsap.utils.toArray(".image-projects-wrapper-big").forEach(wrapper => {
+  gsap.utils.toArray(".image-projects-wrapper-big").forEach((wrapper) => {
     const images = wrapper.querySelectorAll(".project-image-big");
 
     gsap.from(images, {
@@ -145,46 +141,49 @@ document.addEventListener('DOMContentLoaded', function () {
       opacity: 0,
       duration: 0.5,
       ease: "power2.out",
-      stagger: 0.05
+      stagger: 0.05,
     });
   });
 
-  gsap.utils.toArray(".product-videos").forEach(wrapper => {
+  gsap.utils.toArray(".product-videos").forEach((wrapper) => {
     const vids = wrapper.querySelectorAll(".video-iframe");
 
     gsap.set(vids, {
       opacity: 0,
-      yPercent: 100
+      yPercent: 100,
     });
 
     gsap.to(vids, {
       scrollTrigger: {
-        trigger: wrapper,          
-        start: "top 70%",        
+        trigger: wrapper,
+        start: "top 70%",
       },
       yPercent: 0,
       opacity: 1,
       duration: 0.6,
       ease: "power2.out",
-      stagger: 0.1
+      stagger: 0.1,
     });
   });
 
-  let testimonalTL = gsap.timeline({
+  const testimonalTL = gsap.timeline({
     scrollTrigger: {
-      trigger: ".section_project_highlights", // The element that triggers the animation
-      start: "top 50%",  // When the top of the element hits the center of the viewport
-      scrub: false,          // Links animation progress to scrollbar movement
-      markers: false        // (Optional) Shows markers for debugging
-    }
+      trigger: ".section_project_highlights",
+      start: "top 50%",
+      scrub: false,
+      markers: false,
+    },
   });
 
-  testimonalTL.from(".feedback_wrapper .text-size-large.text-color-white.text-weight-semibold", {
-    yPercent: 100,
-    opacity: 0,
-    duration: 0.5,
-    ease: "power2.out",
-  });
+  testimonalTL.from(
+    ".feedback_wrapper .text-size-large.text-color-white.text-weight-semibold",
+    {
+      yPercent: 100,
+      opacity: 0,
+      duration: 0.5,
+      ease: "power2.out",
+    },
+  );
 
   testimonalTL.from(".feedback_wrapper h1", {
     yPercent: 100,

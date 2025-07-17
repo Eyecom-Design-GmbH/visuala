@@ -1,156 +1,164 @@
-console.log("Image Animations loaded");
-
-// ===== MOBILE PERFORMANCE DETECTION =====
 const isMobile = (() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
-    const isMobileUserAgent = mobileKeywords.some(keyword => userAgent.includes(keyword));
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    const isSmallScreen = window.innerWidth <= 768;
-    return isMobileUserAgent || (isTouchDevice && isSmallScreen);
+  const userAgent = navigator.userAgent.toLowerCase();
+  const mobileKeywords = [
+    "mobile",
+    "android",
+    "iphone",
+    "ipad",
+    "ipod",
+    "blackberry",
+    "windows phone",
+  ];
+  const isMobileUserAgent = mobileKeywords.some((keyword) =>
+    userAgent.includes(keyword),
+  );
+  const isTouchDevice =
+    "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  const isSmallScreen = window.innerWidth <= 768;
+  return isMobileUserAgent || (isTouchDevice && isSmallScreen);
 })();
 
-// Modular Image Animation System
 function createImageAnimation(selector, options = {}) {
-  // Default options
   const defaults = {
-    animationType: 'slideUp',     // 'slideUp', 'slideDown', 'slideLeft', 'slideRight', 'fade', 'scale', 'rotate'
-    distance: 100,                // Distance to move (pixels or percentage)
-    duration: 1,                  // Animation duration in seconds
-    ease: "power2.out",           // Animation easing
-    delay: 0,                     // Delay before animation starts
-    stagger: 0,                   // Stagger time between multiple images
-    trigger: 'scroll',            // 'scroll', 'click', 'hover', 'manual', 'immediate'
-    triggerStart: "top 80%",      // ScrollTrigger start position
-    triggerEnd: "bottom 20%",     // ScrollTrigger end position
-    scrub: false,                 // ScrollTrigger scrub (true/false or number)
-    toggleActions: "play none none none", // ScrollTrigger toggle actions
-    scale: 1.1,                   // Scale amount for scale animation
-    rotation: 360,                // Rotation amount for rotate animation
-    opacity: 0,                   // Starting opacity
-    blur: 0,                      // Starting blur amount
-    autoPlay: true,               // Whether to auto-play the animation
-    once: true                    // Play animation only once
+    animationType: "slideUp",
+    distance: 100,
+    duration: 1,
+    ease: "power2.out",
+    delay: 0,
+    stagger: 0,
+    trigger: "scroll",
+    triggerStart: "top 80%",
+    triggerEnd: "bottom 20%",
+    scrub: false,
+    toggleActions: "play none none none",
+    scale: 1.1,
+    rotation: 360,
+    opacity: 0,
+    blur: 0,
+    autoPlay: true,
+    once: true,
   };
-  
+
   const settings = { ...defaults, ...options };
-  
-  // ===== MOBILE PERFORMANCE OPTIMIZATION =====
+
   if (isMobile) {
-    // Simplify animations for mobile
-    settings.blur = 0;  // Disable blur on mobile (expensive)
-    settings.distance = Math.min(settings.distance, 30); // Reduce movement
-    settings.duration = Math.max(0.3, settings.duration * 0.7); // Faster animation
-    settings.stagger = Math.min(settings.stagger, 0.05); // Reduce stagger
-    
-    console.log('🔋 Image Animation: Mobile optimization applied');
-  }
-  
-  // Get elements
-  const elements = typeof selector === 'string' 
-    ? document.querySelectorAll(selector)
-    : [selector];
-  
-  if (elements.length === 0) {
-    console.warn(`Image Animation: No elements found for selector "${selector}"`);
-    return null;
-  }
-  
-  // Limit number of images on mobile to prevent performance issues
-  const elementsToAnimate = isMobile ? Array.from(elements).slice(0, 8) : elements;
-  
-  if (isMobile && elementsToAnimate.length < elements.length) {
-    console.log(`🔋 Image Animation: Limited to ${elementsToAnimate.length} images on mobile (${elements.length} total)`);
+    settings.blur = 0;
+    settings.distance = Math.min(settings.distance, 30);
+    settings.duration = Math.max(0.3, settings.duration * 0.7);
+    settings.stagger = Math.min(settings.stagger, 0.05);
+
+    console.log("🔋 Image Animation: Mobile optimization applied");
   }
 
-  // Function to get initial animation properties based on type
-  function getInitialProps(animationType, distance, scale, opacity, blur, rotation) {
+  const elements =
+    typeof selector === "string"
+      ? document.querySelectorAll(selector)
+      : [selector];
+
+  if (elements.length === 0) {
+    console.warn(
+      `Image Animation: No elements found for selector "${selector}"`,
+    );
+    return null;
+  }
+
+  const elementsToAnimate = isMobile
+    ? Array.from(elements).slice(0, 8)
+    : elements;
+
+  if (isMobile && elementsToAnimate.length < elements.length) {
+    console.log(
+      `🔋 Image Animation: Limited to ${elementsToAnimate.length} images on mobile (${elements.length} total)`,
+    );
+  }
+
+  function getInitialProps(
+    animationType,
+    distance,
+    scale,
+    opacity,
+    blur,
+    rotation,
+  ) {
     const props = { opacity: opacity };
-    
+
     if (blur > 0) props.filter = `blur(${blur}px)`;
-    
+
     switch (animationType) {
-      case 'slideUp':
+      case "slideUp":
         props.y = distance;
         break;
-      case 'slideDown':
+      case "slideDown":
         props.y = -distance;
         break;
-      case 'slideLeft':
+      case "slideLeft":
         props.x = distance;
         break;
-      case 'slideRight':
+      case "slideRight":
         props.x = -distance;
         break;
-      case 'scale':
+      case "scale":
         props.scale = scale;
         break;
-      case 'rotate':
+      case "rotate":
         props.rotation = rotation;
         props.scale = 0.8;
         break;
-      case 'fade':
-        // Only opacity change
+      case "fade":
         break;
       default:
-        props.y = distance; // Default to slideUp
+        props.y = distance;
     }
-    
+
     return props;
   }
 
-  // Function to get final animation properties
   function getFinalProps(animationType, blur) {
-    const props = { 
+    const props = {
       opacity: 1,
       x: 0,
       y: 0,
       scale: 1,
-      rotation: 0
+      rotation: 0,
     };
-    
+
     if (blur > 0) props.filter = `blur(0px)`;
-    
+
     return props;
   }
 
-  // Function to setup a single image animation
   function setupImageAnimation(element) {
-    // Skip if already processed
-    if (element.classList.contains('image-animation-processed')) return;
-    
-    element.classList.add('image-animation-processed');
+    if (element.classList.contains("image-animation-processed")) return;
 
-    // Set initial state
+    element.classList.add("image-animation-processed");
+
     const initialProps = getInitialProps(
-      settings.animationType, 
-      settings.distance, 
-      settings.scale, 
-      settings.opacity, 
+      settings.animationType,
+      settings.distance,
+      settings.scale,
+      settings.opacity,
       settings.blur,
-      settings.rotation
+      settings.rotation,
     );
-    
+
     gsap.set(element, initialProps);
 
-    // Create animation function
     function createAnimation() {
       const finalProps = getFinalProps(settings.animationType, settings.blur);
-      
+
       return gsap.to(element, {
         ...finalProps,
         duration: settings.duration,
         ease: settings.ease,
-        delay: settings.delay
+        delay: settings.delay,
       });
     }
 
-    // Handle different trigger types
     let animation = null;
     let scrollTrigger = null;
 
     switch (settings.trigger) {
-      case 'scroll':
+      case "scroll":
         if (settings.autoPlay) {
           animation = gsap.to(element, {
             ...getFinalProps(settings.animationType, settings.blur),
@@ -164,37 +172,36 @@ function createImageAnimation(selector, options = {}) {
               toggleActions: settings.toggleActions,
               scrub: settings.scrub,
               once: settings.once,
-              markers: false
-            }
+              markers: false,
+            },
           });
         }
         break;
 
-      case 'click':
-        element.style.cursor = 'pointer';
-        element.addEventListener('click', () => {
+      case "click":
+        element.style.cursor = "pointer";
+        element.addEventListener("click", () => {
           if (!animation || !settings.once) {
             animation = createAnimation();
           }
         });
         break;
 
-      case 'hover':
-        element.addEventListener('mouseenter', () => {
+      case "hover":
+        element.addEventListener("mouseenter", () => {
           if (!animation || !settings.once) {
             animation = createAnimation();
           }
         });
         break;
 
-      case 'immediate':
+      case "immediate":
         if (settings.autoPlay) {
           animation = createAnimation();
         }
         break;
 
-      case 'manual':
-        // Animation will be triggered manually via returned control object
+      case "manual":
         break;
     }
 
@@ -210,119 +217,132 @@ function createImageAnimation(selector, options = {}) {
       },
       reset: () => {
         const initialProps = getInitialProps(
-          settings.animationType, 
-          settings.distance, 
-          settings.scale, 
-          settings.opacity, 
+          settings.animationType,
+          settings.distance,
+          settings.scale,
+          settings.opacity,
           settings.blur,
-          settings.rotation
+          settings.rotation,
         );
         gsap.set(element, initialProps);
         animation = null;
       },
       pause: () => animation?.pause(),
       resume: () => animation?.resume(),
-      reverse: () => animation?.reverse()
+      reverse: () => animation?.reverse(),
     };
   }
 
-  // Wait for GSAP to be available
-  if (typeof gsap === 'undefined') {
-    console.warn('GSAP not available for image animations');
+  if (typeof gsap === "undefined") {
+    console.warn("GSAP not available for image animations");
     return null;
   }
 
-  // Process all elements (use optimized list for mobile)
   const processedImages = [];
   elementsToAnimate.forEach((element, index) => {
-    // Apply stagger delay
     const staggeredOptions = { ...settings };
     if (settings.stagger > 0) {
-      staggeredOptions.delay = settings.delay + (index * settings.stagger);
+      staggeredOptions.delay = settings.delay + index * settings.stagger;
     }
-    
+
     const tempSettings = settings;
     Object.assign(settings, staggeredOptions);
-    
+
     const imageAnimation = setupImageAnimation(element);
     if (imageAnimation) processedImages.push(imageAnimation);
-    
-    Object.assign(settings, tempSettings); // Restore original settings
+
+    Object.assign(settings, tempSettings);
   });
 
-  console.log(`Image Animation: Processed ${processedImages.length} image elements`);
+  console.log(
+    `Image Animation: Processed ${processedImages.length} image elements`,
+  );
 
-  // Return control object
   return {
     images: processedImages,
-    play: () => processedImages.forEach(img => img.play()),
-    reset: () => processedImages.forEach(img => img.reset()),
-    pause: () => processedImages.forEach(img => img.pause()),
-    resume: () => processedImages.forEach(img => img.resume()),
-    reverse: () => processedImages.forEach(img => img.reverse())
+    play: () => processedImages.forEach((img) => img.play()),
+    reset: () => processedImages.forEach((img) => img.reset()),
+    pause: () => processedImages.forEach((img) => img.pause()),
+    resume: () => processedImages.forEach((img) => img.resume()),
+    reverse: () => processedImages.forEach((img) => img.reverse()),
   };
 }
 
-// Auto-initialize images with data attributes
-document.addEventListener('DOMContentLoaded', function() {
-  // Wait for GSAP to be available
+document.addEventListener("DOMContentLoaded", function () {
   function initAutoImageAnimations() {
-    if (typeof gsap === 'undefined') {
+    if (typeof gsap === "undefined") {
       setTimeout(initAutoImageAnimations, 100);
       return;
     }
 
-    const autoElements = document.querySelectorAll('[data-image-animation]');
-    
-    autoElements.forEach(element => {
+    const autoElements = document.querySelectorAll("[data-image-animation]");
+
+    autoElements.forEach((element) => {
       const options = {};
-      
-      // Get options from data attributes
-      if (element.hasAttribute('data-animation-type')) {
-        options.animationType = element.getAttribute('data-animation-type');
+
+      if (element.hasAttribute("data-animation-type")) {
+        options.animationType = element.getAttribute("data-animation-type");
       }
-      if (element.hasAttribute('data-animation-distance')) {
-        options.distance = parseFloat(element.getAttribute('data-animation-distance'));
+      if (element.hasAttribute("data-animation-distance")) {
+        options.distance = parseFloat(
+          element.getAttribute("data-animation-distance"),
+        );
       }
-      if (element.hasAttribute('data-animation-duration')) {
-        options.duration = parseFloat(element.getAttribute('data-animation-duration'));
+      if (element.hasAttribute("data-animation-duration")) {
+        options.duration = parseFloat(
+          element.getAttribute("data-animation-duration"),
+        );
       }
-      if (element.hasAttribute('data-animation-delay')) {
-        options.delay = parseFloat(element.getAttribute('data-animation-delay'));
+      if (element.hasAttribute("data-animation-delay")) {
+        options.delay = parseFloat(
+          element.getAttribute("data-animation-delay"),
+        );
       }
-      if (element.hasAttribute('data-animation-ease')) {
-        options.ease = element.getAttribute('data-animation-ease');
+      if (element.hasAttribute("data-animation-ease")) {
+        options.ease = element.getAttribute("data-animation-ease");
       }
-      if (element.hasAttribute('data-animation-trigger')) {
-        options.trigger = element.getAttribute('data-animation-trigger');
+      if (element.hasAttribute("data-animation-trigger")) {
+        options.trigger = element.getAttribute("data-animation-trigger");
       }
-      if (element.hasAttribute('data-animation-trigger-start')) {
-        options.triggerStart = element.getAttribute('data-animation-trigger-start');
+      if (element.hasAttribute("data-animation-trigger-start")) {
+        options.triggerStart = element.getAttribute(
+          "data-animation-trigger-start",
+        );
       }
-      if (element.hasAttribute('data-animation-scrub')) {
-        const scrubValue = element.getAttribute('data-animation-scrub');
-        options.scrub = scrubValue === 'true' ? true : (scrubValue === 'false' ? false : parseFloat(scrubValue));
+      if (element.hasAttribute("data-animation-scrub")) {
+        const scrubValue = element.getAttribute("data-animation-scrub");
+        options.scrub =
+          scrubValue === "true"
+            ? true
+            : scrubValue === "false"
+              ? false
+              : parseFloat(scrubValue);
       }
-      if (element.hasAttribute('data-animation-opacity')) {
-        options.opacity = parseFloat(element.getAttribute('data-animation-opacity'));
+      if (element.hasAttribute("data-animation-opacity")) {
+        options.opacity = parseFloat(
+          element.getAttribute("data-animation-opacity"),
+        );
       }
-      if (element.hasAttribute('data-animation-blur')) {
-        options.blur = parseFloat(element.getAttribute('data-animation-blur'));
+      if (element.hasAttribute("data-animation-blur")) {
+        options.blur = parseFloat(element.getAttribute("data-animation-blur"));
       }
-      if (element.hasAttribute('data-animation-scale')) {
-        options.scale = parseFloat(element.getAttribute('data-animation-scale'));
+      if (element.hasAttribute("data-animation-scale")) {
+        options.scale = parseFloat(
+          element.getAttribute("data-animation-scale"),
+        );
       }
-      
+
       createImageAnimation(element, options);
     });
 
     if (autoElements.length > 0) {
-      console.log(`Auto-initialized ${autoElements.length} image animation elements`);
+      console.log(
+        `Auto-initialized ${autoElements.length} image animation elements`,
+      );
     }
   }
 
   setTimeout(initAutoImageAnimations, 100);
 });
 
-// Export for manual use
-window.createImageAnimation = createImageAnimation; 
+window.createImageAnimation = createImageAnimation;
