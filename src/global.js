@@ -270,218 +270,218 @@ ScrollTrigger.create({
   },
 });
 
-function updateActiveLink() {
-  const currentPath = window.location.pathname;
-  const links = document.querySelectorAll(".navmenu_sub-link");
+// function updateActiveLink() {
+//   const currentPath = window.location.pathname;
+//   const links = document.querySelectorAll(".navmenu_sub-link");
 
-  links.forEach((link) => link.classList.remove("w--current"));
+//   links.forEach((link) => link.classList.remove("w--current"));
 
-  const routeMapping = {
-    "/angebot": "/angebot",
-    "/projekte": "/projekte",
-    "/agentur": "/agentur",
-    "/kontakt": "/kontakt",
-    "/agb": "/agb",
-    "/impressum": "/impressum",
-    "/datenschutz": "/datenschutz",
-    "/projectdetail": "/projectdetail",
-  };
+//   const routeMapping = {
+//     "/angebot": "/angebot",
+//     "/projekte": "/projekte",
+//     "/agentur": "/agentur",
+//     "/kontakt": "/kontakt",
+//     "/agb": "/agb",
+//     "/impressum": "/impressum",
+//     "/datenschutz": "/datenschutz",
+//     "/projectdetail": "/projectdetail",
+//   };
 
-  const targetPath = routeMapping[currentPath] || currentPath;
-  const activeLink = document.querySelector(
-    `.navmenu_sub-link[href="${targetPath}"]`,
-  );
+//   const targetPath = routeMapping[currentPath] || currentPath;
+//   const activeLink = document.querySelector(
+//     `.navmenu_sub-link[href="${targetPath}"]`,
+//   );
 
-  if (activeLink) {
-    activeLink.classList.add("w--current");
-  }
-}
+//   if (activeLink) {
+//     activeLink.classList.add("w--current");
+//   }
+// }
 
-function closeHamburgerMenu() {
-  const hamburger = document.querySelector(".navbar_hamburger");
-  const mainNav = document.querySelector(".main-nav");
+// function closeHamburgerMenu() {
+//   const hamburger = document.querySelector(".navbar_hamburger");
+//   const mainNav = document.querySelector(".main-nav");
 
-  if (mainNav && getComputedStyle(mainNav).display !== "none") {
-    if (hamburger) {
-      hamburger.click();
-    }
-  }
-}
+//   if (mainNav && getComputedStyle(mainNav).display !== "none") {
+//     if (hamburger) {
+//       hamburger.click();
+//     }
+//   }
+// }
 
-function playMainTransition(data) {
-  const tl = gsap.timeline();
+// function playMainTransition(data) {
+//   const tl = gsap.timeline();
 
-  tl.to(data.current.container, {
-    opacity: 0,
-    y: "-12vh",
-    x: "12vw",
-    rotation: 4,
-    ease: "power4.out",
-    duration: 0.8,
-  })
-    .to(
-      data.current.container.closest(".page-wrapper"),
-      {
-        backgroundColor: "#d9d9ce",
-      },
-      "0",
-    )
-    .from(
-      data.next.container,
-      {
-        duration: 1,
-        y: "100vh",
-        x: "-50vw",
-        ease: "power4.out",
-        rotation: -4,
-      },
-      "0",
-    );
+//   tl.to(data.current.container, {
+//     opacity: 0,
+//     y: "-12vh",
+//     x: "12vw",
+//     rotation: 4,
+//     ease: "power4.out",
+//     duration: 0.8,
+//   })
+//     .to(
+//       data.current.container.closest(".page-wrapper"),
+//       {
+//         backgroundColor: "#d9d9ce",
+//       },
+//       "0",
+//     )
+//     .from(
+//       data.next.container,
+//       {
+//         duration: 1,
+//         y: "100vh",
+//         x: "-50vw",
+//         ease: "power4.out",
+//         rotation: -4,
+//       },
+//       "0",
+//     );
 
-  return tl;
-}
+//   return tl;
+// }
 
-function setupHamburgerMenu() {
-  const hamburger = document.querySelector(".navbar_hamburger");
-  const mainNav = document.querySelector(".main-nav");
-  const navClose = document.querySelector(".nav_close-button");
+// function setupHamburgerMenu() {
+//   const hamburger = document.querySelector(".navbar_hamburger");
+//   const mainNav = document.querySelector(".main-nav");
+//   const navClose = document.querySelector(".nav_close-button");
 
-  if (hamburger) {
-    hamburger.addEventListener("click", () => {
-      if (mainNav) {
-        const isVisible = getComputedStyle(mainNav).display !== "none";
-        if (isVisible) {
-          gsap.to(mainNav, {
-            opacity: 0,
-            duration: 0.3,
-            onComplete: () => {
-              mainNav.style.display = "none";
-            },
-          });
-        } else {
-          mainNav.style.display = "block";
-          gsap.fromTo(mainNav, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-        }
-      }
-    });
-  }
+//   if (hamburger) {
+//     hamburger.addEventListener("click", () => {
+//       if (mainNav) {
+//         const isVisible = getComputedStyle(mainNav).display !== "none";
+//         if (isVisible) {
+//           gsap.to(mainNav, {
+//             opacity: 0,
+//             duration: 0.3,
+//             onComplete: () => {
+//               mainNav.style.display = "none";
+//             },
+//           });
+//         } else {
+//           mainNav.style.display = "block";
+//           gsap.fromTo(mainNav, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+//         }
+//       }
+//     });
+//   }
 
-  if (navClose) {
-    navClose.addEventListener("click", () => {
-      if (mainNav) {
-        gsap.to(mainNav, {
-          opacity: 0,
-          duration: 0.3,
-          onComplete: () => {
-            mainNav.style.display = "none";
-          },
-        });
-      }
-    });
-  }
+//   if (navClose) {
+//     navClose.addEventListener("click", () => {
+//       if (mainNav) {
+//         gsap.to(mainNav, {
+//           opacity: 0,
+//           duration: 0.3,
+//           onComplete: () => {
+//             mainNav.style.display = "none";
+//           },
+//         });
+//       }
+//     });
+//   }
 
-  const mainNavLinks = document.querySelectorAll(
-    ".main-nav_level1-link, .main-nav_level2-link",
-  );
-  mainNavLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const href = link.getAttribute("href");
-      if (href && href !== "#") {
-        e.preventDefault();
-        closeHamburgerMenu();
+//   const mainNavLinks = document.querySelectorAll(
+//     ".main-nav_level1-link, .main-nav_level2-link",
+//   );
+//   mainNavLinks.forEach((link) => {
+//     link.addEventListener("click", (e) => {
+//       const href = link.getAttribute("href");
+//       if (href && href !== "#") {
+//         e.preventDefault();
+//         closeHamburgerMenu();
 
-        setTimeout(() => {
-          barba.go(href);
-        }, 100);
-      }
-    });
-  });
-}
+//         setTimeout(() => {
+//           barba.go(href);
+//         }, 100);
+//       }
+//     });
+//   });
+// }
 
-function setupBarbaTransitions() {
-  barba.hooks.before(() => {
-    closeHamburgerMenu();
-  });
+// function setupBarbaTransitions() {
+//   barba.hooks.before(() => {
+//     closeHamburgerMenu();
+//   });
 
-  barba.hooks.enter((data) => {
-    gsap.set(document.querySelector(".page-wrapper"), { overflow: "hidden" });
-    gsap.set(".navmenu_sub-link", { cursor: "progress" });
-    gsap.set(data.next.container, {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-    });
-  });
+//   barba.hooks.enter((data) => {
+//     gsap.set(document.querySelector(".page-wrapper"), { overflow: "hidden" });
+//     gsap.set(".navmenu_sub-link", { cursor: "progress" });
+//     gsap.set(data.next.container, {
+//       position: "fixed",
+//       top: 0,
+//       left: 0,
+//       width: "100%",
+//     });
+//   });
 
-  barba.hooks.after(async (data) => {
-    gsap.set(data.next.container, { position: "relative" });
-    gsap.set(document.querySelector(".page-wrapper"), { overflow: "visible" });
-    window.scrollTo(0, 0);
-    gsap.set(".navmenu_sub-link", { cursor: "pointer" });
-    updateActiveLink();
+//   barba.hooks.after(async (data) => {
+//     gsap.set(data.next.container, { position: "relative" });
+//     gsap.set(document.querySelector(".page-wrapper"), { overflow: "visible" });
+//     window.scrollTo(0, 0);
+//     gsap.set(".navmenu_sub-link", { cursor: "pointer" });
+//     updateActiveLink();
 
-    setupHamburgerMenu();
-    await initializeAnimations();
-  });
+//     setupHamburgerMenu();
+//     await initializeAnimations();
+//   });
 
-  barba.init({
-    preventRunning: true,
-    transitions: [
-      {
-        name: "main-transition",
-        sync: true,
-        enter: playMainTransition,
-      },
-      {
-        name: "home-transition",
-        to: { namespace: ["home"] },
-        enter: playMainTransition,
-      },
-      {
-        name: "agentur-transition",
-        to: { namespace: ["agentur"] },
-        enter: playMainTransition,
-      },
-      {
-        name: "agb-transition",
-        to: { namespace: ["agb"] },
-        enter: playMainTransition,
-      },
-      {
-        name: "projekte-transition",
-        to: { namespace: ["projekte"] },
-        enter: playMainTransition,
-      },
-      {
-        name: "projectdetail-transition",
-        to: { namespace: ["projectdetail"] },
-        enter: playMainTransition,
-      },
-      {
-        name: "angebot-transition",
-        to: { namespace: ["angebot"] },
-        enter: playMainTransition,
-      },
-      {
-        name: "impressum-transition",
-        to: { namespace: ["impressum"] },
-        enter: playMainTransition,
-      },
-      {
-        name: "kontakt-transition",
-        to: { namespace: ["kontakt"] },
-        enter: playMainTransition,
-      },
-    ],
-  });
-}
+//   barba.init({
+//     preventRunning: true,
+//     transitions: [
+//       {
+//         name: "main-transition",
+//         sync: true,
+//         enter: playMainTransition,
+//       },
+//       {
+//         name: "home-transition",
+//         to: { namespace: ["home"] },
+//         enter: playMainTransition,
+//       },
+//       {
+//         name: "agentur-transition",
+//         to: { namespace: ["agentur"] },
+//         enter: playMainTransition,
+//       },
+//       {
+//         name: "agb-transition",
+//         to: { namespace: ["agb"] },
+//         enter: playMainTransition,
+//       },
+//       {
+//         name: "projekte-transition",
+//         to: { namespace: ["projekte"] },
+//         enter: playMainTransition,
+//       },
+//       {
+//         name: "projectdetail-transition",
+//         to: { namespace: ["projectdetail"] },
+//         enter: playMainTransition,
+//       },
+//       {
+//         name: "angebot-transition",
+//         to: { namespace: ["angebot"] },
+//         enter: playMainTransition,
+//       },
+//       {
+//         name: "impressum-transition",
+//         to: { namespace: ["impressum"] },
+//         enter: playMainTransition,
+//       },
+//       {
+//         name: "kontakt-transition",
+//         to: { namespace: ["kontakt"] },
+//         enter: playMainTransition,
+//       },
+//     ],
+//   });
+// }
 
-window.addEventListener("resize", () => {
-  if (window.innerWidth > 991) {
-    const mainNav = document.querySelector(".main-nav");
-    if (mainNav && getComputedStyle(mainNav).display !== "none") {
-      mainNav.style.display = "none";
-    }
-  }
-});
+// window.addEventListener("resize", () => {
+//   if (window.innerWidth > 991) {
+//     const mainNav = document.querySelector(".main-nav");
+//     if (mainNav && getComputedStyle(mainNav).display !== "none") {
+//       mainNav.style.display = "none";
+//     }
+//   }
+// });
