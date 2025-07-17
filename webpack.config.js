@@ -5,7 +5,7 @@ module.exports = {
   entry: {
     ["global"]: "./src/global.js",
     ["home"]: "./src/home.js",
-    ["angebote"]: "./src/angebote.js",
+    ["angebot"]: "./src/angebot.js",
     ["projects"]: "./src/projects.js",
     ["kontakt"]: "./src/kontakt.js",
     ["agentur"]: "./src/agentur.js",
