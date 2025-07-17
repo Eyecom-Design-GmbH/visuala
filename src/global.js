@@ -105,8 +105,8 @@ async function initializeAnimations() {
 document.addEventListener("DOMContentLoaded", async (event) => {
   await initializeAnimations();
 
-  setupBarbaTransitions();
-  setupHamburgerMenu();
+  // setupBarbaTransitions();
+  // setupHamburgerMenu();
 
 
 
