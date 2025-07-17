@@ -1,4 +1,3 @@
-console.log("Typewriter effect loaded - Simple & Reliable");
 
 // Simple, Reliable Typewriter Effect Function
 function createTypewriter(selector, words, options = {}) {
@@ -13,32 +12,32 @@ function createTypewriter(selector, words, options = {}) {
     cursorColor: '#f2f200',   // Color of cursor
     ease: 'power2.out'        // GSAP easing function
   };
-  
+
   const settings = { ...defaults, ...options };
-  
+
   // Get the element
   const element = document.querySelector(selector);
   if (!element) {
     console.error(`Typewriter: Element with selector "${selector}" not found`);
     return null;
   }
-  
+
   // Store original text content
   const originalText = element.textContent;
-  
+
   // Create container structure
   element.innerHTML = '';
   const textContainer = document.createElement('span');
   textContainer.className = 'typewriter-text';
   textContainer.style.display = 'inline-block';
   element.appendChild(textContainer);
-  
+
   // Create cursor element
   let cursorElement = null;
   if (settings.cursor) {
     cursorElement = document.createElement('span');
     cursorElement.className = 'typewriter-cursor';
-    
+
     // Set cursor styles
     gsap.set(cursorElement, {
       display: 'inline-block',
@@ -49,9 +48,9 @@ function createTypewriter(selector, words, options = {}) {
       opacity: 1,
       force3D: true
     });
-    
+
     element.appendChild(cursorElement);
-    
+
     // Cursor blinking animation
     gsap.to(cursorElement, {
       opacity: 0,
@@ -61,30 +60,30 @@ function createTypewriter(selector, words, options = {}) {
       ease: settings.ease
     });
   }
-  
+
   // State variables
   let currentWordIndex = 0;
   let isRunning = false;
-  
+
   // Main animation function
   function startAnimation() {
     if (isRunning) return;
     isRunning = true;
-    
+
     // Clear text and start typing first word
     textContainer.textContent = '';
     currentWordIndex = 0;
-    
+
     // Start typing the first word after initial delay
     gsap.delayedCall(0.5, () => {
       typeWord(words[currentWordIndex]);
     });
   }
-  
+
   // Type a word character by character
   function typeWord(word) {
     let charIndex = 0;
-    
+
     function typeNextChar() {
       if (charIndex < word.length) {
         textContainer.textContent += word[charIndex];
@@ -97,10 +96,10 @@ function createTypewriter(selector, words, options = {}) {
         });
       }
     }
-    
+
     typeNextChar();
   }
-  
+
   // Delete word character by character
   function deleteWord() {
     function deleteNextChar() {
@@ -110,7 +109,7 @@ function createTypewriter(selector, words, options = {}) {
       } else {
         // Deletion complete, move to next word
         currentWordIndex = (currentWordIndex + 1) % words.length;
-        
+
         // Check if we should continue
         if (settings.loop || currentWordIndex !== 0) {
           gsap.delayedCall(0.3, () => {
@@ -123,13 +122,13 @@ function createTypewriter(selector, words, options = {}) {
         }
       }
     }
-    
+
     deleteNextChar();
   }
-  
+
   // Initialize
   startAnimation();
-  
+
   // Return control object
   return {
     stop: () => {
@@ -143,7 +142,7 @@ function createTypewriter(selector, words, options = {}) {
       textContainer.textContent = originalText;
       isRunning = false;
     },
-    
+
     restart: () => {
       gsap.killDelayedCallsTo(typeWord);
       gsap.killDelayedCallsTo(deleteWord);
@@ -151,7 +150,7 @@ function createTypewriter(selector, words, options = {}) {
       isRunning = false;
       startAnimation();
     },
-    
+
     destroy: () => {
       gsap.killDelayedCallsTo(typeWord);
       gsap.killDelayedCallsTo(deleteWord);
@@ -167,22 +166,22 @@ function createTypewriter(selector, words, options = {}) {
 }
 
 // Auto-initialize elements with data attributes
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Wait for GSAP to be available
   function initTypewriters() {
     if (typeof gsap === 'undefined') {
       setTimeout(initTypewriters, 100);
       return;
     }
-    
+
     const typewriterElements = document.querySelectorAll('[data-typewriter]');
-    
+
     typewriterElements.forEach(element => {
       const wordsData = element.getAttribute('data-typewriter');
       if (!wordsData) return;
-      
+
       const words = wordsData.split(',').map(word => word.trim());
-      
+
       // Get options from data attributes
       const options = {
         typeSpeed: parseFloat(element.getAttribute('data-type-speed')) || 0.08,
@@ -193,18 +192,16 @@ document.addEventListener('DOMContentLoaded', function() {
         loop: element.getAttribute('data-loop') !== 'false',
         ease: element.getAttribute('data-ease') || 'power2.out'
       };
-      
+
       // Create typewriter effect with unique selector
       if (!element.id) {
         element.id = `typewriter-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       }
-      
+
       createTypewriter(`#${element.id}`, words, options);
     });
-    
-    console.log(`Initialized ${typewriterElements.length} typewriter elements`);
   }
-  
+
   setTimeout(initTypewriters, 100);
 });
 

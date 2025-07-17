@@ -1,10 +1,6 @@
-// import './typewriter.js';
 import './marquee.js';
 import './call-embed.js'
-// import './image-animations.js';
-// import './title-animations.js'
-// // Import the module on any page that needs it
-// import './text-reveal.js';
+
 
 
 // ===== MOBILE PERFORMANCE DETECTION (SHARED) =====
@@ -21,223 +17,110 @@ const PERFORMANCE_CONFIG = {
     reducedAnimations: isMobile,
     disableBlur: isMobile,
     simplifyTypewriter: isMobile
-};
+}
 
-// $(document).ready(function () {
-//     // Only add performance-related passive listeners, not empty ones
-//     if (isMobile) {
-//         // Minimal touch handling for mobile performance
-//         console.log('🔋 Mobile mode: Optimizing touch events');
-//     }
+// Check if the project columns exist on this page
+if (document.querySelector('.work_left') && document.querySelector('.work_right')) {
 
-//     var buttonThatOpenedModal;
-//     var findModal = function (elem) {
-//         var tabbable = elem.find('select, input, textarea, button, a').filter(':visible');
+    // Create timeline for projects animation
+    let projectsTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.work_wrap',
+            start: 'top 70%',     // Start when section enters viewport
+            end: 'top 20%',          // End when section is mostly in view
+            scrub: 1.5,              // Smooth scrubbing tied to scroll
+            toggleActions: 'play none none reverse'
+        }
+    });
 
-//         var firstTabbable = tabbable.first();
-//         var lastTabbable = tabbable.last();
-//         /*set focus on first input*/
-//         firstTabbable.focus();
+    // Set initial state for entire columns to be off-screen and huge
+    gsap.set('.work_left', {
+        x: '-100vw',
+        scale: 2,
+        opacity: 0,
+        filter: 'blur(20px)'
 
-//         /*redirect last tab to first input*/
-//         lastTabbable.on('keydown', function (e) {
-//             if ((e.which === 9 && !e.shiftKey)) {
-//                 e.preventDefault();
-//                 firstTabbable.focus();
-//             }
-//         });
+    });
 
-//         /*redirect first shift+tab to last input*/
-//         firstTabbable.on('keydown', function (e) {
-//             if ((e.which === 9 && e.shiftKey)) {
-//                 e.preventDefault();
-//                 lastTabbable.focus();
-//             }
-//         });
+    gsap.set('.work_right', {
+        x: '100vw',
+        scale: 2,
+        opacity: 0,
+        filter: 'blur(20px)'
 
-//         /* allow escape key to close insiders div */
-//         elem.on('keydown', function (e) {
-//             if (e.keyCode === 27) {
-//                 closeModal();
-//             };
-//         });
-//     };
+    });
 
-//     // Single modal wrapper reference
-//     var $modalWrapper = $('.modal-wrapper');
+    // Add animations to timeline
+    projectsTl
+        // Animate left column
+        .to('.work_left', {
+            x: 0,
+            scale: 1,
+            opacity: 1,
+            duration: 1,
+            filter: 'blur(0px)',
+            ease: "power2.out"
+        })
+        // Animate right column with slight overlap
+        .to('.work_right', {
+            x: 0,
+            scale: 1,
+            opacity: 1,
+            duration: 1,
+            filter: 'blur(0px)',
+            ease: "power2.out"
+        }, "-=0.8"); // Start 0.8s before left column finishes
+}
 
-//     // Function to open modal
-//     function openModal($button) {
-//         var modalContent = $button.data('modal-content');
+// ===== PROJECTS COLUMN FLYING ANIMATION WITH SCROLL SCRUB =====
 
-//         // Clear any previous content and set new content
-//         var $modalContent = $modalWrapper.find('.modal-content');
-//         $modalContent.empty().html(modalContent);
+// Check if the project columns exist on this page
+if (document.querySelector('.work_left') && document.querySelector('.work_right')) {
 
-//         // Add active class instead of using .show()
-//         $modalWrapper.addClass('modal-active').css('display', 'block');
+    // Create timeline for projects animation
+    let projectsTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.work_wrap',
+            start: 'top bottom',     // Start when section enters viewport
+            end: 'top 20%',          // End when section is mostly in view
+            scrub: 1.5               // Smooth scrubbing tied to scroll
+        }
+    });
 
-//         // Let Webflow handle the animation, then set up accessibility
-//         setTimeout(function () {
-//             findModal($modalWrapper);
-//         }, 50);
+    // Set initial state for entire columns to be off-screen and huge
+    gsap.set('.work_left', {
+        x: '-100vw',
+        scale: 3,
+        opacity: 0
+    });
 
-//         buttonThatOpenedModal = $button;
-//     }
+    gsap.set('.work_right', {
+        x: '100vw',
+        scale: 3,
+        opacity: 0
+    });
 
-//     // Function to close modal
-//     function closeModal() {
-//         // Remove active class and let Webflow handle the animation
-//         $modalWrapper.removeClass('modal-active');
+    // Add animations to timeline
+    projectsTl
+        // Animate left column
+        .to('.work_left', {
+            x: 0,
+            scale: 1,
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        })
+        // Animate right column with slight overlap
+        .to('.work_right', {
+            x: 0,
+            scale: 1,
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        }, "-=0.8"); // Start 0.8s before left column finishes
+}
 
-//         // Clear content after a delay to allow animation to complete
-//         setTimeout(function () {
-//             $modalWrapper.find('.modal-content').empty();
-//             $modalWrapper.css('display', 'none');
-//         }, 300);
-
-//         if (buttonThatOpenedModal) {
-//             buttonThatOpenedModal.focus();
-//             buttonThatOpenedModal = null;
-//         }
-//     }
-
-//     var modalOpenButton = $('.modal-open_btn');
-//     modalOpenButton.on('keydown', function (e) {
-//         // Only activate on spacebar and enter
-//         if (e.which !== 13 && e.which !== 32) {
-//             return;
-//         }
-
-//         e.preventDefault();
-//         openModal($(this));
-//     });
-
-//     modalOpenButton.on('click', function (e) {
-//         // Prevent default to avoid conflicts with Webflow
-//         e.preventDefault();
-//         openModal($(this));
-//     });
-
-//     var modalCloseButton = $('.modal-close_btn, .modal-close_area');
-//     modalCloseButton.on('keydown', function (e) {
-//         // Only activate on spacebar and enter
-//         if (e.which !== 13 && e.which !== 32) {
-//             return;
-//         }
-
-//         e.preventDefault();
-//         closeModal();
-//     });
-
-//     modalCloseButton.on('click', function (e) {
-//         e.preventDefault();
-//         closeModal();
-//     });
-
-
-    // Check if the project columns exist on this page
-    if (document.querySelector('.work_left') && document.querySelector('.work_right')) {
-
-        // Create timeline for projects animation
-        let projectsTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: '.work_wrap',
-                start: 'top 70%',     // Start when section enters viewport
-                end: 'top 20%',          // End when section is mostly in view
-                scrub: 1.5,              // Smooth scrubbing tied to scroll
-                toggleActions: 'play none none reverse'
-            }
-        });
-
-        // Set initial state for entire columns to be off-screen and huge
-        gsap.set('.work_left', {
-            x: '-100vw',
-            scale: 2,
-            opacity: 0,
-            filter: 'blur(20px)'
-
-        });
-
-        gsap.set('.work_right', {
-            x: '100vw',
-            scale: 2,
-            opacity: 0,
-            filter: 'blur(20px)'
-
-        });
-
-        // Add animations to timeline
-        projectsTl
-            // Animate left column
-            .to('.work_left', {
-                x: 0,
-                scale: 1,
-                opacity: 1,
-                duration: 1,
-                filter: 'blur(0px)',
-                ease: "power2.out"
-            })
-            // Animate right column with slight overlap
-            .to('.work_right', {
-                x: 0,
-                scale: 1,
-                opacity: 1,
-                duration: 1,
-                filter: 'blur(0px)',
-                ease: "power2.out"
-            }, "-=0.8"); // Start 0.8s before left column finishes
-    }
-
-    // ===== PROJECTS COLUMN FLYING ANIMATION WITH SCROLL SCRUB =====
-
-    // Check if the project columns exist on this page
-    if (document.querySelector('.work_left') && document.querySelector('.work_right')) {
-
-        // Create timeline for projects animation
-        let projectsTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: '.work_wrap',
-                start: 'top bottom',     // Start when section enters viewport
-                end: 'top 20%',          // End when section is mostly in view
-                scrub: 1.5               // Smooth scrubbing tied to scroll
-            }
-        });
-
-        // Set initial state for entire columns to be off-screen and huge
-        gsap.set('.work_left', {
-            x: '-100vw',
-            scale: 3,
-            opacity: 0
-        });
-
-        gsap.set('.work_right', {
-            x: '100vw',
-            scale: 3,
-            opacity: 0
-        });
-
-        // Add animations to timeline
-        projectsTl
-            // Animate left column
-            .to('.work_left', {
-                x: 0,
-                scale: 1,
-                opacity: 1,
-                duration: 1,
-                ease: "power2.out"
-            })
-            // Animate right column with slight overlap
-            .to('.work_right', {
-                x: 0,
-                scale: 1,
-                opacity: 1,
-                duration: 1,
-                ease: "power2.out"
-            }, "-=0.8"); // Start 0.8s before left column finishes
-    }
-
-    // ===== PROJECT TITLES ANIMATION =====
+// ===== PROJECT TITLES ANIMATION =====
 
 //     // Check if the project title elements exist
 //     if (document.querySelector('.project-tile_wrapper') && document.querySelector('.text-display-left') && document.querySelector('.text-display-right')) {
@@ -282,20 +165,6 @@ const PERFORMANCE_CONFIG = {
 //     }
 
 //     // ===== END PROJECTS ANIMATION =====
-
-
-
-//     // Animate gallery images with stagger
-//     createImageAnimation('.gallery7_image-wrapper', {
-//         animationType: 'slideUp',
-//         distance: 80,
-//         duration: 0.8,
-//         stagger: 0.1,
-//         opacity: 0,
-//         blur: 3
-//     });
-// });
-
 
 // register plugins
 document.addEventListener("DOMContentLoaded", (event) => {

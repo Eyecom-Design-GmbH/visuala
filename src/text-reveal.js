@@ -1,5 +1,3 @@
-console.log("Text Reveal Animation loaded");
-
 // ===== MOBILE PERFORMANCE DETECTION =====
 const isMobile = (() => {
     const userAgent = navigator.userAgent.toLowerCase();
@@ -42,7 +40,7 @@ function createTextReveal(selector, options = {}) {
     moveDistance: 100,        // Horizontal movement distance in pixels
     duration: 1.5,            // Animation duration
     staggerAmount: 0.05,      // Stagger between each word (in seconds)
-    triggerStart: "top 90%",  // When to start animation
+    triggerStart: "top 70%",  // When to start animation
     triggerEnd: "top 20%",    // When animation ends
     ease: "power4.out",       // Animation easing
     splitSpaces: true,        // Whether to animate spaces too

@@ -272,8 +272,6 @@ function createTitleAnimation(selector, options = {}) {
     if (titleAnimation) processedTitles.push(titleAnimation);
   });
 
-  console.log(`Title Animation: Processed ${processedTitles.length} title elements`);
-
   // Create timeline for coordinated animations
   function createCoordinatedTimeline(timelineOptions = {}) {
     const defaultTimelineOptions = {

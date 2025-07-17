@@ -17,14 +17,14 @@ function createInfiniteMarquee(selector, options = {}) {
       whiteSpace: 'nowrap'
     }
   };
-  
+
   const settings = { ...defaults, ...options };
-  
+
   // Get elements
-  const elements = typeof selector === 'string' 
+  const elements = typeof selector === 'string'
     ? document.querySelectorAll(selector)
     : [selector];
-  
+
   if (elements.length === 0) {
     console.warn(`Marquee: No elements found for selector "${selector}"`);
     return null;
@@ -34,9 +34,9 @@ function createInfiniteMarquee(selector, options = {}) {
   function setupMarquee(container) {
     // Skip if already processed
     if (container.classList.contains('marquee-processed')) return;
-    
+
     container.classList.add('marquee-processed');
-    
+
     // Store original styles for potential restoration
     const originalContainerStyles = {
       overflow: container.style.overflow || getComputedStyle(container).overflow,
@@ -47,14 +47,14 @@ function createInfiniteMarquee(selector, options = {}) {
     // Find the content wrapper (or create one if needed)
     let content = container.querySelector('.marquee-content');
     let contentCreated = false;
-    
+
     if (!content) {
       // Check if we should create wrapper (only if multiple children or specific structure needed)
       const children = Array.from(container.children);
       if (children.length > 1 || settings.duplicateContent) {
         content = document.createElement('div');
         content.className = 'marquee-content';
-        
+
         // Move children to content wrapper
         children.forEach(child => content.appendChild(child));
         container.appendChild(content);
@@ -66,7 +66,7 @@ function createInfiniteMarquee(selector, options = {}) {
     }
 
     // GSAP Best Practice: Use gsap.set() for styling instead of direct CSS
-    
+
     // Only apply container styles if not preserving original styles
     if (!settings.preserveStyles) {
       gsap.set(container, {
@@ -85,7 +85,7 @@ function createInfiniteMarquee(selector, options = {}) {
 
     // Set up content styles based on direction
     const isHorizontal = settings.direction === 'left' || settings.direction === 'right';
-    
+
     // GSAP Best Practice: Use gsap.set() with performance optimizations
     if (contentCreated || !settings.preserveStyles) {
       gsap.set(content, {
@@ -97,7 +97,7 @@ function createInfiniteMarquee(selector, options = {}) {
         force3D: true,
         backfaceVisibility: 'hidden' // Performance optimization
       });
-      
+
       // Only add alignment if not preserving styles
       if (!settings.preserveStyles) {
         gsap.set(content, {
@@ -118,35 +118,30 @@ function createInfiniteMarquee(selector, options = {}) {
 
       // Store original content
       const originalContent = content.innerHTML;
-      
+
       // Use GSAP to force layout calculation
       gsap.set(content, { visibility: 'hidden' });
       content.innerHTML = originalContent;
       gsap.set(content, { visibility: 'visible' });
-      
+
       // Get dimensions using RequestAnimationFrame for better performance
       requestAnimationFrame(() => {
         const containerSize = isHorizontal ? container.offsetWidth : container.offsetHeight;
         const contentSize = isHorizontal ? content.scrollWidth : content.scrollHeight;
-        
+
         if (contentSize === 0) {
           console.warn('Marquee: Content size is 0, retrying...');
-          setTimeout(() => {
-            setupContentDuplication();
-          }, 100);
           return;
         }
-        
+
         // Calculate duplicates needed
         const bufferMultiplier = 2;
         const requiredSize = containerSize * bufferMultiplier;
         const duplicatesNeeded = Math.max(
-          settings.minDuplicates, 
+          settings.minDuplicates,
           Math.ceil(requiredSize / contentSize) + 1
         );
-        
-        console.log(`Marquee: Container ${containerSize}px, Content ${contentSize}px, Creating ${duplicatesNeeded} duplicates`);
-        
+
         // Create duplicated content with proper structure
         const duplicatedContent = document.createDocumentFragment();
         for (let i = 0; i < duplicatesNeeded; i++) {
@@ -155,11 +150,11 @@ function createInfiniteMarquee(selector, options = {}) {
           wrapper.style.display = 'contents'; // Preserve layout
           duplicatedContent.appendChild(wrapper);
         }
-        
+
         content.innerHTML = '';
         content.appendChild(duplicatedContent);
         content.setAttribute('data-duplicates-count', duplicatesNeeded);
-        
+
         // Trigger animation creation after content is ready
         requestAnimationFrame(() => {
           animation = createAnimation();
@@ -170,7 +165,7 @@ function createInfiniteMarquee(selector, options = {}) {
     // Calculate animation properties
     function getAnimationDistance() {
       const duplicatesCount = parseInt(content.getAttribute('data-duplicates-count')) || 1;
-      
+
       if (isHorizontal) {
         const totalWidth = content.scrollWidth;
         return totalWidth / duplicatesCount;
@@ -184,7 +179,7 @@ function createInfiniteMarquee(selector, options = {}) {
     function createAnimation() {
       const distance = getAnimationDistance();
       const duration = distance / settings.speed;
-      
+
       if (distance === 0) {
         console.warn('Marquee: Animation distance is 0, retrying...');
         setTimeout(() => {
@@ -192,10 +187,10 @@ function createInfiniteMarquee(selector, options = {}) {
         }, 100);
         return null;
       }
-      
+
       // GSAP Best Practice: Set initial position with gsap.set()
       let startPos, endPos;
-      
+
       switch (settings.direction) {
         case 'left':
           startPos = { x: 0, y: 0 };
@@ -252,7 +247,7 @@ function createInfiniteMarquee(selector, options = {}) {
       container.addEventListener('mouseenter', () => {
         if (animation) animation.pause();
       }, { passive: true });
-      
+
       container.addEventListener('mouseleave', () => {
         if (animation) animation.play();
       }, { passive: true });
@@ -271,9 +266,9 @@ function createInfiniteMarquee(selector, options = {}) {
           setupContentDuplication();
         }, 100);
       });
-      
+
       resizeObserver.observe(container);
-      
+
       // Store cleanup function
       container._marqueeCleanup = () => {
         resizeObserver.disconnect();
@@ -318,7 +313,6 @@ function createInfiniteMarquee(selector, options = {}) {
     if (marquee) processedMarquees.push(marquee);
   });
 
-  console.log(`Marquee: Processed ${processedMarquees.length} marquee elements with GSAP best practices`);
 
   // Return control object
   return {
@@ -333,7 +327,7 @@ function createInfiniteMarquee(selector, options = {}) {
 }
 
 // Auto-initialize marquees with data attributes
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Wait for GSAP to be available
   function initAutoMarquees() {
     if (typeof gsap === 'undefined') {
@@ -342,10 +336,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const autoElements = document.querySelectorAll('[data-marquee]');
-    
+
     autoElements.forEach(element => {
       const options = {};
-      
+
       // Get options from data attributes
       if (element.hasAttribute('data-marquee-speed')) {
         options.speed = parseFloat(element.getAttribute('data-marquee-speed'));
@@ -365,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (element.hasAttribute('data-marquee-preserve-styles')) {
         options.preserveStyles = element.getAttribute('data-marquee-preserve-styles') === 'true';
       }
-      
+
       createInfiniteMarquee(element, options);
     });
 

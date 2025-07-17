@@ -3,6 +3,8 @@ console.log("------------Angebote");
 import './title-animations.js';
 
 $(document).ready(function () {
+
+  
     // Check for circular text elements before initializing CircleType
     const circularTextElements = document.querySelectorAll('.circular-text');
     if (circularTextElements.length > 0) {
@@ -404,7 +406,6 @@ $(document).ready(function () {
                 start: "top 80%", // Animation startet wenn das Element 80% im Viewport ist
                 end: "bottom 20%",
                 toggleActions: "play none none reverse", // Animation beim rein/rauscrollen
-                // markers: true, // Uncomment für Debugging
             }
         });
     });
