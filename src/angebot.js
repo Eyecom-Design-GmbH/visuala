@@ -81,7 +81,6 @@ $(document).ready(function () {
     const section = document.querySelector(config.id);
 
     if (section) {
-      console.log(`Setting up animations for section: ${config.id}`);
 
       const leftHeading = section.querySelector(
         ".angebot_display-heading-left",
