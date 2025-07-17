@@ -66,6 +66,11 @@ document.addEventListener("DOMContentLoaded", function () {
         enabled: true,
         onlyInViewport: true,
       },
+      a11y: {
+        enabled: true,
+        slideRole: 'listitem',
+      },
+
       navigation: {
         nextEl: $(this).find(".swiper-next")[0],
         prevEl: $(this).find(".swiper-prev")[0],
