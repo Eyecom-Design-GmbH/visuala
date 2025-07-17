@@ -73,7 +73,7 @@ async function initializeAnimations() {
           opacity: 1,
           ease: "none",
           stagger: staggerTime,
-          duration: 1,
+          duration: 0.7,
           scrollTrigger: {
             trigger: el,
             start: "top 70%",
