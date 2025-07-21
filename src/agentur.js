@@ -1,6 +1,8 @@
 import "./typewriter.js";
 import "./marquee.js";
 import "./text-reveal.js";
+import "./title-animations.js";
+
 
 document.addEventListener("DOMContentLoaded", function () {
   const items = document.querySelectorAll(".testimonial_item");
