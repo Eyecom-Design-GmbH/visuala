@@ -88,40 +88,40 @@ const projectConfig = {
 };
 
 // Animation für die Team-Sektion anwenden
-const teamSection = document.querySelector(projectConfig.id);
+const projectSection = document.querySelector(projectConfig.id);
 
-if (teamSection) {
+if (projectSection) {
   // Linker Titel "Die Visuala"
-  const leftHeading = teamSection.querySelector(projectConfig.leftSelector);
+  const leftHeading = projekteConfig.querySelector(projectConfig.leftSelector);
   if (leftHeading) {
     createTitleAnimation(leftHeading, {
       direction: "left",
       trigger: "scrub",
-      triggerElement: teamSection,
+      triggerElement: projectSection,
       triggerStart: projectConfig.leftTitle.triggerStart,
       triggerEnd: projectConfig.leftTitle.triggerEnd,
       distance: "100vw",
       scale: 2.5,
       opacity: 0,
-      blur: projekteConfig.leftTitle.blur,
+      blur: projectConfig.leftTitle.blur,
       duration: projectConfig.leftTitle.duration,
       ease: "power2.out",
     });
   }
 
   // Rechter Titel "Teampower"
-  const rightHeading = teamSection.querySelector(projectConfig.rightSelector);
+  const rightHeading = projectSection.querySelector(projectConfig.rightSelector);
   if (rightHeading) {
     createTitleAnimation(rightHeading, {
       direction: "right",
       trigger: "scrub",
-      triggerElement: teamSection,
+      triggerElement: projectSection,
       triggerStart: projectConfig.rightTitle.triggerStart,
       triggerEnd: projectConfig.rightTitle.triggerEnd,
       distance: "100vw",
       scale: 2.5,
       opacity: 0,
-      blur: projekteConfig.rightTitle.blur,
+      blur: projectConfig.rightTitle.blur,
       duration: projectConfig.rightTitle.duration,
       ease: "power2.out",
     });
