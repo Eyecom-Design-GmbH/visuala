@@ -92,7 +92,7 @@ const projectSection = document.querySelector(projectConfig.id);
 
 if (projectSection) {
   // Linker Titel "Die Visuala"
-  const leftHeading = projectConfig.querySelector(projectConfig.leftSelector);
+  const leftHeading = projectSection.querySelector(projectConfig.leftSelector);
   if (leftHeading) {
     createTitleAnimation(leftHeading, {
       direction: "left",
