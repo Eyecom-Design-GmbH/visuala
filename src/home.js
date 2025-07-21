@@ -67,10 +67,9 @@ document.addEventListener("DOMContentLoaded", function () {
     smooth: true,
     preserveStyles: true,
   });
-
-  // Konfiguration für die Projekte-Sektion
-const projekteConfig = {
-  id: "#project-section",
+  // Konfiguration für die Team-Sektion
+const projectConfig = {
+  id: "#project-section", // Korrekte ID für die Team-Sektion
   leftTitle: {
     triggerStart: "top bottom",
     triggerEnd: "top 50%",
@@ -88,44 +87,45 @@ const projekteConfig = {
   rightSelector: ".angebot_display-heading-right",
 };
 
-// Animation für die Projekte-Sektion anwenden
-const projekteSection = document.querySelector(projekteConfig.id);
+// Animation für die Team-Sektion anwenden
+const teamSection = document.querySelector(projectConfig.id);
 
-if (projekteSection) {
-  // Linker Titel "Unsere"
-  const leftHeading = projekteSection.querySelector(projekteConfig.leftSelector);
+if (teamSection) {
+  // Linker Titel "Die Visuala"
+  const leftHeading = teamSection.querySelector(projectConfig.leftSelector);
   if (leftHeading) {
     createTitleAnimation(leftHeading, {
       direction: "left",
       trigger: "scrub",
-      triggerElement: projekteSection,
-      triggerStart: projekteConfig.leftTitle.triggerStart,
-      triggerEnd: projekteConfig.leftTitle.triggerEnd,
+      triggerElement: teamSection,
+      triggerStart: projectConfig.leftTitle.triggerStart,
+      triggerEnd: projectConfig.leftTitle.triggerEnd,
       distance: "100vw",
       scale: 2.5,
       opacity: 0,
       blur: projekteConfig.leftTitle.blur,
-      duration: projekteConfig.leftTitle.duration,
+      duration: projectConfig.leftTitle.duration,
       ease: "power2.out",
     });
   }
 
-  // Rechter Titel "Projekte"
-  const rightHeading = projekteSection.querySelector(projekteConfig.rightSelector);
+  // Rechter Titel "Teampower"
+  const rightHeading = teamSection.querySelector(projectConfig.rightSelector);
   if (rightHeading) {
     createTitleAnimation(rightHeading, {
       direction: "right",
       trigger: "scrub",
-      triggerElement: projekteSection,
-      triggerStart: projekteConfig.rightTitle.triggerStart,
-      triggerEnd: projekteConfig.rightTitle.triggerEnd,
+      triggerElement: teamSection,
+      triggerStart: projectConfig.rightTitle.triggerStart,
+      triggerEnd: projectConfig.rightTitle.triggerEnd,
       distance: "100vw",
       scale: 2.5,
       opacity: 0,
       blur: projekteConfig.rightTitle.blur,
-      duration: projekteConfig.rightTitle.duration,
+      duration: projectConfig.rightTitle.duration,
       ease: "power2.out",
     });
   }
 }
+
 });
