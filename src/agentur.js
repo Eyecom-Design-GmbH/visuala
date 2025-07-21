@@ -63,7 +63,7 @@ if (teamSection) {
       distance: "100vw",
       scale: 2.5,
       opacity: 0,
-      blur: projekteConfig.leftTitle.blur,
+      blur: teamConfig.leftTitle.blur,
       duration: teamConfig.leftTitle.duration,
       ease: "power2.out",
     });
@@ -81,7 +81,7 @@ if (teamSection) {
       distance: "100vw",
       scale: 2.5,
       opacity: 0,
-      blur: projekteConfig.rightTitle.blur,
+      blur: teamConfig.rightTitle.blur,
       duration: teamConfig.rightTitle.duration,
       ease: "power2.out",
     });
