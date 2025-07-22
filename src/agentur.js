@@ -2,6 +2,7 @@ import "./typewriter.js";
 import "./marquee.js";
 import "./text-reveal.js";
 import "./title-animations.js";
+import "./call-embed.js";
 
 
 document.addEventListener("DOMContentLoaded", function () {
