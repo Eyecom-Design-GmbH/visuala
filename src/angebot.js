@@ -1,4 +1,6 @@
 import "./title-animations.js";
+import "./call-embed.js";
+
 
 $(document).ready(function () {
   const circularTextElements = document.querySelectorAll(".circular-text");
