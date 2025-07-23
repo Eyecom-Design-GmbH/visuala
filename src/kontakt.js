@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ease: "power2.out",
       });
       gsap.to(faq, {
-        scale: 1.02,
+        scale: 1.00,
         duration: 0.3,
         ease: "power2.out",
       });
