@@ -171,36 +171,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  const testimonalTL = gsap.timeline({
-    scrollTrigger: {
-      trigger: ".section_project_highlights",
-      start: "top 50%",
-      scrub: false,
-      markers: false,
-    },
-  });
+  // const testimonalTL = gsap.timeline({
+  //   scrollTrigger: {
+  //     trigger: ".section_project_highlights",
+  //     start: "top 50%",
+  //     scrub: false,
+  //     markers: false,
+  //   },
+  // });
 
-  testimonalTL.from(
-    ".feedback_wrapper .text-size-large.text-color-white.text-weight-semibold",
-    {
-      yPercent: 100,
-      opacity: 0,
-      duration: 0.5,
-      ease: "power2.out",
-    },
-  );
+  // testimonalTL.from(
+  //   ".feedback_wrapper .text-size-large.text-color-white.text-weight-semibold",
+  //   {
+  //     yPercent: 100,
+  //     opacity: 0,
+  //     duration: 0.5,
+  //     ease: "power2.out",
+  //   },
+  // );
 
-  testimonalTL.from(".feedback_wrapper h1", {
-    yPercent: 100,
-    opacity: 0,
-    duration: 0.5,
-    ease: "power2.out",
-  });
+  // testimonalTL.from(".feedback_wrapper h1", {
+  //   yPercent: 100,
+  //   opacity: 0,
+  //   duration: 0.5,
+  //   ease: "power2.out",
+  // });
 
-  testimonalTL.from(".feedback_wrapper .button-group.is-center", {
-    yPercent: 100,
-    opacity: 0,
-    duration: 0.5,
-    ease: "power2.out",
-  });
+  // testimonalTL.from(".feedback_wrapper .button-group.is-center", {
+  //   yPercent: 100,
+  //   opacity: 0,
+  //   duration: 0.5,
+  //   ease: "power2.out",
+  // });
 });
