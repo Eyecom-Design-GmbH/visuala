@@ -78,6 +78,7 @@ async function initializeAnimations() {
             start: "top 70%",
             end: "top 20%",
             once: true,
+            markers: true,
           },
         },
       );
