@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
         scrollTrigger: {
           trigger: card,
           start: "top 80%",
-          markers: false,
+          markers: true,
         },
         yPercent: 100,
         opacity: 0,
