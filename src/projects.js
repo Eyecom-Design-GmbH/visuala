@@ -53,21 +53,17 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (document.querySelector(".card-row4_card")) {
-    // Animate desktop project cards
-    gsap.utils.toArray(".project_list.is-project").forEach((wrapper) => {
-      const cards = wrapper.querySelectorAll(".card-row4_card");
-  
-      gsap.from(cards, {
+    gsap.utils.toArray(".card-row4_card").forEach((card) => {
+      gsap.from(card, {
         scrollTrigger: {
-          trigger: wrapper,
-          start: "top 70%",
+          trigger: card,
+          start: "top 80%",
           markers: false,
         },
         yPercent: 100,
         opacity: 0,
         duration: 0.6,
         ease: "power2.out",
-        stagger: 0.1,
       });
     });
   }
