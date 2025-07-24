@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         gsap.from(card, {
           scrollTrigger: {
             trigger: card,
-            start: "top 80%",
+            start: "top 50%",
             markers: false,
           },
           yPercent: 100,
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
         gsap.from(card, {
           scrollTrigger: {
             trigger: card,
-            start: "top 80%",
+            start: "top 50%",
             markers: false,
           },
           yPercent: 100,
