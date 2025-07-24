@@ -57,14 +57,14 @@ document.addEventListener("DOMContentLoaded", function () {
       gsap.from(card, {
         scrollTrigger: {
           trigger: card,
-          start: "top 50%",
+          start: "top top",
           markers: true,
         },
         yPercent: 100,
         opacity: 0,
         duration: 0.6,
         ease: "power2.out",
-        stagger: 0.1,
+        delay: index * 0.2,
       });
     });
   }
