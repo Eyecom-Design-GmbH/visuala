@@ -70,23 +70,5 @@ document.addEventListener("DOMContentLoaded", function () {
         stagger: 0.1,
       });
     });
-  
-    // Animate mobile project cards
-    gsap.utils.toArray(".project_list:not(.is-project)").forEach((wrapper) => {
-      const cards = wrapper.querySelectorAll(".card-row4_card");
-  
-      gsap.from(cards, {
-        scrollTrigger: {
-          trigger: wrapper,
-          start: "top 70%",
-          markers: false,
-        },
-        yPercent: 100,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power2.out",
-        stagger: 0.1,
-      });
-    });
   }
 });
