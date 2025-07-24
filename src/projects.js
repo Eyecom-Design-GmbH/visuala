@@ -53,19 +53,45 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (document.querySelector(".card-row4_card")) {
-    gsap.utils.toArray(".card-row4_card").forEach((card) => {
-      gsap.from(card, {
-        scrollTrigger: {
-          trigger: card,
-          start: "top top",
-          markers: true,
-        },
-        yPercent: 100,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power2.out",
-        delay: index * 0.2,
+    // Desktop project cards
+    gsap.utils.toArray(".project_list.is-project").forEach((wrapper) => {
+      const cards = wrapper.querySelectorAll(".card-row4_card");
+      
+      cards.forEach((card, index) => {
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%",
+            markers: false,
+          },
+          yPercent: 100,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          delay: index * 0.1, // Stagger delay within this section
+        });
+      });
+    });
+  
+    // Mobile project cards
+    gsap.utils.toArray(".project_list:not(.is-project)").forEach((wrapper) => {
+      const cards = wrapper.querySelectorAll(".card-row4_card");
+      
+      cards.forEach((card, index) => {
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%",
+            markers: false,
+          },
+          yPercent: 100,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          delay: index * 0.1, // Stagger delay within this section
+        });
       });
     });
   }
+  
 });
