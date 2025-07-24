@@ -84,22 +84,22 @@ async function initializeAnimations() {
       );
     });
 
-  // H1 animations
-  document.querySelectorAll("h1").forEach((h1) => {
-    const split = new SplitText(h1, { type: "lines" });
+  // // H1 animations
+  // document.querySelectorAll("h1").forEach((h1) => {
+  //   const split = new SplitText(h1, { type: "lines" });
 
-    gsap.from(split.lines, {
-      duration: 1.5,
-      opacity: 0,
-      x: -100,
-      ease: "power2.inOut",
-      stagger: 0.06,
-      scrollTrigger: {
-        trigger: h1,
-        start: "top 70%",
-      },
-    });
-  });
+  //   gsap.from(split.lines, {
+  //     duration: 1.5,
+  //     opacity: 0,
+  //     x: -100,
+  //     ease: "power2.inOut",
+  //     stagger: 0.06,
+  //     scrollTrigger: {
+  //       trigger: h1,
+  //       start: "top 70%",
+  //     },
+  //   });
+  // });
 }
 
 document.addEventListener("DOMContentLoaded", async (event) => {
