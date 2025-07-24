@@ -51,4 +51,42 @@ document.addEventListener("DOMContentLoaded", function () {
         "-=0.8",
       );
   }
+
+  if (document.querySelector(".card-row4_card")) {
+    // Animate desktop project cards
+    gsap.utils.toArray(".project_list.is-project").forEach((wrapper) => {
+      const cards = wrapper.querySelectorAll(".card-row4_card");
+  
+      gsap.from(cards, {
+        scrollTrigger: {
+          trigger: wrapper,
+          start: "top 70%",
+          markers: false,
+        },
+        yPercent: 100,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.1,
+      });
+    });
+  
+    // Animate mobile project cards
+    gsap.utils.toArray(".project_list:not(.is-project)").forEach((wrapper) => {
+      const cards = wrapper.querySelectorAll(".card-row4_card");
+  
+      gsap.from(cards, {
+        scrollTrigger: {
+          trigger: wrapper,
+          start: "top 70%",
+          markers: false,
+        },
+        yPercent: 100,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.1,
+      });
+    });
+  }
 });

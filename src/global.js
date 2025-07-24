@@ -59,8 +59,7 @@ async function initializeAnimations() {
   }
 
   // Text fading in animation on scroll
-  document
-    .querySelectorAll('[animation-element="text-fade-in"]')
+  document.querySelectorAll('[animation-element="text-fade-in"]')
     .forEach((el) => {
       const split = new SplitText(el, { type: "words,chars" });
       const totalChars = split.chars.length;
