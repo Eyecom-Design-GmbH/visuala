@@ -129,8 +129,8 @@ $(document).ready(function () {
   const yellowCursor = document.createElement("div");
   yellowCursor.style.cssText = `
         position: fixed;
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 48px;
         background: #f2f200;
         border-radius: 50%;
         pointer-events: none;
@@ -138,7 +138,7 @@ $(document).ready(function () {
         transform: translate(-50%, -50%);
         opacity: 0;
         transition: opacity 0.3s ease, transform 0.1s ease;
-        filter: blur(12px);
+        filter: blur(15px);
     `;
   document.body.appendChild(yellowCursor);
 
@@ -181,7 +181,7 @@ $(document).ready(function () {
         ease: "power2.out",
       });
 
-      yellowCursor.style.opacity = "1";
+      yellowCursor.style.opacity = "0.8";
     });
 
     question.addEventListener("mouseleave", () => {
