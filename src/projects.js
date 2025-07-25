@@ -53,23 +53,19 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (document.querySelector(".project_item.is-project-list")) {
-    gsap.utils.toArray(".project_list.is-project").forEach((wrapper) => {
-      const cards = wrapper.querySelectorAll(".work_crad");
-      
-      cards.forEach((card, index) => {
-        gsap.from(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: "top 60%",
-            markers: true,
-          },
-          yPercent: 100,
-          opacity: 0,
-          duration: 0.6,
-          ease: "power2.out",
-        });
+    if (document.querySelector(".project_item.is-project-list")) {
+      gsap.from(".work_crad", {
+        scrollTrigger: {
+          trigger: ".project_list is-project",
+          start: "top 70%",
+        },
+        yPercent: 100,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.out",
+        stagger: 0.05,
       });
-    });
+    }
   
     // // Mobile project cards
     // gsap.utils.toArray(".project_list:not(.is-project)").forEach((wrapper) => {
