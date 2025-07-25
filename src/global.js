@@ -114,7 +114,8 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     gsap.from(".client-logos_item", {
       scrollTrigger: {
         trigger: ".client-logos",
-        start: "top 60%",
+        start: "top 70%",
+        markers: true,
       },
       yPercent: 100,
       opacity: 0,
