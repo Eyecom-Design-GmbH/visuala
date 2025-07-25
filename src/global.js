@@ -78,7 +78,6 @@ async function initializeAnimations() {
             start: "top 70%",
             end: "top 20%",
             once: true,
-            markers: true,
           },
         },
       );
@@ -113,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   if (document.querySelector(".client-logos")) {
     gsap.from(".client-logos_item", {
       scrollTrigger: {
-        trigger: ".client-logos",
+        trigger: ".client-logos-item",
         start: "top 70%",
         markers: true,
       },
