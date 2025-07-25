@@ -114,7 +114,6 @@ document.addEventListener("DOMContentLoaded", async (event) => {
       scrollTrigger: {
         trigger: ".client-logos_list",
         start: "top 70%",
-        markers: true,
       },
       yPercent: 100,
       opacity: 0,
