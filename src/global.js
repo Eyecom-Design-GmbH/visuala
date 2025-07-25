@@ -131,12 +131,12 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         gsap.from(images, {
           scrollTrigger: {
             trigger: wrapper,
-            start: "top 70%",
+            start: "top 60%",
             markers: false,
           },
           yPercent: 100,
           opacity: 0,
-          duration: 0.5,
+          duration: 0.7,
           ease: "power2.out",
           stagger: 0.05,
         });
@@ -152,12 +152,12 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         gsap.from(images, {
           scrollTrigger: {
             trigger: wrapper,
-            start: "top 70%",
+            start: "top 60%",
             markers: false,
           },
           yPercent: 100,
           opacity: 0,
-          duration: 0.5,
+          duration: 0.7,
           ease: "power2.out",
           stagger: 0.05,
         });
