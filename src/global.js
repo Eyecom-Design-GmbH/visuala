@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   if (document.querySelector(".client-logos")) {
     gsap.from(".client-logos_item", {
       scrollTrigger: {
-        trigger: ".client-logos-item",
+        trigger: ".client-logos_list",
         start: "top 70%",
         markers: true,
       },
