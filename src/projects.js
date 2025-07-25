@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (document.querySelector(".project_item.is-project-list")) {
       gsap.from(".work_crad", {
         scrollTrigger: {
-          trigger: ".project_list is-project",
+          trigger: ".project_list.is-project",
           start: "top 70%",
         },
         yPercent: 100,
