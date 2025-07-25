@@ -129,8 +129,8 @@ $(document).ready(function () {
   const yellowCursor = document.createElement("div");
   yellowCursor.style.cssText = `
         position: fixed;
-        width: 16px;
-        height: 16px;
+        width: 32px;
+        height: 32px;
         background: #f2f200;
         border-radius: 50%;
         pointer-events: none;
