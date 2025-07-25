@@ -53,15 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (document.querySelector(".project_item.is-project-list")) {
-    // Desktop project cards
     gsap.utils.toArray(".project_list.is-project").forEach((wrapper) => {
-      const cards = wrapper.querySelectorAll(".project_item.is-project-list");
+      const cards = wrapper.querySelectorAll(".work_crad");
       
       cards.forEach((card, index) => {
         gsap.from(card, {
           scrollTrigger: {
             trigger: card,
-            start: "top 20%",
+            start: "top 60%",
             markers: true,
           },
           yPercent: 100,
