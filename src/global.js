@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
 
 
 
-  if (document.querySelector(".client-logos")) {
+  if (document.querySelector(".client-logos_list") && document.querySelector(".client-logos_item")) {
     gsap.from(".client-logos_item", {
       scrollTrigger: {
         trigger: ".client-logos_list",
