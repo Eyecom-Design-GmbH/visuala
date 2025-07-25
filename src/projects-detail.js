@@ -61,8 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
       centeredSlides: true,
       mousewheel: {
         forceToAxis: true,
-        sensitivity: 1,
-        releaseOnEdges: true,
       },
       keyboard: {
         enabled: true,
@@ -126,7 +124,6 @@ document.addEventListener("DOMContentLoaded", function () {
         trigger: wrapper,
         start: "top 70%",
         markers: false,
-        once: true, // Only trigger once to prevent repeated animations
       },
       yPercent: 100,
       opacity: 0,
@@ -144,7 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
         trigger: wrapper,
         start: "top 70%",
         markers: false,
-        once: true, // Only trigger once to prevent repeated animations
       },
       yPercent: 100,
       opacity: 0,
@@ -166,7 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
       scrollTrigger: {
         trigger: wrapper,
         start: "top 70%",
-        once: true, // Only trigger once to prevent repeated animations
       },
       yPercent: 0,
       opacity: 1,
@@ -176,4 +171,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-}, { passive: true }); // Add passive option to DOMContentLoaded listener
+  // const testimonalTL = gsap.timeline({
+  //   scrollTrigger: {
+  //     trigger: ".section_project_highlights",
+  //     start: "top 50%",
+  //     scrub: false,
+  //     markers: false,
+  //   },
+  // });
+
+  // testimonalTL.from(
+  //   ".feedback_wrapper .text-size-large.text-color-white.text-weight-semibold",
+  //   {
+  //     yPercent: 100,
+  //     opacity: 0,
+  //     duration: 0.5,
+  //     ease: "power2.out",
+  //   },
+  // );
+
+  // testimonalTL.from(".feedback_wrapper h1", {
+  //   yPercent: 100,
+  //   opacity: 0,
+  //   duration: 0.5,
+  //   ease: "power2.out",
+  // });
+
+  // testimonalTL.from(".feedback_wrapper .button-group.is-center", {
+  //   yPercent: 100,
+  //   opacity: 0,
+  //   duration: 0.5,
+  //   ease: "power2.out",
+  // });
+});
