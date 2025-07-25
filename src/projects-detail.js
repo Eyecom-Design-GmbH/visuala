@@ -61,6 +61,8 @@ document.addEventListener("DOMContentLoaded", function () {
       centeredSlides: true,
       mousewheel: {
         forceToAxis: true,
+        sensitivity: 1,
+        releaseOnEdges: true,
       },
       keyboard: {
         enabled: true,
@@ -124,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
         trigger: wrapper,
         start: "top 70%",
         markers: false,
+        once: true, // Only trigger once to prevent repeated animations
       },
       yPercent: 100,
       opacity: 0,
@@ -141,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
         trigger: wrapper,
         start: "top 70%",
         markers: false,
+        once: true, // Only trigger once to prevent repeated animations
       },
       yPercent: 100,
       opacity: 0,
@@ -162,6 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
       scrollTrigger: {
         trigger: wrapper,
         start: "top 70%",
+        once: true, // Only trigger once to prevent repeated animations
       },
       yPercent: 0,
       opacity: 1,
@@ -170,4 +175,5 @@ document.addEventListener("DOMContentLoaded", function () {
       stagger: 0.1,
     });
   });
-});
+
+}, { passive: true }); // Add passive option to DOMContentLoaded listener

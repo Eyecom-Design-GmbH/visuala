@@ -92,6 +92,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
       scrollTrigger: {
         trigger: ".client-logos_list",
         start: "top 70%",
+        once: true, // Only trigger once to prevent repeated animations
       },
       yPercent: 100,
       opacity: 0,
@@ -111,6 +112,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
             trigger: wrapper,
             start: "top 60%",
             markers: false,
+            once: true, // Only trigger once to prevent repeated animations
           },
           yPercent: 100,
           opacity: 0,
@@ -132,6 +134,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
             trigger: wrapper,
             start: "top 60%",
             markers: false,
+            once: true, // Only trigger once to prevent repeated animations
           },
           yPercent: 100,
           opacity: 0,
@@ -194,7 +197,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         "-=0.5",
       ); 
   }
-});
+}, { passive: true }); // Add passive option to DOMContentLoaded listener
 
 const showAnim = gsap.fromTo(
   ".navbar-fixed_component",
