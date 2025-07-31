@@ -126,8 +126,16 @@ $(document).ready(function () {
     }
   });
 
-  const yellowCursor = document.createElement("div");
-  yellowCursor.style.cssText = `
+  // Only create yellow cursor on non-touch devices
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+  
+  let yellowCursor;
+  let mouseX = 0,
+    mouseY = 0;
+
+  if (!isTouchDevice) {
+    yellowCursor = document.createElement("div");
+    yellowCursor.style.cssText = `
         position: fixed;
         width: 48px;
         height: 48px;
@@ -140,17 +148,16 @@ $(document).ready(function () {
         transition: opacity 0.3s ease, transform 0.1s ease;
         filter: blur(15px);
     `;
-  document.body.appendChild(yellowCursor);
+    document.body.appendChild(yellowCursor);
 
-  let mouseX = 0,
-    mouseY = 0;
-  document.addEventListener("mousemove", (e) => {
-    mouseX = (e.clientX / window.innerWidth) * 100;
-    mouseY = (e.clientY / window.innerHeight) * 100;
+    document.addEventListener("mousemove", (e) => {
+      mouseX = (e.clientX / window.innerWidth) * 100;
+      mouseY = (e.clientY / window.innerHeight) * 100;
 
-    yellowCursor.style.left = e.clientX + "px";
-    yellowCursor.style.top = e.clientY + "px";
-  });
+      yellowCursor.style.left = e.clientX + "px";
+      yellowCursor.style.top = e.clientY + "px";
+    });
+  }
 
   const accordions = document.querySelectorAll(".angebot_accordion");
 
@@ -181,7 +188,9 @@ $(document).ready(function () {
         ease: "power2.out",
       });
 
-      yellowCursor.style.opacity = "0.8";
+      if (yellowCursor) {
+        yellowCursor.style.opacity = "0.8";
+      }
     });
 
     question.addEventListener("mouseleave", () => {
@@ -205,7 +214,9 @@ $(document).ready(function () {
         });
       }
 
-      yellowCursor.style.opacity = "0";
+      if (yellowCursor) {
+        yellowCursor.style.opacity = "0";
+      }
 
       question.style.cursor = "pointer";
 
