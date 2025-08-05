@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
           scrollTrigger: {
             trigger: wrapper,
             start: "top 60%",
-            markers: true,
+            markers: false,
           },
           yPercent: 100,
           opacity: 0,
