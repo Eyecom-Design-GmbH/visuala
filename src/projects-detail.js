@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
       slideToClickedSlide: true,
       slidesPerView: 1,
       loop: true,
-      spaceBetween: "5rem",
+      spaceBetween: 80,
       allowTouchMove: true,
       autoplay: {
         delay: 5000,
