@@ -26,8 +26,8 @@ $(document).ready(function () {
         duration: 0.7,
       },
       rightTitle: {
-        triggerStart: "top 50%",
-        triggerEnd: "top top",
+        triggerStart: "top bottom%",
+        triggerEnd: "top 50%",
         blur: 20,
         duration: 1.2,
       },
@@ -41,8 +41,8 @@ $(document).ready(function () {
         duration: 0.7,
       },
       rightTitle: {
-        triggerStart: "top 50%",
-        triggerEnd: "top top",
+        triggerStart: "top bottom%",
+        triggerEnd: "top 50%",
         blur: 20,
         duration: 1.2,
       },
@@ -56,8 +56,8 @@ $(document).ready(function () {
         duration: 0.7,
       },
       rightTitle: {
-        triggerStart: "top 50%",
-        triggerEnd: "top top",
+        triggerStart: "top bottom%",
+        triggerEnd: "top 50%",
         blur: 20,
         duration: 1.2,
       },
@@ -71,8 +71,8 @@ $(document).ready(function () {
         duration: 0.7,
       },
       rightTitle: {
-        triggerStart: "top 50%",
-        triggerEnd: "top top",
+        triggerStart: "top bottom%",
+        triggerEnd: "top 50%",
         blur: 20,
         duration: 1.2,
       },
