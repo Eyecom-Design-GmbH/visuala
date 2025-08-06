@@ -94,19 +94,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const fimageTl = gsap.timeline();
 
-  fimageTl.fromTo(
-    ".feature-img",
-    {
-      opacity: 0,
-      yPercent: 100,
-    },
-    {
-      opacity: 1,
-      yPercent: 0,
-      duration: 0.7,
-      ease: "power2.inOut",
-    },
-  );
+  // fimageTl.fromTo(
+  //   ".feature-img",
+  //   {
+  //     opacity: 0,
+  //     yPercent: 100,
+  //   },
+  //   {
+  //     opacity: 1,
+  //     yPercent: 0,
+  //     duration: 0.7,
+  //     ease: "power2.inOut",
+  //   },
+  // );
 
   fimageTl.to(".feature-img", {
     y: -20,
