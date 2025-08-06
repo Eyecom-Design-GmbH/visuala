@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
       slideToClickedSlide: true,
       slidesPerView: 1,
       loop: true,
-      spaceBetween: "2%",
+      spaceBetween: 40,
       allowTouchMove: true,
       autoplay: {
         delay: 5000,
@@ -170,37 +170,4 @@ document.addEventListener("DOMContentLoaded", function () {
       stagger: 0.1,
     });
   });
-
-  // const testimonalTL = gsap.timeline({
-  //   scrollTrigger: {
-  //     trigger: ".section_project_highlights",
-  //     start: "top 50%",
-  //     scrub: false,
-  //     markers: false,
-  //   },
-  // });
-
-  // testimonalTL.from(
-  //   ".feedback_wrapper .text-size-large.text-color-white.text-weight-semibold",
-  //   {
-  //     yPercent: 100,
-  //     opacity: 0,
-  //     duration: 0.5,
-  //     ease: "power2.out",
-  //   },
-  // );
-
-  // testimonalTL.from(".feedback_wrapper h1", {
-  //   yPercent: 100,
-  //   opacity: 0,
-  //   duration: 0.5,
-  //   ease: "power2.out",
-  // });
-
-  // testimonalTL.from(".feedback_wrapper .button-group.is-center", {
-  //   yPercent: 100,
-  //   opacity: 0,
-  //   duration: 0.5,
-  //   ease: "power2.out",
-  // });
 });
