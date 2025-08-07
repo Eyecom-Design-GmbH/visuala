@@ -103,47 +103,36 @@ document.addEventListener("DOMContentLoaded", function () {
       mobileCards.forEach((card, index) => {
         console.log(`Setting up animation for card ${index}:`, card);
         
+        // Track if this card has been animated
+        let hasAnimated = false;
+        
         ScrollTrigger.create({
           trigger: card,
           start: "top 80%",
           end: "top 20%",
           onEnter: () => {
-            console.log(`Card ${index} entering viewport`);
-            gsap.to(card, {
-              yPercent: 0,
-              opacity: 1,
-              duration: 0.8,
-              ease: "power2.out",
-              delay: index * 0.1
-            });
+            if (!hasAnimated) {
+              console.log(`Card ${index} entering viewport - animating`);
+              gsap.to(card, {
+                yPercent: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: "power2.out",
+                delay: index * 0.1
+              });
+              hasAnimated = true;
+            } else {
+              console.log(`Card ${index} entering viewport - already animated`);
+            }
           },
           onLeave: () => {
-            console.log(`Card ${index} leaving viewport`);
-            gsap.to(card, {
-              yPercent: -100,
-              opacity: 0,
-              duration: 0.5,
-              ease: "power2.out"
-            });
+            console.log(`Card ${index} leaving viewport - no action needed`);
           },
           onEnterBack: () => {
-            console.log(`Card ${index} entering viewport again`);
-            gsap.to(card, {
-              yPercent: 0,
-              opacity: 1,
-              duration: 0.8,
-              ease: "power2.out",
-              delay: index * 0.1
-            });
+            console.log(`Card ${index} entering viewport again - no action needed`);
           },
           onLeaveBack: () => {
-            console.log(`Card ${index} leaving viewport again`);
-            gsap.to(card, {
-              yPercent: 100,
-              opacity: 0,
-              duration: 0.5,
-              ease: "power2.out"
-            });
+            console.log(`Card ${index} leaving viewport again - no action needed`);
           }
         });
       });
