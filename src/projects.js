@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     if (mobileCards.length > 0) {
       gsap.set(mobileCards, {
-        yPercent: -100,
+        yPercent: 100,
         opacity: 0
       });
       
@@ -102,8 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
         
         ScrollTrigger.create({
           trigger: card,
-          start: "top 80%",
-          end: "top 20%",
+          start: "top bottom",
+          end: "top top",
           onEnter: () => {
             if (!hasAnimated) {
               gsap.to(card, {
