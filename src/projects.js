@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
           onLeave: () => {
             console.log(`Card ${index} leaving viewport`);
             gsap.to(card, {
-              yPercent: 100,
+              yPercent: -100,
               opacity: 0,
               duration: 0.5,
               ease: "power2.out"
