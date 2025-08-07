@@ -21,11 +21,13 @@ $(document).ready(function () {
       id: "#branding-design",
       leftTitle: {
         triggerStart: "top bottom",
+        triggerEnd: "top 50%",
         blur: 5,
         duration: 0.7,
       },
       rightTitle: {
         triggerStart: "top 20%",
+        triggerEnd: "top 50%",
         blur: 20,
         duration: 1.2,
       },
@@ -34,11 +36,13 @@ $(document).ready(function () {
       id: "#webseiten-digital",
       leftTitle: {
         triggerStart: "top bottom",
+        triggerEnd: "top 50%",
         blur: 5,
         duration: 0.7,
       },
       rightTitle: {
         triggerStart: "top 20%",
+        triggerEnd: "top 50%",
         blur: 20,
         duration: 1.2,
       },
@@ -47,11 +51,13 @@ $(document).ready(function () {
       id: "#digital-marketing",
       leftTitle: {
         triggerStart: "top bottom",
+        triggerEnd: "top 50%",
         blur: 5,
         duration: 0.7,
       },
       rightTitle: {
         triggerStart: "top 20%",
+        triggerEnd: "top 50%",
         blur: 20,
         duration: 1.2,
       },
@@ -60,11 +66,13 @@ $(document).ready(function () {
       id: "#fotografie-video",
       leftTitle: {
         triggerStart: "top bottom",
+        triggerEnd: "top 50%",
         blur: 5,
         duration: 0.7,
       },
       rightTitle: {
         triggerStart: "top 20%",
+        triggerEnd: "top 50%",
         blur: 20,
         duration: 1.2,
       },
