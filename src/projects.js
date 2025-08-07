@@ -66,40 +66,40 @@ document.addEventListener("DOMContentLoaded", function () {
         stagger: 0.05,
       });
     }
-  
-  if (document.querySelector(".work_mobile")) {
-    const mobileCards = document.querySelectorAll(".work_mobile .card-row4_card");
-    
-    if (mobileCards.length > 0) {
-      gsap.set(mobileCards, {
-        yPercent: 100,
-        opacity: 0
-      });
-      
-      mobileCards.forEach((card, index) => {
-        let hasAnimated = false;
-        
-        ScrollTrigger.create({
-          trigger: card,
-          start: "top bottom",
-          end: "top top",
-          onEnter: () => {
-            if (!hasAnimated) {
-              gsap.to(card, {
-                yPercent: 0,
-                opacity: 1,
-                duration: 0.8,
-                ease: "power2.out",
-                //delay: index * 0.1
-              });
-              hasAnimated = true;
-            }
-          },
-        
+
+    if (document.querySelector(".work_mobile")) {
+      const mobileCards = document.querySelectorAll(".work_mobile .card-row4_card");
+
+      if (mobileCards.length > 0) {
+        gsap.set(mobileCards, {
+          yPercent: 100,
+          opacity: 0
         });
-      });
+
+        mobileCards.forEach((card, index) => {
+          let hasAnimated = false;
+
+          ScrollTrigger.create({
+            trigger: card,
+            start: "top bottom",
+            end: "top top",
+            onEnter: () => {
+              if (!hasAnimated) {
+                gsap.to(card, {
+                  yPercent: 0,
+                  opacity: 1,
+                  duration: 0.8,
+                  ease: "power2.out",
+                  //delay: index * 0.1
+                });
+                hasAnimated = true;
+              }
+            },
+
+          });
+        });
+      }
     }
   }
-  }
-  
+
 });
