@@ -20,7 +20,7 @@ async function initializeAnimations() {
 
   if (window.createTypewriter) {
     const typewriterElements = document.querySelectorAll(
-      '[anim-element="typewriter"]',
+      '[anim-element="typewriter"]',features-card-wrapper
     );
 
     typewriterElements.forEach((element, index) => {
@@ -163,6 +163,37 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   }
 
   if (document.querySelector(".section-features")) {
+    // Check if device is mobile (you can adjust this breakpoint)
+    const isMobile = window.innerWidth <= 768;
+    
+    // Define responsive values
+    const responsiveValues = {
+      desktop: {
+        yPercent: -130,
+        xPercent: (index) => (index % 2 === 0 ? 35 : -35),
+        scale: 1.25,
+        rotation: (index) => (index % 2 === 0 ? 15 : -15),
+        finalYPercent: -200,
+        finalXPercent: (index) => (index % 2 === 0 ? 50 : -50),
+        finalRotation: (index) => (index % 2 === 0 ? 25 : -25),
+        finalScale: 1.1,
+        stagger: { each: 1.8, from: "start" }
+      },
+      mobile: {
+        yPercent: -80,
+        xPercent: (index) => (index % 2 === 0 ? 20 : -20),
+        scale: 1.15,
+        rotation: (index) => (index % 2 === 0 ? 10 : -10),
+        finalYPercent: -200,
+        finalXPercent: (index) => (index % 2 === 0 ? 30 : -30),
+        finalRotation: (index) => (index % 2 === 0 ? 15 : -15),
+        finalScale: 1.05,
+        stagger: { each: 1.2, from: "start" }
+      }
+    };
+    
+    const values = isMobile ? responsiveValues.mobile : responsiveValues.desktop;
+    
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: ".section-features",
@@ -180,8 +211,8 @@ document.addEventListener("DOMContentLoaded", async (event) => {
       xPercent: 0,
       scale: 1,
       rotation: (index) => {
-        if (index === 0) return -8;
-        if (index === 1) return 5;
+        if (index === 0) return isMobile ? -5 : -8;
+        if (index === 1) return isMobile ? 3 : 5;
         return 0;
       },
     });
@@ -190,25 +221,25 @@ document.addEventListener("DOMContentLoaded", async (event) => {
       duration: 0.5,
     })
       .to(".features-card", {
-        yPercent: -130,
-        xPercent: (index) => (index % 2 === 0 ? 35 : -35),
-        scale: 1.25,
-        rotation: (index) => (index % 2 === 0 ? 15 : -15),
+        yPercent: values.yPercent,
+        xPercent: values.xPercent,
+        scale: values.scale,
+        rotation: values.rotation,
         duration: 1.8,
         ease: "power2.out",
-        stagger: { each: 1.8, from: "start" },
+        stagger: values.stagger,
       })
       .to(
         ".features-card",
         {
           opacity: 0,
-          yPercent: -150,
-          xPercent: (index) => (index % 2 === 0 ? 50 : -50),
-          rotation: (index) => (index % 2 === 0 ? 25 : -25),
-          scale: 1.1,
+          yPercent: values.finalYPercent,
+          xPercent: values.finalXPercent,
+          rotation: values.finalRotation,
+          scale: values.finalScale,
           duration: 0.8,
           ease: "power1.in",
-          stagger: { each: 1.8, from: "start" },
+          stagger: values.stagger,
         },
         "-=0.5",
       ); 
