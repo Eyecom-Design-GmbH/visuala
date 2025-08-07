@@ -28,7 +28,7 @@ $(document).ready(function () {
       rightTitle: {
         triggerStart: "top bottom",
         triggerEnd: "top 50%",
-        blur: 20,
+        blur: 5,
         duration: 1.2,
       },
     },
@@ -43,7 +43,7 @@ $(document).ready(function () {
       rightTitle: {
         triggerStart: "top bottom",
         triggerEnd: "top 50%",
-        blur: 20,
+        blur: 5,
         duration: 1.2,
       },
     },
@@ -58,7 +58,7 @@ $(document).ready(function () {
       rightTitle: {
         triggerStart: "top bottom",
         triggerEnd: "top 50%",
-        blur: 20,
+        blur: 5,
         duration: 1.2,
       },
     },
@@ -73,7 +73,7 @@ $(document).ready(function () {
       rightTitle: {
         triggerStart: "top bottom",
         triggerEnd: "top 50%",
-        blur: 20,
+        blur: 5,
         duration: 1.2,
       },
     },
