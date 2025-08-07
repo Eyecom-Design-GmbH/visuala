@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     // Define responsive values
     const responsiveValues = {
       desktop: {
-        yPercent: -130,
+        yPercent: -200,
         xPercent: (index) => (index % 2 === 0 ? 35 : -35),
         scale: 1.25,
         rotation: (index) => (index % 2 === 0 ? 15 : -15),
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         stagger: { each: 1.8, from: "start" }
       },
       mobile: {
-        yPercent: -80,
+        yPercent: -200,
         xPercent: (index) => (index % 2 === 0 ? 20 : -20),
         scale: 1.15,
         rotation: (index) => (index % 2 === 0 ? 10 : -10),
