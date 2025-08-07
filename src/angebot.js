@@ -44,6 +44,7 @@ $(document).ready(function () {
         triggerStart: "top bottom",
         triggerEnd: "top 50%",
         blur: 20,
+        markers: true,
         duration: 1.2,
       },
     },
