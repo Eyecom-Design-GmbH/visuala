@@ -89,22 +89,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mobile project cards animation
   if (document.querySelector(".work_mobile")) {
+    console.log("Mobile container found");
     const mobileCards = document.querySelectorAll(".work_mobile .work_crad");
+    console.log("Found mobile cards:", mobileCards.length);
     
-    mobileCards.forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: {
-          trigger: card,
-          start: "top bottom",
-          end: "top 50%",
-        },
+    if (mobileCards.length > 0) {
+      // Set initial state for all cards
+      gsap.set(mobileCards, {
         yPercent: 100,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        delay: index * 0.1, // Stagger delay for each card
+        opacity: 0
       });
-    });
+      
+      mobileCards.forEach((card, index) => {
+        console.log(`Setting up animation for card ${index}:`, card);
+        
+        ScrollTrigger.create({
+          trigger: card,
+          start: "top 80%",
+          end: "top 20%",
+          onEnter: () => {
+            console.log(`Card ${index} entering viewport`);
+            gsap.to(card, {
+              yPercent: 0,
+              opacity: 1,
+              duration: 0.8,
+              ease: "power2.out",
+              delay: index * 0.1
+            });
+          },
+          onLeave: () => {
+            console.log(`Card ${index} leaving viewport`);
+            gsap.to(card, {
+              yPercent: 100,
+              opacity: 0,
+              duration: 0.5,
+              ease: "power2.out"
+            });
+          },
+          onEnterBack: () => {
+            console.log(`Card ${index} entering viewport again`);
+            gsap.to(card, {
+              yPercent: 0,
+              opacity: 1,
+              duration: 0.8,
+              ease: "power2.out",
+              delay: index * 0.1
+            });
+          },
+          onLeaveBack: () => {
+            console.log(`Card ${index} leaving viewport again`);
+            gsap.to(card, {
+              yPercent: 100,
+              opacity: 0,
+              duration: 0.5,
+              ease: "power2.out"
+            });
+          }
+        });
+      });
+    }
   }
   }
   
