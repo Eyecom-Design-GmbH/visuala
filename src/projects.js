@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mobile project cards animation
   if (document.querySelector(".work_mobile")) {
-    const mobileCards = document.querySelectorAll(".work_mobile .work_crad");
+    const mobileCards = document.querySelectorAll(".work_mobile .card-row4_card");
     
     if (mobileCards.length > 0) {
       gsap.set(mobileCards, {
