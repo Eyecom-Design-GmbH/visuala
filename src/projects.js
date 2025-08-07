@@ -95,9 +95,8 @@ document.addEventListener("DOMContentLoaded", function () {
       gsap.from(card, {
         scrollTrigger: {
           trigger: card,
-          start: "top 80%",
-          end: "top 20%",
-          toggleActions: "play none none reverse",
+          start: "top bottom",
+          end: "top 50%",
         },
         yPercent: 100,
         opacity: 0,
