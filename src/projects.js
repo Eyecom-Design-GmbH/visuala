@@ -67,25 +67,25 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   
-    // Mobile project cards
-    gsap.utils.toArray(".project_list:not(.is-project)").forEach((wrapper) => {
-      const cards = wrapper.querySelectorAll(".card-row4_card");
+    // // Mobile project cards
+    // gsap.utils.toArray(".project_list:not(.is-project)").forEach((wrapper) => {
+    //   const cards = wrapper.querySelectorAll(".card-row4_card");
       
-      cards.forEach((card, index) => {
-        gsap.from(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: "top 50%",
-            markers: false,
-          },
-          yPercent: 100,
-          opacity: 0,
-          duration: 0.6,
-          ease: "power2.out",
-          delay: index * 0.1, // Stagger delay within this section
-        });
-      });
-    });
+    //   cards.forEach((card, index) => {
+    //     gsap.from(card, {
+    //       scrollTrigger: {
+    //         trigger: card,
+    //         start: "top 50%",
+    //         markers: false,
+    //       },
+    //       yPercent: 100,
+    //       opacity: 0,
+    //       duration: 0.6,
+    //       ease: "power2.out",
+    //       delay: index * 0.1, // Stagger delay within this section
+    //     });
+    //   });
+    // });
 
     // Mobile project cards animation
   if (document.querySelector(".work_mobile")) {
