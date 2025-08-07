@@ -89,21 +89,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mobile project cards animation
   if (document.querySelector(".work_mobile")) {
-    console.log("Mobile container found");
     const mobileCards = document.querySelectorAll(".work_mobile .work_crad");
-    console.log("Found mobile cards:", mobileCards.length);
     
     if (mobileCards.length > 0) {
-      // Set initial state for all cards
       gsap.set(mobileCards, {
-        yPercent: 100,
+        yPercent: -100,
         opacity: 0
       });
       
       mobileCards.forEach((card, index) => {
-        console.log(`Setting up animation for card ${index}:`, card);
-        
-        // Track if this card has been animated
         let hasAnimated = false;
         
         ScrollTrigger.create({
@@ -112,28 +106,17 @@ document.addEventListener("DOMContentLoaded", function () {
           end: "top 20%",
           onEnter: () => {
             if (!hasAnimated) {
-              console.log(`Card ${index} entering viewport - animating`);
               gsap.to(card, {
                 yPercent: 0,
                 opacity: 1,
                 duration: 0.8,
                 ease: "power2.out",
-                delay: index * 0.1
+                //delay: index * 0.1
               });
               hasAnimated = true;
-            } else {
-              console.log(`Card ${index} entering viewport - already animated`);
             }
           },
-          onLeave: () => {
-            console.log(`Card ${index} leaving viewport - no action needed`);
-          },
-          onEnterBack: () => {
-            console.log(`Card ${index} entering viewport again - no action needed`);
-          },
-          onLeaveBack: () => {
-            console.log(`Card ${index} leaving viewport again - no action needed`);
-          }
+        
         });
       });
     }
