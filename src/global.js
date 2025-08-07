@@ -20,7 +20,7 @@ async function initializeAnimations() {
 
   if (window.createTypewriter) {
     const typewriterElements = document.querySelectorAll(
-      '[anim-element="typewriter"]',features-card-wrapper
+      '[anim-element="typewriter"]'
     );
 
     typewriterElements.forEach((element, index) => {
