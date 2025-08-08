@@ -67,39 +67,39 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    if (document.querySelector(".work_mobile")) {
-      const mobileCards = document.querySelectorAll(".work_mobile .card-row4_card");
+    // if (document.querySelector(".work_mobile")) {
+    //   const mobileCards = document.querySelectorAll(".work_mobile .card-row4_card");
 
-      if (mobileCards.length > 0) {
-        gsap.set(mobileCards, {
-          yPercent: 100,
-          opacity: 0
-        });
+    //   if (mobileCards.length > 0) {
+    //     gsap.set(mobileCards, {
+    //       yPercent: 100,
+    //       opacity: 0
+    //     });
 
-        mobileCards.forEach((card, index) => {
-          let hasAnimated = false;
+    //     mobileCards.forEach((card, index) => {
+    //       let hasAnimated = false;
 
-          ScrollTrigger.create({
-            trigger: card,
-            start: "top bottom",
-            end: "top top",
-            onEnter: () => {
-              if (!hasAnimated) {
-                gsap.to(card, {
-                  yPercent: 0,
-                  opacity: 1,
-                  duration: 0.8,
-                  ease: "power2.out",
-                  //delay: index * 0.1
-                });
-                hasAnimated = true;
-              }
-            },
+    //       ScrollTrigger.create({
+    //         trigger: card,
+    //         start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
+    //         end: "top center",   // Animation completes when card top reaches center of viewport
+    //         onEnter: () => {
+    //           if (!hasAnimated) {
+    //             gsap.to(card, {
+    //               yPercent: 0,
+    //               opacity: 1,
+    //               duration: 0.8,
+    //               ease: "power2.out",
+    //               //delay: index * 0.1
+    //             });
+    //             hasAnimated = true;
+    //           }
+    //         },
 
-          });
-        });
-      }
-    }
+    //       });
+    //     });
+    //   }
+    // }
   }
 
 });
