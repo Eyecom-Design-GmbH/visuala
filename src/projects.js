@@ -57,11 +57,11 @@ document.addEventListener("DOMContentLoaded", function () {
       gsap.from(".work_crad", {
         scrollTrigger: {
           trigger: ".project_list.is-project",
-          start: "top 70%",
+          start: "top 80%",
         },
         yPercent: 100,
         opacity: 0,
-        duration: 0.5,
+        duration: 0.6,
         ease: "power2.out",
         stagger: 0.05,
       });
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
             end: "top 80%",   // Animation completes when card top reaches center of viewport
             yPercent: 100,
             opacity: 0,
-            duration: 0.8,
+            duration: 0.6,
             ease: "power2.out",
           });
         });
