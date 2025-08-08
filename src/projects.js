@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (document.querySelector(".work_mobile")) {
-      const mobileCards = document.querySelectorAll(".work_mobile .work_crad");
+      const mobileCards = document.querySelectorAll(".work_mobile .card-row4_card");
 
       if (mobileCards.length > 0) {
         gsap.set(mobileCards, {
@@ -81,10 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
           ScrollTrigger.create({
             trigger: card,
-            markers: true,
-
             start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
-            end: 'top 80%', // end after scrolling 500px beyond the start
+            end: "top 70%",   // Animation completes when card top reaches center of viewport
             onLeave: () => {
               if (!hasAnimated) {
                 gsap.to(card, {
