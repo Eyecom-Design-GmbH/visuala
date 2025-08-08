@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         mobileCards.forEach((card, index) => {
           gsap.to(card, {
-            scrollTrigger: 'card', // start the animation when ".box" enters the viewport (once)
+            scrollTrigger: card, // start the animation when ".box" enters the viewport (once)
             start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
             end: "top 80%",   // Animation completes when card top reaches center of viewport
             toggleActions: "play none none none",
