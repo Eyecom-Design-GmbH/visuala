@@ -79,23 +79,33 @@ document.addEventListener("DOMContentLoaded", function () {
         mobileCards.forEach((card, index) => {
           let hasAnimated = false;
 
-          ScrollTrigger.create({
-            trigger: card,
+          // ScrollTrigger.create({
+          //   trigger: card,
+          //   start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
+          //   end: "top 80%",   // Animation completes when card top reaches center of viewport
+          //   onEnter: () => {
+          //     if (!hasAnimated) {
+          //       gsap.to(card, {
+          //         yPercent: 0,
+          //         opacity: 1,
+          //         duration: 0.8,
+          //         ease: "power2.out",
+          //         //delay: index * 0.1
+          //       });
+          //       hasAnimated = true;
+          //     }
+          //   },
+
+          // });
+
+          gsap.to('.box', {
+            scrollTrigger: 'card', // start the animation when ".box" enters the viewport (once)
             start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
             end: "top 80%",   // Animation completes when card top reaches center of viewport
-            onEnter: () => {
-              if (!hasAnimated) {
-                gsap.to(card, {
-                  yPercent: 0,
-                  opacity: 1,
-                  duration: 0.8,
-                  ease: "power2.out",
-                  //delay: index * 0.1
-                });
-                hasAnimated = true;
-              }
-            },
-
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
           });
         });
       }
