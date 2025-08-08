@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
             trigger: card,
             start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
             end: "top 80%",   // Animation completes when card top reaches center of viewport
-            onLeave: () => {
+            onEnter: () => {
               if (!hasAnimated) {
                 gsap.to(card, {
                   yPercent: 0,
