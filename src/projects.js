@@ -57,16 +57,16 @@ document.addEventListener("DOMContentLoaded", function () {
       gsap.from(".work_crad", {
         scrollTrigger: {
           trigger: ".project_list.is-project",
-          start: "top 80%",
+          start: "top 70%",
         },
         yPercent: 100,
         opacity: 0,
-        duration: 0.6,
+        duration: 0.5,
         ease: "power2.out",
         stagger: 0.05,
       });
     }
-  
+
     if (document.querySelector(".work_mobile")) {
       const mobileCards = document.querySelectorAll(".work_mobile .card-row4_card");
 
@@ -77,18 +77,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         mobileCards.forEach((card, index) => {
-          gsap.from(selector, {duration: 1, fromVars})(card, {
+          gsap.to(card, {
             scrollTrigger: card, // start the animation when ".box" enters the viewport (once)
             start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
             end: "top 80%",   // Animation completes when card top reaches center of viewport
-            yPercent: 100,
-            opacity: 0,
-            duration: 0.6,
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.8,
             ease: "power2.out",
           });
         });
       }
     }
   }
-  
+
 });
