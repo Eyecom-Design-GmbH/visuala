@@ -81,9 +81,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
           ScrollTrigger.create({
             trigger: card,
-            start: "top 70%", // Triggers when card top reaches bottom of viewport (earlier)
-            end: "top 70%",   // Animation completes when card top reaches center of viewport
-            onEnter: () => {
+            start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
+            end: "top 80%",   // Animation completes when card top reaches center of viewport
+            onLeave: () => {
               if (!hasAnimated) {
                 gsap.to(card, {
                   yPercent: 0,
