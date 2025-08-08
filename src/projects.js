@@ -81,7 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
             scrollTrigger: card, // start the animation when ".box" enters the viewport (once)
             start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
             end: "top 80%",   // Animation completes when card top reaches center of viewport
-            toggleActions: "play none none none",
             yPercent: 0,
             opacity: 1,
             duration: 0.8,
