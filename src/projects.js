@@ -67,28 +67,28 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    if (document.querySelector(".work_mobile")) {
-      const mobileCards = document.querySelectorAll(".work_mobile .card-row4_card");
+    // if (document.querySelector(".work_mobile")) {
+    //   const mobileCards = document.querySelectorAll(".work_mobile .card-row4_card");
 
-      if (mobileCards.length > 0) {
-        gsap.set(mobileCards, {
-          yPercent: 100,
-          opacity: 0
-        });
+    //   if (mobileCards.length > 0) {
+    //     gsap.set(mobileCards, {
+    //       yPercent: 100,
+    //       opacity: 0
+    //     });
 
-        mobileCards.forEach((card, index) => {
-          gsap.to(card, {
-            scrollTrigger: card, // start the animation when ".box" enters the viewport (once)
-            start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
-            end: "top bottom",   // Animation completes when card top reaches center of viewport
-            yPercent: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power2.out",
-          });
-        });
-      }
-    }
+    //     mobileCards.forEach((card, index) => {
+    //       gsap.to(card, {
+    //         scrollTrigger: card, // start the animation when ".box" enters the viewport (once)
+    //         start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
+    //         end: "top bottom",   // Animation completes when card top reaches center of viewport
+    //         yPercent: 0,
+    //         opacity: 1,
+    //         duration: 0.8,
+    //         ease: "power2.out",
+    //       });
+    //     });
+    //   }
+    // }
   }
 
 });
