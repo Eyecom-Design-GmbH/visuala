@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
           gsap.to(card, {
             scrollTrigger: card, // start the animation when ".box" enters the viewport (once)
             start: "top bottom", // Triggers when card top reaches bottom of viewport (earlier)
-            end: "top 80%",   // Animation completes when card top reaches center of viewport
+            end: "top bottom",   // Animation completes when card top reaches center of viewport
             yPercent: 0,
             opacity: 1,
             duration: 0.8,
