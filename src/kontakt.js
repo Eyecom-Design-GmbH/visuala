@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
           ease: "power2.out",
         });
         gsap.to(iconPath, {
-          color: "#ffffff",
+          color: "#1F1F1F",
           duration: 0.3,
           ease: "power2.out",
         });
