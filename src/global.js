@@ -370,7 +370,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         trigger: ".features-wrapper",
         pin: true,
         scrub: 0,
-        start: `top top+=${navbarHeight + 20}px`,
+        start: `top top+=${navbarHeight + 10}px`,
         end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight + window.innerHeight) + " top",
         invalidateOnRefresh: true
       }
@@ -395,6 +395,10 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         rotation: -90,
         ease: "none"
       }, index ? "+=0.2" : "");
+        // Add pause after the last card
+      if (index === cardArray.length - 1) {
+        timeline.to({}, { duration: 1 }); // 1 second pause - adjust as needed
+      }
     });
   });
   }
