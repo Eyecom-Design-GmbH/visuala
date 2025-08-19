@@ -245,83 +245,168 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   //     ); 
   // }
   if (document.querySelector(".section-features")) {
-    const cards = document.querySelectorAll(".features-card");
-    const cardArray = gsap.utils.toArray(".features-card");
+  //   const cards = document.querySelectorAll(".features-card");
+  //   const cardArray = gsap.utils.toArray(".features-card");
     
-    gsap.matchMedia().add("(min-width: 768px)", function() {
-      const timeline = gsap.timeline({
+  //   gsap.matchMedia().add("(min-width: 768px)", function() {
+  //     const timeline = gsap.timeline({
+  //       scrollTrigger: {
+  //         trigger: ".features-wrapper",
+  //         pin: true,
+  //         scrub: 0,
+  //         start: "center center",
+  //         end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length) + " top",
+  //         invalidateOnRefresh: true
+  //       }
+  //     });
+      
+  //     // Set initial positions (matching original)
+  //     gsap.set(".features-card", {
+  //       opacity: 1,
+  //       x: 0,
+  //       y: 0,
+  //       rotation: (index) => {
+  //         if (index === 0) return -8;  // First card
+  //         if (index === 1) return 5;   // Second card  
+  //         return 0;                    // Third card
+  //       }
+  //     });
+      
+  //     // Animate ALL cards including the last one
+  //     cardArray.forEach(function(card, index) {
+  //       timeline.to(cardArray[index], {
+  //         x: "-50%",
+  //         y: function() {
+  //           return -window.innerHeight;
+  //         },
+  //         rotation: -90,
+  //         ease: "none"
+  //       }, index ? "+=0.2" : ""); // Stagger timing for all cards
+  //     });
+  //   })
+    
+  //   .add("(max-width: 767px)", function() {
+  //     const timeline = gsap.timeline({
+  //       scrollTrigger: {
+  //         trigger: ".features-wrapper",
+  //         pin: true,
+  //         scrub: 0,
+  //         start: "top top+=60px", // Account for mobile header
+  //         end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length) + " top",
+  //         invalidateOnRefresh: true
+  //       }
+  //     });
+      
+  //     // Mobile initial positions
+  //     gsap.set(".features-card", {
+  //       opacity: 1,
+  //       x: "-50%",
+  //       y: 0,
+  //       rotation: (index) => {
+  //         if (index === 0) return -5;
+  //         if (index === 1) return 3;
+  //         return 0;
+  //       }
+  //     });
+      
+  //     // Mobile animation - animate ALL cards
+  //     cardArray.forEach(function(card, index) {
+  //       timeline.to(cardArray[index], {
+  //         x: "-50%",
+  //         y: function() {
+  //           return -window.innerHeight;
+  //         },
+  //         rotation: -90,
+  //         ease: "none"
+  //       }, index ? "+=0.2" : "");
+  //     });
+  //   });
+
+  const section = document.querySelector(".section-features");
+    if (!section) return;
+
+    const cards = gsap.utils.toArray(".features-card");
+    const mm = gsap.matchMedia();
+
+    // Utility: compute an end distance long enough so the LAST card clears the viewport
+    const getEndDistance = () => {
+      // +1 viewport to ensure the last card leaves completely
+      return (cards.length + 1) * window.innerHeight;
+    };
+
+    // Set shared base styles
+    gsap.set(cards, {
+      opacity: 1,
+      x: 0,                 // same on mobile & desktop so visuals match
+      y: 0,
+      transformOrigin: "50% 50%"
+    });
+
+    // Helper to create the timeline for a given breakpoint
+    const makeTimeline = () => {
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
         scrollTrigger: {
           trigger: ".features-wrapper",
           pin: true,
           scrub: 0,
-          start: "center center",
-          end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length) + " top",
-          invalidateOnRefresh: true
+          start: "center center", // same for mobile & desktop
+          end: "+=" + getEndDistance(),
+          invalidateOnRefresh: true,
+          anticipatePin: 1
+          // markers: true
         }
       });
-      
-      // Set initial positions (matching original)
-      gsap.set(".features-card", {
-        opacity: 1,
-        x: 0,
-        y: 0,
-        rotation: (index) => {
-          if (index === 0) return -8;  // First card
-          if (index === 1) return 5;   // Second card  
-          return 0;                    // Third card
-        }
+
+      // Set rotations to match original design
+      gsap.set(cards, {
+        rotation: (i) => (i === 0 ? -8 : i === 1 ? 5 : 0)
       });
-      
-      // Animate ALL cards including the last one
-      cardArray.forEach(function(card, index) {
-        timeline.to(cardArray[index], {
-          x: "-50%",
-          y: function() {
-            return -window.innerHeight;
-          },
-          rotation: -90,
-          ease: "none"
-        }, index ? "+=0.2" : ""); // Stagger timing for all cards
+
+      // Animate every card (including the last one)
+      cards.forEach((card, index) => {
+        tl.to(card, {
+          x: 0, // keep centered; change if you actually want horizontal drift
+          y: () => -window.innerHeight, // move one full viewport up per segment
+          rotation: -90
+        }, index ? "+=0.2" : 0);
       });
-    })
-    
-    .add("(max-width: 767px)", function() {
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".features-wrapper",
-          pin: true,
-          scrub: 0,
-          start: "top top+=60px", // Account for mobile header
-          end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length) + " top",
-          invalidateOnRefresh: true
-        }
-      });
-      
-      // Mobile initial positions
-      gsap.set(".features-card", {
-        opacity: 1,
-        x: "-50%",
-        y: 0,
-        rotation: (index) => {
-          if (index === 0) return -5;
-          if (index === 1) return 3;
-          return 0;
-        }
-      });
-      
-      // Mobile animation - animate ALL cards
-      cardArray.forEach(function(card, index) {
-        timeline.to(cardArray[index], {
-          x: "-50%",
-          y: function() {
-            return -window.innerHeight;
-          },
-          rotation: -90,
-          ease: "none"
-        }, index ? "+=0.2" : "");
-      });
+
+      // Small buffer so the last motion fully completes before unpin
+      tl.to({}, { duration: 0.01 });
+
+      return tl;
+    };
+
+    // Kill any existing ScrollTriggers when media changes
+    const killAll = () => {
+      ScrollTrigger.getAll().forEach(st => st.kill());
+      gsap.globalTimeline.clear();
+    };
+
+    // Desktop
+    mm.add("(min-width: 768px)", () => {
+      killAll();
+      makeTimeline();
+      ScrollTrigger.refresh();
+      return () => killAll();
+    });
+
+    // Mobile (now visually identical to desktop)
+    mm.add("(max-width: 767px)", () => {
+      killAll();
+      makeTimeline();
+      ScrollTrigger.refresh();
+      return () => killAll();
+    });
+
+    // Recompute on resize orientation changes
+    window.addEventListener("resize", () => {
+      ScrollTrigger.refresh();
     });
   }
+
+  
 });
 
 const showAnim = gsap.fromTo(
