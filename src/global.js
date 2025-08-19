@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
       gsap.set(".features-card", {
         opacity: 1,
         x: "-50%",
-        y: "-50%",
+        y: 0,
         rotation: (index) => {
           if (index === 0) return -8;  // First card
           if (index === 1) return 5;   // Second card  
