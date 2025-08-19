@@ -370,8 +370,9 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         trigger: ".features-wrapper",
         pin: true,
         scrub: 0,
-        start: `top top+=${navbarHeight + 10}px`,
-        end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight) + " top",
+        // start: `top top+=${navbarHeight + 10}px`,
+        start: "center center",
+        end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight + window.innerHeight) + " top",
         invalidateOnRefresh: true
       }
     });
