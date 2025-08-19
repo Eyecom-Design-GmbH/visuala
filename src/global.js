@@ -370,8 +370,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         trigger: ".features-wrapper",
         pin: true,
         scrub: 0,
-        // start: `top top+=${navbarHeight + 10}px`,
-        start: "center center",
+        start: `top top+=${navbarHeight + 20}px`,
         end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight + window.innerHeight) + " top",
         invalidateOnRefresh: true
       }
@@ -381,7 +380,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
       clearProps: "transform", // Clear any existing CSS transforms first
       opacity: 1,
       x: "0%",
-      y: "0%",
+      y: "50%",
       rotation: (index) => {
         if (index === 0) return -5;
         if (index === 1) return 3;
