@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".features-wrapper",
-        pin: true,
+        //pin: true,
         scrub: 0,
         start: `top top+=${navbarHeight + 10}px`,
         end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length * 6 + navbarHeight + window.innerHeight) + " top",
