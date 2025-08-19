@@ -323,90 +323,96 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   //   });
 
   const section = document.querySelector(".section-features");
-    if (!section) return;
+  if (!section) return;
 
-    const cards = gsap.utils.toArray(".features-card");
-    const mm = gsap.matchMedia();
+  const cards = gsap.utils.toArray(".features-card");
+  const mm = gsap.matchMedia();
 
-    // Utility: compute an end distance long enough so the LAST card clears the viewport
-    const getEndDistance = () => {
-      // +1 viewport to ensure the last card leaves completely
-      return (cards.length + 1) * window.innerHeight;
-    };
+  const step = () => window.innerHeight;                // distance each card travels per step
+  const endDistance = () => step() * (cards.length + 1); // long enough so LAST card fully clears
 
-    // Set shared base styles
+  // Always start from a clean, centered state
+  const setBase = () => {
     gsap.set(cards, {
-      clearProps: "transform",         // wipe any prior CSS transforms
+      clearProps: "transform",
       opacity: 1,
       left: "50%",
-      xPercent: -50,                   // <-- key: centers card regardless of width
-      x: 0,                 // same on mobile & desktop so visuals match
+      top: "50%",
+      xPercent: -50,          // horizontal center
+      yPercent: -50,          // vertical center
+      x: 0,
       y: 0,
       transformOrigin: "50% 50%"
     });
 
-    // Helper to create the timeline for a given breakpoint
-    const makeTimeline = () => {
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: ".features-wrapper",
-          pin: true,
-          scrub: 0,
-          start: "center center", // same for mobile & desktop
-          end: "+=" + getEndDistance(),
-          invalidateOnRefresh: true,
-          anticipatePin: 1
-          // markers: true
-        }
+    // original rotations
+    gsap.set(cards, {
+      rotation: (i) => (i === 0 ? -8 : i === 1 ? 5 : 0)
+    });
+  };
+
+  const buildTimeline = (opts = {}) => {
+    setBase();
+
+    const tl = gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: {
+        trigger: ".features-wrapper",
+        pin: true,
+        pinType: opts.pinType || undefined, // "fixed" on mobile to avoid drift
+        scrub: 0,
+        start: "top top",                  // start when the section hits the top
+        end: () => "+=" + endDistance(),   // big enough for all cards to leave
+        anticipatePin: 1,
+        invalidateOnRefresh: true
+        // markers: true
+      }
+    });
+
+    // Animate strictly one-by-one (no overlap): default timeline sequencing
+    cards.forEach((card) => {
+      tl.to(card, {
+        // Keep perfectly centered horizontally & vertically while moving up
+        xPercent: -50,
+        yPercent: -50,
+        // move up exactly one viewport height from current position (cumulative)
+        y: () => `-=${step()}`,
+        rotation: -90,
+        duration: 1
       });
+    });
 
-      // Set rotations to match original design
-      gsap.set(cards, {
-        rotation: (i) => (i === 0 ? -8 : i === 1 ? 5 : 0)
-      });
+    // tiny buffer before unpin
+    tl.to({}, { duration: 0.01 });
 
-      // Animate every card (including the last one)
-      cards.forEach((card, index) => {
-        tl.to(card, {
-          x: 0, // keep centered; change if you actually want horizontal drift
-          y: () => -window.innerHeight, // move one full viewport up per segment
-          rotation: -90
-        }, index ? "+=0.2" : 0);
-      });
+    return tl;
+  };
 
-      // Small buffer so the last motion fully completes before unpin
-      tl.to({}, { duration: 0.01 });
+  // Helper to cleanly rebuild on media changes
+  const rebuild = (opts) => {
+    ScrollTrigger.getAll().forEach(st => st.kill());
+    gsap.globalTimeline.clear();
+    buildTimeline(opts);
+    ScrollTrigger.refresh();
+  };
 
-      return tl;
-    };
-
-    // Kill any existing ScrollTriggers when media changes
-    const killAll = () => {
+  // Desktop: defaults
+  mm.add("(min-width: 768px)", () => {
+    rebuild({});
+    return () => {
       ScrollTrigger.getAll().forEach(st => st.kill());
       gsap.globalTimeline.clear();
     };
+  });
 
-    // Desktop
-    mm.add("(min-width: 768px)", () => {
-      killAll();
-      makeTimeline();
-      ScrollTrigger.refresh();
-      return () => killAll();
-    });
-
-    // Mobile (now visually identical to desktop)
-    mm.add("(max-width: 767px)", () => {
-      killAll();
-      makeTimeline();
-      ScrollTrigger.refresh();
-      return () => killAll();
-    });
-
-    // Recompute on resize orientation changes
-    window.addEventListener("resize", () => {
-      ScrollTrigger.refresh();
-    });
+  // Mobile: force pinType "fixed" and use the same logic
+  mm.add("(max-width: 767px)", () => {
+    rebuild({ pinType: "fixed" });
+    return () => {
+      ScrollTrigger.getAll().forEach(st => st.kill());
+      gsap.globalTimeline.clear();
+    };
+  });
   }
 
   
