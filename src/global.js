@@ -322,96 +322,78 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   //     });
   //   });
 
-  const section = document.querySelector(".section-features");
-  if (!section) return;
-
-  const cards = gsap.utils.toArray(".features-card");
-  const mm = gsap.matchMedia();
-
-  const step = () => window.innerHeight;                // distance each card travels per step
-  const endDistance = () => step() * (cards.length + 1); // long enough so LAST card fully clears
-
-  // Always start from a clean, centered state
-  const setBase = () => {
-    gsap.set(cards, {
-      clearProps: "transform",
-      opacity: 1,
-      left: "50%",
-      top: "50%",
-      xPercent: -50,          // horizontal center
-      yPercent: -50,          // vertical center
-      x: 0,
-      y: 0,
-      transformOrigin: "50% 50%"
-    });
-
-    // original rotations
-    gsap.set(cards, {
-      rotation: (i) => (i === 0 ? -8 : i === 1 ? 5 : 0)
-    });
-  };
-
-  const buildTimeline = (opts = {}) => {
-    setBase();
-
-    const tl = gsap.timeline({
-      defaults: { ease: "none" },
+  const cards = document.querySelectorAll(".features-card");
+  const cardArray = gsap.utils.toArray(".features-card");
+  
+  const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
+  
+  gsap.matchMedia().add("(min-width: 768px)", function() {
+    const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".features-wrapper",
         pin: true,
-        pinType: opts.pinType || undefined, // "fixed" on mobile to avoid drift
         scrub: 0,
-        start: "top top",                  // start when the section hits the top
-        end: () => "+=" + endDistance(),   // big enough for all cards to leave
-        anticipatePin: 1,
+        start: "center center",
+        end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight) + " top",
         invalidateOnRefresh: true
-        // markers: true
       }
     });
-
-    // Animate strictly one-by-one (no overlap): default timeline sequencing
-    cards.forEach((card) => {
-      tl.to(card, {
-        // Keep perfectly centered horizontally & vertically while moving up
-        xPercent: -50,
-        yPercent: -50,
-        // move up exactly one viewport height from current position (cumulative)
-        y: () => `-=${step()}`,
-        rotation: -90,
-        duration: 1
-      });
+    
+    // Set initial positions - now properly centered
+    gsap.set(".features-card", {
+      opacity: 1,
+      x: "0%", /* Changed from 0 to 0% */
+      y: "0%", /* Changed from 0 to 0% */
+      rotation: (index) => {
+        if (index === 0) return -8;
+        if (index === 1) return 5;
+        return 0;
+      }
     });
-
-    // tiny buffer before unpin
-    tl.to({}, { duration: 0.01 });
-
-    return tl;
-  };
-
-  // Helper to cleanly rebuild on media changes
-  const rebuild = (opts) => {
-    ScrollTrigger.getAll().forEach(st => st.kill());
-    gsap.globalTimeline.clear();
-    buildTimeline(opts);
-    ScrollTrigger.refresh();
-  };
-
-  // Desktop: defaults
-  mm.add("(min-width: 768px)", () => {
-    rebuild({});
-    return () => {
-      ScrollTrigger.getAll().forEach(st => st.kill());
-      gsap.globalTimeline.clear();
-    };
-  });
-
-  // Mobile: force pinType "fixed" and use the same logic
-  mm.add("(max-width: 767px)", () => {
-    rebuild({ pinType: "fixed" });
-    return () => {
-      ScrollTrigger.getAll().forEach(st => st.kill());
-      gsap.globalTimeline.clear();
-    };
+    
+    // Animate ALL cards
+    cardArray.forEach(function(card, index) {
+      timeline.to(cardArray[index], {
+        x: "0%", /* Keep centered horizontally */
+        y: "-100vh", /* Move up by full viewport height */
+        rotation: -90,
+        ease: "none"
+      }, index ? "+=0.2" : "");
+    });
+  })
+  
+  .add("(max-width: 767px)", function() {
+    // Similar changes for mobile...
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".features-wrapper",
+        pin: true,
+        scrub: 0,
+        start: `top top+=${navbarHeight + 10}px`,
+        end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight) + " top",
+        invalidateOnRefresh: true
+      }
+    });
+    
+    gsap.set(".features-card", {
+      opacity: 1,
+      x: "0%",
+      y: "0%",
+      rotation: (index) => {
+        if (index === 0) return -5;
+        if (index === 1) return 3;
+        return 0;
+      }
+    });
+    
+    cardArray.forEach(function(card, index) {
+      timeline.to(cardArray[index], {
+        x: "0%",
+        y: "-100vh",
+        rotation: -90,
+        ease: "none"
+      }, index ? "+=0.2" : "");
+    });
   });
   }
 
