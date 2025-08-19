@@ -341,6 +341,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     
     // Set initial positions - now properly centered
     gsap.set(".features-card", {
+      clearProps: "transform", // Clear any existing CSS transforms first
       opacity: 1,
       x: "0%", /* Changed from 0 to 0% */
       y: "0%", /* Changed from 0 to 0% */
@@ -376,6 +377,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     });
     
     gsap.set(".features-card", {
+      clearProps: "transform", // Clear any existing CSS transforms first
       opacity: 1,
       x: "0%",
       y: "0%",
