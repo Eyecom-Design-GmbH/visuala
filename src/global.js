@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
       // Mobile initial positions
       gsap.set(".features-card", {
         opacity: 1,
-        x: 0,
+        x: "-50%",
         y: 0,
         rotation: (index) => {
           if (index === 0) return -5;
