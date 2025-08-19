@@ -162,88 +162,248 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     }
   }
 
+  // if (document.querySelector(".section-features")) {
+  //   // Check if device is mobile (you can adjust this breakpoint)
+  //   const isMobile = window.innerWidth <= 768;
+    
+  //   // Define responsive values
+  //   const responsiveValues = {
+  //     desktop: {
+  //       yPercent: -200,
+  //       xPercent: (index) => (index % 2 === 0 ? 35 : -35),
+  //       scale: 1.25,
+  //       rotation: (index) => (index % 2 === 0 ? 15 : -15),
+  //       finalYPercent: -200,
+  //       finalXPercent: (index) => (index % 2 === 0 ? 50 : -50),
+  //       finalRotation: (index) => (index % 2 === 0 ? 25 : -25),
+  //       finalScale: 1.1,
+  //       stagger: { each: 1.8, from: "start" }
+  //     },
+  //     mobile: {
+  //       yPercent: -200,
+  //       xPercent: (index) => (index % 2 === 0 ? 20 : -20),
+  //       scale: 1.15,
+  //       rotation: (index) => (index % 2 === 0 ? 10 : -10),
+  //       finalYPercent: -200,
+  //       finalXPercent: (index) => (index % 2 === 0 ? 30 : -30),
+  //       finalRotation: (index) => (index % 2 === 0 ? 15 : -15),
+  //       finalScale: 1.05,
+  //       stagger: { each: 1.2, from: "start" }
+  //     }
+  //   };
+    
+  //   const values = isMobile ? responsiveValues.mobile : responsiveValues.desktop;
+    
+  //   const tl = gsap.timeline({
+  //     scrollTrigger: {
+  //       trigger: ".section-features",
+  //       start: "top top",
+  //       end: "bottom bottom",
+  //       scrub: true,
+  //       toggleActions: "restart none reverse",
+  //       pin: ".features-wrapper",
+  //     },
+  //   });
+  
+  //   gsap.set(".features-card", {
+  //     opacity: 1,
+  //     yPercent: 0,
+  //     xPercent: 0,
+  //     scale: 1,
+  //     rotation: (index) => {
+  //       if (index === 0) return isMobile ? -5 : -8;
+  //       if (index === 1) return isMobile ? 3 : 5;
+  //       return 0;
+  //     },
+  //   });
+  
+  //   tl.to(".features-card", {
+  //     duration: 0.5,
+  //   })
+  //     .to(".features-card", {
+  //       yPercent: values.yPercent,
+  //       xPercent: values.xPercent,
+  //       scale: values.scale,
+  //       rotation: values.rotation,
+  //       duration: 1.8,
+  //       ease: "power2.out",
+  //       stagger: values.stagger,
+  //     })
+  //     .to(
+  //       ".features-card",
+  //       {
+  //         opacity: 0,
+  //         yPercent: values.finalYPercent,
+  //         xPercent: values.finalXPercent,
+  //         rotation: values.finalRotation,
+  //         scale: values.finalScale,
+  //         duration: 0.8,
+  //         ease: "power1.in",
+  //         stagger: values.stagger,
+  //       },
+  //       "-=0.5",
+  //     ); 
+  // }
   if (document.querySelector(".section-features")) {
-    // Check if device is mobile (you can adjust this breakpoint)
-    const isMobile = window.innerWidth <= 768;
+  //   const cards = document.querySelectorAll(".features-card");
+  //   const cardArray = gsap.utils.toArray(".features-card");
     
-    // Define responsive values
-    const responsiveValues = {
-      desktop: {
-        yPercent: -200,
-        xPercent: (index) => (index % 2 === 0 ? 35 : -35),
-        scale: 1.25,
-        rotation: (index) => (index % 2 === 0 ? 15 : -15),
-        finalYPercent: -200,
-        finalXPercent: (index) => (index % 2 === 0 ? 50 : -50),
-        finalRotation: (index) => (index % 2 === 0 ? 25 : -25),
-        finalScale: 1.1,
-        stagger: { each: 1.8, from: "start" }
-      },
-      mobile: {
-        yPercent: -200,
-        xPercent: (index) => (index % 2 === 0 ? 20 : -20),
-        scale: 1.15,
-        rotation: (index) => (index % 2 === 0 ? 10 : -10),
-        finalYPercent: -200,
-        finalXPercent: (index) => (index % 2 === 0 ? 30 : -30),
-        finalRotation: (index) => (index % 2 === 0 ? 15 : -15),
-        finalScale: 1.05,
-        stagger: { each: 1.2, from: "start" }
-      }
-    };
+  //   gsap.matchMedia().add("(min-width: 768px)", function() {
+  //     const timeline = gsap.timeline({
+  //       scrollTrigger: {
+  //         trigger: ".features-wrapper",
+  //         pin: true,
+  //         scrub: 0,
+  //         start: "center center",
+  //         end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length) + " top",
+  //         invalidateOnRefresh: true
+  //       }
+  //     });
+      
+  //     // Set initial positions (matching original)
+  //     gsap.set(".features-card", {
+  //       opacity: 1,
+  //       x: 0,
+  //       y: 0,
+  //       rotation: (index) => {
+  //         if (index === 0) return -8;  // First card
+  //         if (index === 1) return 5;   // Second card  
+  //         return 0;                    // Third card
+  //       }
+  //     });
+      
+  //     // Animate ALL cards including the last one
+  //     cardArray.forEach(function(card, index) {
+  //       timeline.to(cardArray[index], {
+  //         x: "-50%",
+  //         y: function() {
+  //           return -window.innerHeight;
+  //         },
+  //         rotation: -90,
+  //         ease: "none"
+  //       }, index ? "+=0.2" : ""); // Stagger timing for all cards
+  //     });
+  //   })
     
-    const values = isMobile ? responsiveValues.mobile : responsiveValues.desktop;
-    
-    const tl = gsap.timeline({
+  //   .add("(max-width: 767px)", function() {
+  //     const timeline = gsap.timeline({
+  //       scrollTrigger: {
+  //         trigger: ".features-wrapper",
+  //         pin: true,
+  //         scrub: 0,
+  //         start: "top top+=60px", // Account for mobile header
+  //         end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length) + " top",
+  //         invalidateOnRefresh: true
+  //       }
+  //     });
+      
+  //     // Mobile initial positions
+  //     gsap.set(".features-card", {
+  //       opacity: 1,
+  //       x: "-50%",
+  //       y: 0,
+  //       rotation: (index) => {
+  //         if (index === 0) return -5;
+  //         if (index === 1) return 3;
+  //         return 0;
+  //       }
+  //     });
+      
+  //     // Mobile animation - animate ALL cards
+  //     cardArray.forEach(function(card, index) {
+  //       timeline.to(cardArray[index], {
+  //         x: "-50%",
+  //         y: function() {
+  //           return -window.innerHeight;
+  //         },
+  //         rotation: -90,
+  //         ease: "none"
+  //       }, index ? "+=0.2" : "");
+  //     });
+  //   });
+
+  const cards = document.querySelectorAll(".features-card");
+  const cardArray = gsap.utils.toArray(".features-card");
+  
+  const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
+  
+  gsap.matchMedia().add("(min-width: 768px)", function() {
+    const timeline = gsap.timeline({
       scrollTrigger: {
-        trigger: ".section-features",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true,
-        toggleActions: "restart none reverse",
-        pin: ".features-wrapper",
-      },
+        trigger: ".features-wrapper",
+        pin: true,
+        scrub: 0,
+        start: "center center",
+        end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight) + " top",
+        invalidateOnRefresh: true
+      }
     });
-  
+    
+    // Set initial positions - now properly centered
     gsap.set(".features-card", {
+      clearProps: "transform", // Clear any existing CSS transforms first
       opacity: 1,
-      yPercent: 0,
-      xPercent: 0,
-      scale: 1,
+      x: "0%", /* Changed from 0 to 0% */
+      y: "0%", /* Changed from 0 to 0% */
       rotation: (index) => {
-        if (index === 0) return isMobile ? -5 : -8;
-        if (index === 1) return isMobile ? 3 : 5;
+        if (index === 0) return -8;
+        if (index === 1) return 5;
         return 0;
-      },
+      }
     });
+    
+    // Animate ALL cards
+    cardArray.forEach(function(card, index) {
+      timeline.to(cardArray[index], {
+        x: "0%", /* Keep centered horizontally */
+        y: "-100vh", /* Move up by full viewport height */
+        rotation: -90,
+        ease: "none"
+      }, index ? "+=0.2" : "");
+    });
+  })
   
-    tl.to(".features-card", {
-      duration: 0.5,
-    })
-      .to(".features-card", {
-        yPercent: values.yPercent,
-        xPercent: values.xPercent,
-        scale: values.scale,
-        rotation: values.rotation,
-        duration: 1.8,
-        ease: "power2.out",
-        stagger: values.stagger,
-      })
-      .to(
-        ".features-card",
-        {
-          opacity: 0,
-          yPercent: values.finalYPercent,
-          xPercent: values.finalXPercent,
-          rotation: values.finalRotation,
-          scale: values.finalScale,
-          duration: 0.8,
-          ease: "power1.in",
-          stagger: values.stagger,
-        },
-        "-=0.5",
-      ); 
+  .add("(max-width: 767px)", function() {
+    // Similar changes for mobile...
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".features-wrapper",
+        pin: true,
+        scrub: 0,
+        start: `top top+=${navbarHeight + 10}px`,
+        end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length * 6 + navbarHeight + window.innerHeight) + " top",
+        invalidateOnRefresh: true
+      }
+    });
+    
+    gsap.set(".features-card", {
+      clearProps: "transform", // Clear any existing CSS transforms first
+      opacity: 1,
+      x: "0%",
+      y: "50%",
+      rotation: (index) => {
+        if (index === 0) return -5;
+        if (index === 1) return 3;
+        return 0;
+      }
+    });
+    
+    cardArray.forEach(function(card, index) {
+      timeline.to(cardArray[index], {
+        x: "0%",
+        y: "-100vh",
+        rotation: -90,
+        ease: "none"
+      }, index ? "+=0.2" : "");
+        // Add pause after the last card
+      if (index === cardArray.length - 1) {
+        timeline.to({}, { duration: 1 }); // 1 second pause - adjust as needed
+      }
+    });
+  });
   }
+
+  
 });
 
 const showAnim = gsap.fromTo(
