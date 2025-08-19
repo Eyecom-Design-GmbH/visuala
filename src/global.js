@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
       // Set initial positions (matching original)
       gsap.set(".features-card", {
         opacity: 1,
-        x: "-50%",
+        x: 0,
         y: 0,
         rotation: (index) => {
           if (index === 0) return -8;  // First card
