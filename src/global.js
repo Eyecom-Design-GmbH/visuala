@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     cardArray.forEach(function(card, index) {
       timeline.to(cardArray[index], {
         x: "0%", /* Keep centered horizontally */
-        y: "-100vh", /* Move up by full viewport height */
+        y: "-150vh", /* Move up by full viewport height */
         rotation: -90,
         ease: "none"
       }, index ? "+=0.2" : "");
@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     cardArray.forEach(function(card, index) {
       timeline.to(cardArray[index], {
         x: "0%",
-        y: "-100vh",
+        y: "-150vh",
         rotation: -90,
         ease: "none"
       }, index ? "+=0.2" : "");
