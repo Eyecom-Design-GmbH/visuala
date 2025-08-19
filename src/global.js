@@ -336,7 +336,10 @@ document.addEventListener("DOMContentLoaded", async (event) => {
 
     // Set shared base styles
     gsap.set(cards, {
+      clearProps: "transform",         // wipe any prior CSS transforms
       opacity: 1,
+      left: "50%",
+      xPercent: -50,                   // <-- key: centers card regardless of width
       x: 0,                 // same on mobile & desktop so visuals match
       y: 0,
       transformOrigin: "50% 50%"
