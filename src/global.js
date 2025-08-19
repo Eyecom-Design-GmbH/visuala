@@ -272,18 +272,16 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         }
       });
       
-      // Animate each card individually (like original)
+      // Animate ALL cards including the last one
       cardArray.forEach(function(card, index) {
-        if (cardArray[index + 1]) { // Don't animate the last card
-          timeline.to(cardArray[index], {
-            x: "-50%",
-            y: function() {
-              return -window.innerHeight;
-            },
-            rotation: -90,
-            ease: "none"
-          }, index ? "+=0.2" : ""); // Stagger timing
-        }
+        timeline.to(cardArray[index], {
+          x: "-50%",
+          y: function() {
+            return -window.innerHeight;
+          },
+          rotation: -90,
+          ease: "none"
+        }, index ? "+=0.2" : ""); // Stagger timing for all cards
       });
     })
     
@@ -311,18 +309,16 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         }
       });
       
-      // Mobile animation
+      // Mobile animation - animate ALL cards
       cardArray.forEach(function(card, index) {
-        if (cardArray[index + 1]) {
-          timeline.to(cardArray[index], {
-            x: "-50%",
-            y: function() {
-              return -window.innerHeight;
-            },
-            rotation: -90,
-            ease: "none"
-          }, index ? "+=0.2" : "");
-        }
+        timeline.to(cardArray[index], {
+          x: "-50%",
+          y: function() {
+            return -window.innerHeight;
+          },
+          rotation: -90,
+          ease: "none"
+        }, index ? "+=0.2" : "");
       });
     });
   }
