@@ -72,12 +72,12 @@ const projectConfig = {
   id: "#project-section", // Korrekte ID für die Team-Sektion
   leftTitle: {
     triggerStart: "top bottom",
-    triggerEnd: "top 50%",
+    triggerEnd: "top 70%",
     blur: 5,
     duration: 0.7,
   },
   rightTitle: {
-    triggerStart: "top 50%",
+    triggerStart: "top 70%",
     triggerEnd: "top top",
     blur: 20,
     duration: 1.2,
