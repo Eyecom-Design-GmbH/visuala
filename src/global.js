@@ -1,4 +1,8 @@
 import "./typewriter.js";
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
 // Font loading utility
 function waitForFonts() {
   return new Promise((resolve) => {
@@ -134,33 +138,51 @@ document.addEventListener("DOMContentLoaded", async (event) => {
         
         // Animate regular images
         if (regularImages.length > 0) {
-          gsap.from(regularImages, {
-            scrollTrigger: {
-              trigger: wrapper,
-              start: "top 60%",
-              markers: false,
-            },
+          // Set initial state first
+          gsap.set(regularImages, {
             yPercent: 100,
-            opacity: 0,
+            opacity: 0
+          });
+          
+          gsap.to(regularImages, {
+            yPercent: 0,
+            opacity: 1,
             duration: 1.2,
             ease: "power2.out",
             stagger: 0.05,
+            scrollTrigger: {
+              trigger: wrapper,
+              start: "top 80%",
+              end: "bottom 20%",
+              markers: false,
+              once: true,
+              toggleActions: "play none none none"
+            }
           });
         }
         
         // Animate large images
         if (largeImages.length > 0) {
-          gsap.from(largeImages, {
-            scrollTrigger: {
-              trigger: wrapper,
-              start: "top 60%",
-              markers: false,
-            },
+          // Set initial state first
+          gsap.set(largeImages, {
             yPercent: 100,
-            opacity: 0,
+            opacity: 0
+          });
+          
+          gsap.to(largeImages, {
+            yPercent: 0,
+            opacity: 1,
             duration: 1.2,
             ease: "power2.out",
             stagger: 0.05,
+            scrollTrigger: {
+              trigger: wrapper,
+              start: "top 80%",
+              end: "bottom 20%",
+              markers: false,
+              once: true,
+              toggleActions: "play none none none"
+            }
           });
         }
       });
