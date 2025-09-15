@@ -120,46 +120,64 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     });
   }
 
-  if (document.querySelector(".gallery7_grid-list")) {
-    if (document.querySelector(".gallery7_image-wrapper")) {
-      gsap.utils.toArray(".gallery7_grid-list").forEach((wrapper) => {
-        const images = wrapper.querySelectorAll(".gallery7_image-wrapper");
-
-        gsap.from(images, {
-          scrollTrigger: {
-            trigger: wrapper,
-            start: "top 60%",
-            markers: false,
-          },
-          yPercent: 100,
-          opacity: 0,
-          duration: 1.2,
-          ease: "power2.out",
-          stagger: 0.05,
-        });
+  // Gallery7 animations with better error handling and timing
+  function initGallery7Animations() {
+    const gallery7Grids = document.querySelectorAll(".gallery7_grid-list");
+    if (gallery7Grids.length > 0) {
+      console.log("Found gallery7 grids:", gallery7Grids.length);
+      
+      gallery7Grids.forEach((wrapper, index) => {
+        const regularImages = wrapper.querySelectorAll(".gallery7_image-wrapper");
+        const largeImages = wrapper.querySelectorAll(".gallery7_image-wrapper-large");
+        
+        console.log(`Gallery ${index}: regular images: ${regularImages.length}, large images: ${largeImages.length}`);
+        
+        // Animate regular images
+        if (regularImages.length > 0) {
+          gsap.from(regularImages, {
+            scrollTrigger: {
+              trigger: wrapper,
+              start: "top 60%",
+              markers: false,
+            },
+            yPercent: 100,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power2.out",
+            stagger: 0.05,
+          });
+        }
+        
+        // Animate large images
+        if (largeImages.length > 0) {
+          gsap.from(largeImages, {
+            scrollTrigger: {
+              trigger: wrapper,
+              start: "top 60%",
+              markers: false,
+            },
+            yPercent: 100,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power2.out",
+            stagger: 0.05,
+          });
+        }
       });
+      return true; // Success
+    } else {
+      console.log("No gallery7_grid-list elements found");
+      return false; // Not found
     }
-
-    if (document.querySelector(".gallery7_image-wrapper-large")) {
-      gsap.utils.toArray(".gallery7_grid-list").forEach((wrapper) => {
-        const images = wrapper.querySelectorAll(
-          ".gallery7_image-wrapper-large",
-        );
-
-        gsap.from(images, {
-          scrollTrigger: {
-            trigger: wrapper,
-            start: "top 60%",
-            markers: false,
-          },
-          yPercent: 100,
-          opacity: 0,
-          duration: 1.2,
-          ease: "power2.out",
-          stagger: 0.05,
-        });
-      });
-    }
+  }
+  
+  // Try to initialize gallery animations
+  if (!initGallery7Animations()) {
+    // If not found, try again after a short delay
+    setTimeout(() => {
+      console.log("Retrying gallery7 animation initialization...");
+      initGallery7Animations();
+    }, 100);
   }
 
   if (document.querySelector(".section-features")) {
