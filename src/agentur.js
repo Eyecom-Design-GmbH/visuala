@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     card.style.position = "sticky";
     card.style.top = 3 + index * 2 + "rem";
     card.style.marginTop = 3 + index * 2 + "rem";
-    card.style.zIndex = 30 - index;
+    card.style.zIndex = 30 + index;
   });
 
   if (document.querySelector(".team-marquee")) {
