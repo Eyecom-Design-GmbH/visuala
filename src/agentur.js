@@ -9,12 +9,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const items = document.querySelectorAll(".testimonial_item");
 
   items.forEach((item, index) => {
-    // const card = item.querySelector(".testimonial_card");
-    const card = item;
+    const card = item.querySelector(".testimonial_card");
     card.style.position = "sticky";
     card.style.top = 3 + index * 2 + "rem";
     card.style.marginTop = 3 + index * 2 + "rem";
-    card.style.zIndex = 30 + index;
+    card.style.zIndex = 30 - index;
   });
 
   if (document.querySelector(".team-marquee")) {
