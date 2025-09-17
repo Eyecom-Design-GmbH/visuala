@@ -68,65 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
     preserveStyles: true,
   });
   // Konfiguration für die Team-Sektion
-const projectConfig = {
-  id: "#project-section", // Korrekte ID für die Team-Sektion
-  leftTitle: {
-    triggerStart: "top bottom",
-    triggerEnd: "top 50%",
-    blur: 5,
-    duration: 0.7,
-  },
-  rightTitle: {
-    triggerStart: "top bottom",
-    triggerEnd: "top 50%",
-    blur: 20,
-    duration: 1.2,
-  },
-  // Standard-Selektoren (ohne -2 Suffix)
-  leftSelector: ".angebot_display-heading-left",
-  rightSelector: ".angebot_display-heading-right",
-};
 
-// Animation für die Team-Sektion anwenden
-const projectSection = document.querySelector(projectConfig.id);
-
-if (projectSection) {
-  // Linker Titel "Die Visuala"
-  const leftHeading = projectSection.querySelector(projectConfig.leftSelector);
-  if (leftHeading) {
-    createTitleAnimation(leftHeading, {
-      direction: "left",
-      trigger: "scrub",
-      triggerElement: projectSection,
-      triggerStart: projectConfig.leftTitle.triggerStart,
-      triggerEnd: projectConfig.leftTitle.triggerEnd,
-      distance: "100vw",
-      scale: 2.5,
-      opacity: 0,
-      blur: projectConfig.leftTitle.blur,
-      duration: projectConfig.leftTitle.duration,
-      ease: "power2.out",
-    });
-  }
-
-  // Rechter Titel "Teampower"
-  const rightHeading = projectSection.querySelector(projectConfig.rightSelector);
-  if (rightHeading) {
-    createTitleAnimation(rightHeading, {
-      direction: "right",
-      trigger: "scrub",
-      triggerElement: projectSection,
-      triggerStart: projectConfig.rightTitle.triggerStart,
-      triggerEnd: projectConfig.rightTitle.triggerEnd,
-      distance: "100vw",
-      scale: 2.5,
-      opacity: 0,
-      blur: projectConfig.rightTitle.blur,
-      duration: projectConfig.rightTitle.duration,
-      ease: "power2.out",
-    });
-  }
-}
 
 if (document.querySelector(".work_mobile")) {
   const mobileCards = document.querySelectorAll(".work_mobile .card-row4_card");
