@@ -60,20 +60,20 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   });
 
-  // Client logos animation
-  if (document.querySelector(".client-logos_list") && document.querySelector(".client-logos_item")) {
-    gsap.from(".client-logos_item", {
-      scrollTrigger: {
-        trigger: ".client-logos_list",
-        start: "top 70%",
-      },
-      yPercent: 100,
-      opacity: 0,
-      duration: 0.5,
-      ease: "power2.out",
-      stagger: 0.05,
-    });
-  }
+  // // Client logos animation
+  // if (document.querySelector(".client-logos_list") && document.querySelector(".client-logos_item")) {
+  //   gsap.from(".client-logos_item", {
+  //     scrollTrigger: {
+  //       trigger: ".client-logos_list",
+  //       start: "top 70%",
+  //     },
+  //     yPercent: 100,
+  //     opacity: 0,
+  //     duration: 0.5,
+  //     ease: "power2.out",
+  //     stagger: 0.05,
+  //   });
+  // }
 
   // Gallery7 animations
   const gallery7Grids = document.querySelectorAll(".gallery7_grid-list");
