@@ -1,26 +1,26 @@
 import "./typewriter.js";
 
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger);
+// // Register GSAP plugins
+// gsap.registerPlugin(ScrollTrigger);
 
-// Font loading utility
-function waitForFonts() {
-  return new Promise((resolve) => {
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => {
-        resolve();
-      });
-    } else {
-      setTimeout(() => {
-        resolve();
-      }, 100);
-    }
-  });
-}
+// // Font loading utility
+// function waitForFonts() {
+//   return new Promise((resolve) => {
+//     if (document.fonts && document.fonts.ready) {
+//       document.fonts.ready.then(() => {
+//         resolve();
+//       });
+//     } else {
+//       setTimeout(() => {
+//         resolve();
+//       }, 100);
+//     }
+//   });
+// }
 
 // Initialize animations after fonts are loaded
 async function initializeAnimations() {
-  await waitForFonts();
+  //await waitForFonts();
 
   if (window.createTypewriter) {
     const typewriterElements = document.querySelectorAll(
