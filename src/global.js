@@ -36,86 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // // Text fade-in animation on scroll
-  // document.querySelectorAll('[animation-element="text-fade-in"]').forEach((el) => {
-  //   const split = new SplitText(el, { type: "words,chars" });
-  //   const totalChars = split.chars.length;
-  //   const staggerTime = 1 / totalChars;
-
-  //   gsap.fromTo(
-  //     split.chars,
-  //     { opacity: 0.1 },
-  //     {
-  //       opacity: 1,
-  //       ease: "none",
-  //       stagger: staggerTime,
-  //       duration: 0.7,
-  //       scrollTrigger: {
-  //         trigger: el,
-  //         start: "top 70%",
-  //         end: "top 20%",
-  //         once: true,
-  //       },
-  //     }
-  //   );
-  // });
-
-  // // Client logos animation
-  // if (document.querySelector(".client-logos_list") && document.querySelector(".client-logos_item")) {
-  //   gsap.from(".client-logos_item", {
-  //     scrollTrigger: {
-  //       trigger: ".client-logos_list",
-  //       start: "top 70%",
-  //     },
-  //     yPercent: 100,
-  //     opacity: 0,
-  //     duration: 0.5,
-  //     ease: "power2.out",
-  //     stagger: 0.05,
-  //   });
-  // }
-
-  // // Gallery7 animations
-  // const gallery7Grids = document.querySelectorAll(".gallery7_grid-list");
-  // gallery7Grids.forEach((wrapper) => {
-  //   const regularImages = wrapper.querySelectorAll(".gallery7_image-wrapper");
-  //   const largeImages = wrapper.querySelectorAll(".gallery7_image-wrapper-large");
-
-  //   // Animate regular images
-  //   if (regularImages.length > 0) {
-  //     gsap.set(regularImages, { yPercent: 100, opacity: 0 });
-  //     gsap.to(regularImages, {
-  //       yPercent: 0,
-  //       opacity: 1,
-  //       duration: 1.2,
-  //       ease: "power2.out",
-  //       stagger: 0.05,
-  //       scrollTrigger: {
-  //         trigger: wrapper,
-  //         start: "top 80%",
-  //         once: true,
-  //       }
-  //     });
-  //   }
-
-  //   // Animate large images
-  //   if (largeImages.length > 0) {
-  //     gsap.set(largeImages, { yPercent: 100, opacity: 0 });
-  //     gsap.to(largeImages, {
-  //       yPercent: 0,
-  //       opacity: 1,
-  //       duration: 1.2,
-  //       ease: "power2.out",
-  //       stagger: 0.05,
-  //       scrollTrigger: {
-  //         trigger: wrapper,
-  //         start: "top 80%",
-  //         once: true,
-  //       }
-  //     });
-  //   }
-  // });
-
   // Features card animations
   if (document.querySelector(".section-features")) {
     const cards = document.querySelectorAll(".features-card");
@@ -197,55 +117,55 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Navbar show/hide animation
-  const showAnim = gsap.fromTo(
-    ".navbar-fixed_component",
-    {
-      yPercent: -100,
-      opacity: 0,
-      display: "none",
-    },
-    {
-      yPercent: 0,
-      opacity: 1,
-      paused: true,
-      duration: 0.2,
-      display: "flex",
-    }
-  );
+  // // Navbar show/hide animation
+  // const showAnim = gsap.fromTo(
+  //   ".navbar-fixed_component",
+  //   {
+  //     yPercent: -100,
+  //     opacity: 0,
+  //     display: "none",
+  //   },
+  //   {
+  //     yPercent: 0,
+  //     opacity: 1,
+  //     paused: true,
+  //     duration: 0.2,
+  //     display: "flex",
+  //   }
+  // );
 
-  let scrollPositionWhenShown = 0;
+  // let scrollPositionWhenShown = 0;
 
-  ScrollTrigger.create({
-    start: "top top",
-    end: "max",
-    onUpdate: (self) => {
-      const mainNav = document.querySelector(".padding-navbar");
-      const mainNavRect = mainNav.getBoundingClientRect();
-      const mainNavCompletelyGone = mainNavRect.bottom < 0;
+  // ScrollTrigger.create({
+  //   start: "top top",
+  //   end: "max",
+  //   onUpdate: (self) => {
+  //     const mainNav = document.querySelector(".padding-navbar");
+  //     const mainNavRect = mainNav.getBoundingClientRect();
+  //     const mainNavCompletelyGone = mainNavRect.bottom < 0;
 
-      if (!mainNavCompletelyGone && showAnim.progress() > 0) {
-        showAnim.reverse();
-      } else if (
-        self.direction === -1 &&
-        mainNavCompletelyGone &&
-        showAnim.progress() === 0
-      ) {
-        scrollPositionWhenShown = window.pageYOffset;
-        showAnim.play();
-      } else if (
-        self.direction === 1 &&
-        showAnim.progress() === 1 &&
-        mainNavCompletelyGone
-      ) {
-        const scrollOffset = window.pageYOffset - scrollPositionWhenShown;
-        const hideThreshold = 5;
+  //     if (!mainNavCompletelyGone && showAnim.progress() > 0) {
+  //       showAnim.reverse();
+  //     } else if (
+  //       self.direction === -1 &&
+  //       mainNavCompletelyGone &&
+  //       showAnim.progress() === 0
+  //     ) {
+  //       scrollPositionWhenShown = window.pageYOffset;
+  //       showAnim.play();
+  //     } else if (
+  //       self.direction === 1 &&
+  //       showAnim.progress() === 1 &&
+  //       mainNavCompletelyGone
+  //     ) {
+  //       const scrollOffset = window.pageYOffset - scrollPositionWhenShown;
+  //       const hideThreshold = 5;
 
-        if (scrollOffset > hideThreshold) {
-          showAnim.reverse();
-        }
-      }
-    },
-  });
+  //       if (scrollOffset > hideThreshold) {
+  //         showAnim.reverse();
+  //       }
+  //     }
+  //   },
+  // });
 
 });
