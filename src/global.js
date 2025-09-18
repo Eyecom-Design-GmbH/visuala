@@ -1,39 +1,15 @@
 import "./typewriter.js";
 
-// // Register GSAP plugins
-// gsap.registerPlugin(ScrollTrigger);
-
-// // Font loading utility
-// function waitForFonts() {
-//   return new Promise((resolve) => {
-//     if (document.fonts && document.fonts.ready) {
-//       document.fonts.ready.then(() => {
-//         resolve();
-//       });
-//     } else {
-//       setTimeout(() => {
-//         resolve();
-//       }, 100);
-//     }
-//   });
-// }
-
-// Initialize animations after fonts are loaded
-async function initializeAnimations() {
-  //await waitForFonts();
-
+document.addEventListener("DOMContentLoaded", () => {
+  
+  // Typewriter animations
   if (window.createTypewriter) {
-    const typewriterElements = document.querySelectorAll(
-      '[anim-element="typewriter"]'
-    );
-
+    const typewriterElements = document.querySelectorAll('[anim-element="typewriter"]');
+    
     typewriterElements.forEach((element, index) => {
       const wordsData = element.getAttribute("anim-words");
       if (!wordsData) {
-        console.warn(
-          "Typewriter element missing anim-words attribute:",
-          element,
-        );
+        console.warn("Typewriter element missing anim-words attribute:", element);
         return;
       }
 
@@ -60,56 +36,31 @@ async function initializeAnimations() {
     });
   }
 
-  // Text fading in animation on scroll
-  document.querySelectorAll('[animation-element="text-fade-in"]')
-    .forEach((el) => {
-      const split = new SplitText(el, { type: "words,chars" });
-      const totalChars = split.chars.length;
-      const staggerTime = 1 / totalChars;
+  // Text fade-in animation on scroll
+  document.querySelectorAll('[animation-element="text-fade-in"]').forEach((el) => {
+    const split = new SplitText(el, { type: "words,chars" });
+    const totalChars = split.chars.length;
+    const staggerTime = 1 / totalChars;
 
-      gsap.fromTo(
-        split.chars,
-        { opacity: 0.1 },
-        {
-          opacity: 1,
-          ease: "none",
-          stagger: staggerTime,
-          duration: 0.7,
-          scrollTrigger: {
-            trigger: el,
-            start: "top 70%",
-            end: "top 20%",
-            once: true,
-          },
+    gsap.fromTo(
+      split.chars,
+      { opacity: 0.1 },
+      {
+        opacity: 1,
+        ease: "none",
+        stagger: staggerTime,
+        duration: 0.7,
+        scrollTrigger: {
+          trigger: el,
+          start: "top 70%",
+          end: "top 20%",
+          once: true,
         },
-      );
-    });
+      }
+    );
+  });
 
-  // // H1 animations
-  // document.querySelectorAll("h1").forEach((h1) => {
-  //   const split = new SplitText(h1, { type: "lines" });
-
-  //   gsap.from(split.lines, {
-  //     duration: 1.5,
-  //     opacity: 0,
-  //     x: -100,
-  //     ease: "power2.inOut",
-  //     stagger: 0.06,
-  //     scrollTrigger: {
-  //       trigger: h1,
-  //       start: "top 70%",
-  //     },
-  //   });
-  // });
-}
-
-document.addEventListener("DOMContentLoaded", async (event) => {
-  await initializeAnimations();
-
-  // setupHamburgerMenu();
-
-
-
+  // Client logos animation
   if (document.querySelector(".client-logos_list") && document.querySelector(".client-logos_item")) {
     gsap.from(".client-logos_item", {
       scrollTrigger: {
@@ -124,225 +75,177 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     });
   }
 
-  // Gallery7 animations with better error handling and timing
-  function initGallery7Animations() {
-    const gallery7Grids = document.querySelectorAll(".gallery7_grid-list");
-    if (gallery7Grids.length > 0) {
-      console.log("Found gallery7 grids:", gallery7Grids.length);
-      
-      gallery7Grids.forEach((wrapper, index) => {
-        const regularImages = wrapper.querySelectorAll(".gallery7_image-wrapper");
-        const largeImages = wrapper.querySelectorAll(".gallery7_image-wrapper-large");
-        
-        console.log(`Gallery ${index}: regular images: ${regularImages.length}, large images: ${largeImages.length}`);
-        
-        // Animate regular images
-        if (regularImages.length > 0) {
-          // Set initial state first
-          gsap.set(regularImages, {
-            yPercent: 100,
-            opacity: 0
-          });
-          
-          gsap.to(regularImages, {
-            yPercent: 0,
-            opacity: 1,
-            duration: 1.2,
-            ease: "power2.out",
-            stagger: 0.05,
-            scrollTrigger: {
-              trigger: wrapper,
-              start: "top 80%",
-              end: "bottom 20%",
-              markers: false,
-              once: true,
-              toggleActions: "play none none none"
-            }
-          });
-        }
-        
-        // Animate large images
-        if (largeImages.length > 0) {
-          // Set initial state first
-          gsap.set(largeImages, {
-            yPercent: 100,
-            opacity: 0
-          });
-          
-          gsap.to(largeImages, {
-            yPercent: 0,
-            opacity: 1,
-            duration: 1.2,
-            ease: "power2.out",
-            stagger: 0.05,
-            scrollTrigger: {
-              trigger: wrapper,
-              start: "top 80%",
-              end: "bottom 20%",
-              markers: false,
-              once: true,
-              toggleActions: "play none none none"
-            }
-          });
+  // Gallery7 animations
+  const gallery7Grids = document.querySelectorAll(".gallery7_grid-list");
+  gallery7Grids.forEach((wrapper) => {
+    const regularImages = wrapper.querySelectorAll(".gallery7_image-wrapper");
+    const largeImages = wrapper.querySelectorAll(".gallery7_image-wrapper-large");
+
+    // Animate regular images
+    if (regularImages.length > 0) {
+      gsap.set(regularImages, { yPercent: 100, opacity: 0 });
+      gsap.to(regularImages, {
+        yPercent: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: "power2.out",
+        stagger: 0.05,
+        scrollTrigger: {
+          trigger: wrapper,
+          start: "top 80%",
+          once: true,
         }
       });
-      return true; // Success
-    } else {
-      console.log("No gallery7_grid-list elements found");
-      return false; // Not found
     }
-  }
-  
-  // Try to initialize gallery animations
-  if (!initGallery7Animations()) {
-    // If not found, try again after a short delay
-    setTimeout(() => {
-      console.log("Retrying gallery7 animation initialization...");
-      initGallery7Animations();
-    }, 100);
-  }
 
-  if (document.querySelector(".section-features")) {
-  
-
-  const cards = document.querySelectorAll(".features-card");
-  const cardArray = gsap.utils.toArray(".features-card");
-  
-  const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
-  
-  gsap.matchMedia().add("(min-width: 768px)", function() {
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".features-wrapper",
-        pin: true,
-        scrub: 0,
-        start: "center center",
-        end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight) + " top",
-        invalidateOnRefresh: true
-      }
-    });
-    
-    // Set initial positions - stacked with different rotations
-    cardArray.forEach(function(card, index) {
-      gsap.set(card, {
-        clearProps: "transform", // Clear any existing CSS transforms first
+    // Animate large images
+    if (largeImages.length > 0) {
+      gsap.set(largeImages, { yPercent: 100, opacity: 0 });
+      gsap.to(largeImages, {
+        yPercent: 0,
         opacity: 1,
-        x: "0%",
-        y: "0%",
-        rotation: (() => {
-          if (index === 0) return -8;
-          if (index === 1) return 5;
-          return 0;
-        })(),
-        zIndex: cardArray.length - index // Higher index cards appear on top
+        duration: 1.2,
+        ease: "power2.out",
+        stagger: 0.05,
+        scrollTrigger: {
+          trigger: wrapper,
+          start: "top 80%",
+          once: true,
+        }
       });
-    });
-    
-    // Animate ALL cards
-    cardArray.forEach(function(card, index) {
-      timeline.to(cardArray[index], {
-        x: "0%", /* Keep centered horizontally */
-        y: "-150vh", /* Move up by full viewport height */
-        rotation: -90,
-        ease: "none"
-      }, index ? "+=0.2" : "");
-    });
-  })
-  
-  .add("(max-width: 767px)", function() {
-    // Similar changes for mobile...
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".features-wrapper",
-        pin: true,
-        scrub: 0,
-        start: `top top+=${navbarHeight + 10}px`,
-        end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length * 6 + navbarHeight + window.innerHeight) + " top",
-        invalidateOnRefresh: true
-      }
-    });
-    
-    // Set initial positions for mobile - stacked with different rotations
-    cardArray.forEach(function(card, index) {
-      gsap.set(card, {
-        clearProps: "transform", // Clear any existing CSS transforms first
-        opacity: 1,
-        x: "0%",
-        y: "50%",
-        rotation: (() => {
-          if (index === 0) return -5;
-          if (index === 1) return 3;
-          return 0;
-        })(),
-        zIndex: cardArray.length - index // Higher index cards appear on top
-      });
-    });
-    
-    cardArray.forEach(function(card, index) {
-      timeline.to(cardArray[index], {
-        x: "0%",
-        y: "-150vh",
-        rotation: -90,
-        ease: "none"
-      }, index ? "+=0.2" : "");
-        // Add pause after the last card
-      if (index === cardArray.length - 1) {
-        timeline.to({}, { duration: 1 }); // 1 second pause - adjust as needed
-      }
-    });
+    }
   });
+
+  // Features card animations
+  if (document.querySelector(".section-features")) {
+    const cards = document.querySelectorAll(".features-card");
+    const cardArray = gsap.utils.toArray(".features-card");
+    const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
+
+    gsap.matchMedia()
+      .add("(min-width: 768px)", () => {
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".features-wrapper",
+            pin: true,
+            scrub: 0,
+            start: "center center",
+            end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight) + " top",
+            invalidateOnRefresh: true
+          }
+        });
+
+        // Set initial positions - stacked with different rotations
+        cardArray.forEach((card, index) => {
+          gsap.set(card, {
+            clearProps: "transform",
+            opacity: 1,
+            x: "0%",
+            y: "0%",
+            rotation: index === 0 ? -8 : index === 1 ? 5 : 0,
+            zIndex: cardArray.length - index
+          });
+        });
+
+        // Animate all cards
+        cardArray.forEach((card, index) => {
+          timeline.to(cardArray[index], {
+            x: "0%",
+            y: "-150vh",
+            rotation: -90,
+            ease: "none"
+          }, index ? "+=0.2" : "");
+        });
+      })
+      .add("(max-width: 767px)", () => {
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".features-wrapper",
+            pin: true,
+            scrub: 0,
+            start: `top top+=${navbarHeight + 10}px`,
+            end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length * 6 + navbarHeight + window.innerHeight) + " top",
+            invalidateOnRefresh: true
+          }
+        });
+
+        // Set initial positions for mobile
+        cardArray.forEach((card, index) => {
+          gsap.set(card, {
+            clearProps: "transform",
+            opacity: 1,
+            x: "0%",
+            y: "50%",
+            rotation: index === 0 ? -5 : index === 1 ? 3 : 0,
+            zIndex: cardArray.length - index
+          });
+        });
+
+        cardArray.forEach((card, index) => {
+          timeline.to(cardArray[index], {
+            x: "0%",
+            y: "-150vh",
+            rotation: -90,
+            ease: "none"
+          }, index ? "+=0.2" : "");
+          
+          // Add pause after the last card
+          if (index === cardArray.length - 1) {
+            timeline.to({}, { duration: 1 });
+          }
+        });
+      });
   }
 
-  
-});
-
-const showAnim = gsap.fromTo(
-  ".navbar-fixed_component",
-  {
-    yPercent: -100,
-    opacity: 0,
-    display: "none",
-  },
-  {
-    yPercent: 0,
-    opacity: 1,
-    paused: true,
-    duration: 0.2,
-    display: "flex",
-  },
-);
-
-let scrollPositionWhenShown = 0;
-
-ScrollTrigger.create({
-  start: "top top",
-  end: "max",
-  markers: false,
-  onUpdate: (self) => {
-    const mainNav = document.querySelector(".padding-navbar");
-    const mainNavRect = mainNav.getBoundingClientRect();
-    const mainNavCompletelyGone = mainNavRect.bottom < 0;
-
-    if (!mainNavCompletelyGone && showAnim.progress() > 0) {
-      showAnim.reverse();
-    } else if (
-      self.direction === -1 &&
-      mainNavCompletelyGone &&
-      showAnim.progress() === 0
-    ) {
-      scrollPositionWhenShown = window.pageYOffset;
-      showAnim.play();
-    } else if (
-      self.direction === 1 &&
-      showAnim.progress() === 1 &&
-      mainNavCompletelyGone
-    ) {
-      const scrollOffset = window.pageYOffset - scrollPositionWhenShown;
-      const hideThreshold = 5;
-
-      if (scrollOffset > hideThreshold) {
-        showAnim.reverse();
-      }
+  // Navbar show/hide animation
+  const showAnim = gsap.fromTo(
+    ".navbar-fixed_component",
+    {
+      yPercent: -100,
+      opacity: 0,
+      display: "none",
+    },
+    {
+      yPercent: 0,
+      opacity: 1,
+      paused: true,
+      duration: 0.2,
+      display: "flex",
     }
-  },
+  );
+
+  let scrollPositionWhenShown = 0;
+
+  ScrollTrigger.create({
+    start: "top top",
+    end: "max",
+    onUpdate: (self) => {
+      const mainNav = document.querySelector(".padding-navbar");
+      const mainNavRect = mainNav.getBoundingClientRect();
+      const mainNavCompletelyGone = mainNavRect.bottom < 0;
+
+      if (!mainNavCompletelyGone && showAnim.progress() > 0) {
+        showAnim.reverse();
+      } else if (
+        self.direction === -1 &&
+        mainNavCompletelyGone &&
+        showAnim.progress() === 0
+      ) {
+        scrollPositionWhenShown = window.pageYOffset;
+        showAnim.play();
+      } else if (
+        self.direction === 1 &&
+        showAnim.progress() === 1 &&
+        mainNavCompletelyGone
+      ) {
+        const scrollOffset = window.pageYOffset - scrollPositionWhenShown;
+        const hideThreshold = 5;
+
+        if (scrollOffset > hideThreshold) {
+          showAnim.reverse();
+        }
+      }
+    },
+  });
+
 });
