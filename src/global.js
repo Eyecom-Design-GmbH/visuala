@@ -36,29 +36,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Text fade-in animation on scroll
-  document.querySelectorAll('[animation-element="text-fade-in"]').forEach((el) => {
-    const split = new SplitText(el, { type: "words,chars" });
-    const totalChars = split.chars.length;
-    const staggerTime = 1 / totalChars;
+  // // Text fade-in animation on scroll
+  // document.querySelectorAll('[animation-element="text-fade-in"]').forEach((el) => {
+  //   const split = new SplitText(el, { type: "words,chars" });
+  //   const totalChars = split.chars.length;
+  //   const staggerTime = 1 / totalChars;
 
-    gsap.fromTo(
-      split.chars,
-      { opacity: 0.1 },
-      {
-        opacity: 1,
-        ease: "none",
-        stagger: staggerTime,
-        duration: 0.7,
-        scrollTrigger: {
-          trigger: el,
-          start: "top 70%",
-          end: "top 20%",
-          once: true,
-        },
-      }
-    );
-  });
+  //   gsap.fromTo(
+  //     split.chars,
+  //     { opacity: 0.1 },
+  //     {
+  //       opacity: 1,
+  //       ease: "none",
+  //       stagger: staggerTime,
+  //       duration: 0.7,
+  //       scrollTrigger: {
+  //         trigger: el,
+  //         start: "top 70%",
+  //         end: "top 20%",
+  //         once: true,
+  //       },
+  //     }
+  //   );
+  // });
 
   // // Client logos animation
   // if (document.querySelector(".client-logos_list") && document.querySelector(".client-logos_item")) {
