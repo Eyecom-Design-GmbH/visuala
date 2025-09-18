@@ -75,46 +75,46 @@ document.addEventListener("DOMContentLoaded", () => {
   //   });
   // }
 
-  // Gallery7 animations
-  const gallery7Grids = document.querySelectorAll(".gallery7_grid-list");
-  gallery7Grids.forEach((wrapper) => {
-    const regularImages = wrapper.querySelectorAll(".gallery7_image-wrapper");
-    const largeImages = wrapper.querySelectorAll(".gallery7_image-wrapper-large");
+  // // Gallery7 animations
+  // const gallery7Grids = document.querySelectorAll(".gallery7_grid-list");
+  // gallery7Grids.forEach((wrapper) => {
+  //   const regularImages = wrapper.querySelectorAll(".gallery7_image-wrapper");
+  //   const largeImages = wrapper.querySelectorAll(".gallery7_image-wrapper-large");
 
-    // Animate regular images
-    if (regularImages.length > 0) {
-      gsap.set(regularImages, { yPercent: 100, opacity: 0 });
-      gsap.to(regularImages, {
-        yPercent: 0,
-        opacity: 1,
-        duration: 1.2,
-        ease: "power2.out",
-        stagger: 0.05,
-        scrollTrigger: {
-          trigger: wrapper,
-          start: "top 80%",
-          once: true,
-        }
-      });
-    }
+  //   // Animate regular images
+  //   if (regularImages.length > 0) {
+  //     gsap.set(regularImages, { yPercent: 100, opacity: 0 });
+  //     gsap.to(regularImages, {
+  //       yPercent: 0,
+  //       opacity: 1,
+  //       duration: 1.2,
+  //       ease: "power2.out",
+  //       stagger: 0.05,
+  //       scrollTrigger: {
+  //         trigger: wrapper,
+  //         start: "top 80%",
+  //         once: true,
+  //       }
+  //     });
+  //   }
 
-    // Animate large images
-    if (largeImages.length > 0) {
-      gsap.set(largeImages, { yPercent: 100, opacity: 0 });
-      gsap.to(largeImages, {
-        yPercent: 0,
-        opacity: 1,
-        duration: 1.2,
-        ease: "power2.out",
-        stagger: 0.05,
-        scrollTrigger: {
-          trigger: wrapper,
-          start: "top 80%",
-          once: true,
-        }
-      });
-    }
-  });
+  //   // Animate large images
+  //   if (largeImages.length > 0) {
+  //     gsap.set(largeImages, { yPercent: 100, opacity: 0 });
+  //     gsap.to(largeImages, {
+  //       yPercent: 0,
+  //       opacity: 1,
+  //       duration: 1.2,
+  //       ease: "power2.out",
+  //       stagger: 0.05,
+  //       scrollTrigger: {
+  //         trigger: wrapper,
+  //         start: "top 80%",
+  //         once: true,
+  //       }
+  //     });
+  //   }
+  // });
 
   // Features card animations
   if (document.querySelector(".section-features")) {

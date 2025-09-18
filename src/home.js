@@ -1,6 +1,6 @@
 import "./marquee.js";
 import "./call-embed.js";
-import "./title-animations.js";
+// import "./title-animations.js";
 
 
 
