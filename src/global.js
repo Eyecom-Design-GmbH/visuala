@@ -36,90 +36,92 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (document.querySelector(".section-features")) {
-    const cards = document.querySelectorAll(".features-card");
-    const cardArray = gsap.utils.toArray(".features-card");
-    const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
+// Features card animations
+if (document.querySelector(".section-features")) {
+  const cards = document.querySelectorAll(".features-card");
+  const cardArray = gsap.utils.toArray(".features-card");
+  const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
   
-    gsap.matchMedia()
-      .add("(min-width: 768px)", () => {
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".features-wrapper",
-            pin: true,
-            scrub: 0,
-            start: "center center",
-            // Use a more predictable end calculation
-            end: () => `+=${cards.length * window.innerHeight * 0.8}`,
-            invalidateOnRefresh: true,
-            // Add these for better compatibility
-            anticipatePin: 1,
-            refreshPriority: -1
-          }
-        });
-  
-        // Set initial positions - stacked with different rotations
-        cardArray.forEach((card, index) => {
-          gsap.set(card, {
-            clearProps: "transform",
-            opacity: 1,
-            x: "0%",
-            y: "0%",
-            rotation: index === 0 ? -8 : index === 1 ? 5 : 0,
-            zIndex: cardArray.length - index
-          });
-        });
-  
-        // Animate all cards with better timing
-        cardArray.forEach((card, index) => {
-          timeline.to(cardArray[index], {
-            x: "0%",
-            y: "-150vh",
-            rotation: -90,
-            ease: "none"
-          }, index * 0.15); // More consistent spacing
-        });
-      })
-      .add("(max-width: 767px)", () => {
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".features-wrapper",
-            pin: true,
-            scrub: 0,
-            start: `top top+=${navbarHeight + 10}px`,
-            // Simplified mobile end calculation
-            end: () => `+=${cards.length * window.innerHeight * 1.2}`,
-            invalidateOnRefresh: true,
-            anticipatePin: 1,
-            refreshPriority: -1
-          }
-        });
-  
-        // Set initial positions for mobile
-        cardArray.forEach((card, index) => {
-          gsap.set(card, {
-            clearProps: "transform",
-            opacity: 1,
-            x: "0%",
-            y: "50%",
-            rotation: index === 0 ? -5 : index === 1 ? 3 : 0,
-            zIndex: cardArray.length - index
-          });
-        });
-  
-        cardArray.forEach((card, index) => {
-          timeline.to(cardArray[index], {
-            x: "0%",
-            y: "-150vh",
-            rotation: -90,
-            ease: "none"
-          }, index * 0.15);
-        });
-  
-        // Add final pause more predictably
-        timeline.to({}, { duration: 0.3 });
+  // Get the natural height that this section would take up
+  const featuresWrapper = document.querySelector(".features-wrapper");
+  const naturalHeight = featuresWrapper.offsetHeight;
+
+  gsap.matchMedia()
+    .add("(min-width: 768px)", () => {
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".features-wrapper",
+          pin: true,
+          scrub: 0,
+          start: "center center",
+          // End when we've scrolled the natural height of the content
+          end: `+=${naturalHeight}`,
+          invalidateOnRefresh: true
+        }
       });
-  }
+
+      // Set initial positions - stacked with different rotations
+      cardArray.forEach((card, index) => {
+        gsap.set(card, {
+          clearProps: "transform",
+          opacity: 1,
+          x: "0%",
+          y: "0%",
+          rotation: index === 0 ? -8 : index === 1 ? 5 : 0,
+          zIndex: cardArray.length - index
+        });
+      });
+
+      // Animate all cards
+      cardArray.forEach((card, index) => {
+        timeline.to(cardArray[index], {
+          x: "0%",
+          y: "-150vh",
+          rotation: -90,
+          ease: "none"
+        }, index ? "+=0.2" : "");
+      });
+    })
+    .add("(max-width: 767px)", () => {
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".features-wrapper",
+          pin: true,
+          scrub: 0,
+          start: `top top+=${navbarHeight + 10}px`,
+          // Use the same natural height approach
+          end: `+=${naturalHeight}`,
+          invalidateOnRefresh: true
+        }
+      });
+
+      // Set initial positions for mobile
+      cardArray.forEach((card, index) => {
+        gsap.set(card, {
+          clearProps: "transform",
+          opacity: 1,
+          x: "0%",
+          y: "50%",
+          rotation: index === 0 ? -5 : index === 1 ? 3 : 0,
+          zIndex: cardArray.length - index
+        });
+      });
+
+      cardArray.forEach((card, index) => {
+        timeline.to(cardArray[index], {
+          x: "0%",
+          y: "-150vh",
+          rotation: -90,
+          ease: "none"
+        }, index ? "+=0.2" : "");
+        
+        // Add pause after the last card
+        if (index === cardArray.length - 1) {
+          timeline.to({}, { duration: 1 });
+        }
+      });
+    });
+}
   ScrollTrigger.refresh()
 
   // Navbar show/hide animation
