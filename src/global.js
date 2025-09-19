@@ -36,86 +36,87 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // // Features card animations
-  // if (document.querySelector(".section-features")) {
-  //   const cards = document.querySelectorAll(".features-card");
-  //   const cardArray = gsap.utils.toArray(".features-card");
-  //   const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
+  // Features card animations
+  if (document.querySelector(".section-features")) {
+    const cards = document.querySelectorAll(".features-card");
+    const cardArray = gsap.utils.toArray(".features-card");
+    const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
 
-  //   gsap.matchMedia()
-  //     .add("(min-width: 768px)", () => {
-  //       const timeline = gsap.timeline({
-  //         scrollTrigger: {
-  //           trigger: ".features-wrapper",
-  //           pin: true,
-  //           scrub: 0,
-  //           start: "center center",
-  //           end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight) + " top",
-  //           invalidateOnRefresh: true
-  //         }
-  //       });
+    gsap.matchMedia()
+      .add("(min-width: 768px)", () => {
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".features-wrapper",
+            pin: true,
+            scrub: 0,
+            start: "center center",
+            end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight) + " top",
+            invalidateOnRefresh: true
+          }
+        });
 
-  //       // Set initial positions - stacked with different rotations
-  //       cardArray.forEach((card, index) => {
-  //         gsap.set(card, {
-  //           clearProps: "transform",
-  //           opacity: 1,
-  //           x: "0%",
-  //           y: "0%",
-  //           rotation: index === 0 ? -8 : index === 1 ? 5 : 0,
-  //           zIndex: cardArray.length - index
-  //         });
-  //       });
+        // Set initial positions - stacked with different rotations
+        cardArray.forEach((card, index) => {
+          gsap.set(card, {
+            clearProps: "transform",
+            opacity: 1,
+            x: "0%",
+            y: "0%",
+            rotation: index === 0 ? -8 : index === 1 ? 5 : 0,
+            zIndex: cardArray.length - index
+          });
+        });
 
-  //       // Animate all cards
-  //       cardArray.forEach((card, index) => {
-  //         timeline.to(cardArray[index], {
-  //           x: "0%",
-  //           y: "-150vh",
-  //           rotation: -90,
-  //           ease: "none"
-  //         }, index ? "+=0.2" : "");
-  //       });
-  //     })
-  //     .add("(max-width: 767px)", () => {
-  //       const timeline = gsap.timeline({
-  //         scrollTrigger: {
-  //           trigger: ".features-wrapper",
-  //           pin: true,
-  //           scrub: 0,
-  //           start: `top top+=${navbarHeight + 10}px`,
-  //           end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length * 6 + navbarHeight + window.innerHeight) + " top",
-  //           invalidateOnRefresh: true
-  //         }
-  //       });
+        // Animate all cards
+        cardArray.forEach((card, index) => {
+          timeline.to(cardArray[index], {
+            x: "0%",
+            y: "-150vh",
+            rotation: -90,
+            ease: "none"
+          }, index ? "+=0.2" : "");
+        });
+      })
+      .add("(max-width: 767px)", () => {
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".features-wrapper",
+            pin: true,
+            scrub: 0,
+            start: `top top+=${navbarHeight + 10}px`,
+            end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length * 6 + navbarHeight + window.innerHeight) + " top",
+            invalidateOnRefresh: true
+          }
+        });
 
-  //       // Set initial positions for mobile
-  //       cardArray.forEach((card, index) => {
-  //         gsap.set(card, {
-  //           clearProps: "transform",
-  //           opacity: 1,
-  //           x: "0%",
-  //           y: "50%",
-  //           rotation: index === 0 ? -5 : index === 1 ? 3 : 0,
-  //           zIndex: cardArray.length - index
-  //         });
-  //       });
+        // Set initial positions for mobile
+        cardArray.forEach((card, index) => {
+          gsap.set(card, {
+            clearProps: "transform",
+            opacity: 1,
+            x: "0%",
+            y: "50%",
+            rotation: index === 0 ? -5 : index === 1 ? 3 : 0,
+            zIndex: cardArray.length - index
+          });
+        });
 
-  //       cardArray.forEach((card, index) => {
-  //         timeline.to(cardArray[index], {
-  //           x: "0%",
-  //           y: "-150vh",
-  //           rotation: -90,
-  //           ease: "none"
-  //         }, index ? "+=0.2" : "");
+        cardArray.forEach((card, index) => {
+          timeline.to(cardArray[index], {
+            x: "0%",
+            y: "-150vh",
+            rotation: -90,
+            ease: "none"
+          }, index ? "+=0.2" : "");
           
-  //         // Add pause after the last card
-  //         if (index === cardArray.length - 1) {
-  //           timeline.to({}, { duration: 1 });
-  //         }
-  //       });
-  //     });
-  // }
+          // Add pause after the last card
+          if (index === cardArray.length - 1) {
+            timeline.to({}, { duration: 1 });
+          }
+        });
+      });
+  }
+  ScrollTrigger.refresh()
 
   // Navbar show/hide animation
   const showAnim = gsap.fromTo(
