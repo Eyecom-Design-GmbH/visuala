@@ -36,12 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Features card animations
   if (document.querySelector(".section-features")) {
     const cards = document.querySelectorAll(".features-card");
     const cardArray = gsap.utils.toArray(".features-card");
     const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
-
+  
     gsap.matchMedia()
       .add("(min-width: 768px)", () => {
         const timeline = gsap.timeline({
@@ -50,11 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
             pin: true,
             scrub: 0,
             start: "center center",
-            end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length + navbarHeight) + " top",
-            invalidateOnRefresh: true
+            // Use a more predictable end calculation
+            end: () => `+=${cards.length * window.innerHeight * 0.8}`,
+            invalidateOnRefresh: true,
+            // Add these for better compatibility
+            anticipatePin: 1,
+            refreshPriority: -1
           }
         });
-
+  
         // Set initial positions - stacked with different rotations
         cardArray.forEach((card, index) => {
           gsap.set(card, {
@@ -66,15 +69,15 @@ document.addEventListener("DOMContentLoaded", () => {
             zIndex: cardArray.length - index
           });
         });
-
-        // Animate all cards
+  
+        // Animate all cards with better timing
         cardArray.forEach((card, index) => {
           timeline.to(cardArray[index], {
             x: "0%",
             y: "-150vh",
             rotation: -90,
             ease: "none"
-          }, index ? "+=0.2" : "");
+          }, index * 0.15); // More consistent spacing
         });
       })
       .add("(max-width: 767px)", () => {
@@ -84,11 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
             pin: true,
             scrub: 0,
             start: `top top+=${navbarHeight + 10}px`,
-            end: "top+=" + (document.querySelector(".features-card-wrapper").offsetHeight * cards.length * 6 + navbarHeight + window.innerHeight) + " top",
-            invalidateOnRefresh: true
+            // Simplified mobile end calculation
+            end: () => `+=${cards.length * window.innerHeight * 1.2}`,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+            refreshPriority: -1
           }
         });
-
+  
         // Set initial positions for mobile
         cardArray.forEach((card, index) => {
           gsap.set(card, {
@@ -100,20 +106,18 @@ document.addEventListener("DOMContentLoaded", () => {
             zIndex: cardArray.length - index
           });
         });
-
+  
         cardArray.forEach((card, index) => {
           timeline.to(cardArray[index], {
             x: "0%",
             y: "-150vh",
             rotation: -90,
             ease: "none"
-          }, index ? "+=0.2" : "");
-          
-          // Add pause after the last card
-          if (index === cardArray.length - 1) {
-            timeline.to({}, { duration: 1 });
-          }
+          }, index * 0.15);
         });
+  
+        // Add final pause more predictably
+        timeline.to({}, { duration: 0.3 });
       });
   }
   ScrollTrigger.refresh()
