@@ -55,7 +55,7 @@ if (document.querySelector(".section-features")) {
           scrub: 0,
           start: "center center",
           // End when we've scrolled the natural height of the content
-          end: `+=${naturalHeight}`,
+          end: "bottom top",
           invalidateOnRefresh: true
         }
       });
