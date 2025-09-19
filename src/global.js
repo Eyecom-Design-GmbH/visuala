@@ -36,75 +36,75 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-// Features card animations
-if (document.querySelector(".section-features")) {
-  const cards = document.querySelectorAll(".features-card");
-  const cardArray = gsap.utils.toArray(".features-card");
-  const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
+// // Features card animations
+// if (document.querySelector(".section-features")) {
+//   const cards = document.querySelectorAll(".features-card");
+//   const cardArray = gsap.utils.toArray(".features-card");
+//   const navbarHeight = document.querySelector(".navbar-fixed_component")?.offsetHeight || 0;
 
-  gsap.matchMedia()
-    .add("(min-width: 768px)", () => {
-      // Set initial positions - stacked with different rotations
-      cardArray.forEach((card, index) => {
-        gsap.set(card, {
-          clearProps: "transform",
-          opacity: 1,
-          x: "0%",
-          y: "0%",
-          rotation: index === 0 ? -8 : index === 1 ? 5 : 0,
-          zIndex: cardArray.length - index
-        });
-      });
+//   gsap.matchMedia()
+//     .add("(min-width: 768px)", () => {
+//       // Set initial positions - stacked with different rotations
+//       cardArray.forEach((card, index) => {
+//         gsap.set(card, {
+//           clearProps: "transform",
+//           opacity: 1,
+//           x: "0%",
+//           y: "0%",
+//           rotation: index === 0 ? -8 : index === 1 ? 5 : 0,
+//           zIndex: cardArray.length - index
+//         });
+//       });
 
-      // Animate each card individually as they come into view
-      cardArray.forEach((card, index) => {
-        gsap.to(card, {
-          x: "0%",
-          y: "-150vh",
-          rotation: -90,
-          ease: "none",
-          scrollTrigger: {
-            trigger: card,
-            start: "center bottom",
-            end: "center top",
-            scrub: 0,
-            invalidateOnRefresh: true
-          }
-        });
-      });
-    })
-    .add("(max-width: 767px)", () => {
-      // Set initial positions for mobile
-      cardArray.forEach((card, index) => {
-        gsap.set(card, {
-          clearProps: "transform",
-          opacity: 1,
-          x: "0%",
-          y: "50%",
-          rotation: index === 0 ? -5 : index === 1 ? 3 : 0,
-          zIndex: cardArray.length - index
-        });
-      });
+//       // Animate each card individually as they come into view
+//       cardArray.forEach((card, index) => {
+//         gsap.to(card, {
+//           x: "0%",
+//           y: "-150vh",
+//           rotation: -90,
+//           ease: "none",
+//           scrollTrigger: {
+//             trigger: card,
+//             start: "center bottom",
+//             end: "center top",
+//             scrub: 0,
+//             invalidateOnRefresh: true
+//           }
+//         });
+//       });
+//     })
+//     .add("(max-width: 767px)", () => {
+//       // Set initial positions for mobile
+//       cardArray.forEach((card, index) => {
+//         gsap.set(card, {
+//           clearProps: "transform",
+//           opacity: 1,
+//           x: "0%",
+//           y: "50%",
+//           rotation: index === 0 ? -5 : index === 1 ? 3 : 0,
+//           zIndex: cardArray.length - index
+//         });
+//       });
 
-      // Animate each card individually for mobile
-      cardArray.forEach((card, index) => {
-        gsap.to(card, {
-          x: "0%",
-          y: "-150vh",
-          rotation: -90,
-          ease: "none",
-          scrollTrigger: {
-            trigger: card,
-            start: "top bottom",
-            end: "top top",
-            scrub: 0,
-            invalidateOnRefresh: true
-          }
-        });
-      });
-    });
-}
-  ScrollTrigger.refresh()
+//       // Animate each card individually for mobile
+//       cardArray.forEach((card, index) => {
+//         gsap.to(card, {
+//           x: "0%",
+//           y: "-150vh",
+//           rotation: -90,
+//           ease: "none",
+//           scrollTrigger: {
+//             trigger: card,
+//             start: "top bottom",
+//             end: "top top",
+//             scrub: 0,
+//             invalidateOnRefresh: true
+//           }
+//         });
+//       });
+//     });
+// }
+//   ScrollTrigger.refresh()
 
   // Navbar show/hide animation
   const showAnim = gsap.fromTo(
