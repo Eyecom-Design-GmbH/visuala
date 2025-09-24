@@ -1,0 +1,39 @@
+
+assets by status 12.2 MiB [cached] 13 assets
+runtime modules 4.58 KiB 20 modules
+cacheable modules 53.4 KiB
+  ./src/global.js 2.23 KiB [built] [code generated]
+  ./src/typewriter.js 4.77 KiB [built] [code generated]
+  ./src/home.js 347 bytes [built] [code generated]
+  ./src/marquee.js 10 KiB [built] [code generated]
+  ./src/call-embed.js 981 bytes [built] [code generated]
+  ./src/angebot.js 4.42 KiB [built] [code generated]
+  ./src/title-animations.js 10.3 KiB [built] [code generated]
+  ./src/kontakt.js 3.65 KiB [built] [code generated]
+  ./src/agentur.js 798 bytes [built] [code generated]
+  ./src/text-reveal.js 11.9 KiB [built] [code generated]
+  ./src/projects-detail.js 4.09 KiB [built] [code generated]
+
+ERROR in projects
+Module not found: Error: Can't resolve './src/projects.js' in '/Users/justingfrerer/visuala'
+resolve './src/projects.js' in '/Users/justingfrerer/visuala'
+  using description file: /Users/justingfrerer/visuala/package.json (relative path: .)
+    Field 'browser' doesn't contain a valid alias configuration
+    using description file: /Users/justingfrerer/visuala/package.json (relative path: ./src/projects.js)
+      no extension
+        Field 'browser' doesn't contain a valid alias configuration
+        /Users/justingfrerer/visuala/src/projects.js doesn't exist
+      .js
+        Field 'browser' doesn't contain a valid alias configuration
+        /Users/justingfrerer/visuala/src/projects.js.js doesn't exist
+      .json
+        Field 'browser' doesn't contain a valid alias configuration
+        /Users/justingfrerer/visuala/src/projects.js.json doesn't exist
+      .wasm
+        Field 'browser' doesn't contain a valid alias configuration
+        /Users/justingfrerer/visuala/src/projects.js.wasm doesn't exist
+      as directory
+        /Users/justingfrerer/visuala/src/projects.js doesn't exist
+
+webpack 5.95.0 compiled with 1 error in 296 ms npm run build
+  ./src/agentur.js 798 bytes [built] [code generated]

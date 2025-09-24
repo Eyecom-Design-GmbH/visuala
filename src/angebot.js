@@ -1,4 +1,3 @@
-import "./title-animations.js";
 import "./call-embed.js";
 
 
