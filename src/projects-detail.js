@@ -136,24 +136,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  gsap.utils.toArray(".product-videos").forEach((wrapper) => {
-    const vids = wrapper.querySelectorAll(".video-wrapper");
-
-    gsap.set(vids, {
+  gsap.utils.toArray(".product-videos").forEach((video) => {
+    gsap.set(video, {
       opacity: 0,
       yPercent: 100,
     });
-
-    gsap.to(vids, {
+  
+    gsap.to(video, {
       scrollTrigger: {
-        trigger: wrapper,
+        trigger: video,
         start: "top 70%",
       },
       yPercent: 0,
       opacity: 1,
       duration: 0.6,
       ease: "power2.out",
-      stagger: 0.1,
     });
   });
+  
 });
