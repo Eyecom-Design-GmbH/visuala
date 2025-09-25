@@ -93,56 +93,58 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-  // gsap.utils.toArray(".image-projects_wrapper").forEach((wrapper) => {
-  //   const images = wrapper.querySelectorAll(".project-image");
+  gsap.utils.toArray(".image-projects_wrapper").forEach((wrapper) => {
+    const images = wrapper.querySelectorAll(".project-image");
 
-  //   gsap.from(images, {
-  //     scrollTrigger: {
-  //       trigger: wrapper,
-  //       start: "top 70%",
-  //       markers: false,
-  //     },
-  //     yPercent: 100,
-  //     opacity: 0,
-  //     duration: 0.5,
-  //     ease: "power2.out",
-  //     stagger: 0.05,
-  //   });
-  // });
+    gsap.from(images, {
+      scrollTrigger: {
+        trigger: wrapper,
+        start: "top 70%",
+        markers: false,
+      },
+      yPercent: 100,
+      opacity: 0,
+      duration: 0.5,
+      ease: "power2.out",
+      stagger: 0.05,
+    });
+  });
 
-  // gsap.utils.toArray(".image-projects-wrapper-big").forEach((wrapper) => {
-  //   const images = wrapper.querySelectorAll(".project-image-big");
+  gsap.utils.toArray(".image-projects-wrapper-big").forEach((wrapper) => {
+    const images = wrapper.querySelectorAll(".project-image-big");
 
-  //   gsap.from(images, {
-  //     scrollTrigger: {
-  //       trigger: wrapper,
-  //       start: "top 70%",
-  //       markers: false,
-  //     },
-  //     yPercent: 100,
-  //     opacity: 0,
-  //     duration: 0.5,
-  //     ease: "power2.out",
-  //     stagger: 0.05,
-  //   });
-  // });
+    gsap.from(images, {
+      scrollTrigger: {
+        trigger: wrapper,
+        start: "top 70%",
+        markers: false,
+      },
+      yPercent: 100,
+      opacity: 0,
+      duration: 0.5,
+      ease: "power2.out",
+      stagger: 0.05,
+    });
+  });
 
-  // gsap.utils.toArray(".product-videos").forEach((video) => {
-  //   gsap.set(video, {
-  //     opacity: 0,
-  //     yPercent: 100,
-  //   });
+  gsap.utils.toArray(".product-videos").forEach((wrapper) => {
+    const videos = wrapper.querySelectorAll(".project-video-wrapper");
+
+    gsap.set(videos, {
+      opacity: 0,
+      yPercent: 100,
+    });
   
-  //   gsap.to(video, {
-  //     scrollTrigger: {
-  //       trigger: video,
-  //       start: "top 90%%",
-  //     },
-  //     yPercent: 0,
-  //     opacity: 1,
-  //     duration: 0.6,
-  //     ease: "power2.out",
-  //   });
-  // });
+    gsap.to(videos, {
+      scrollTrigger: {
+        trigger: wrapper ,
+        start: "top 90%%",
+      },
+      yPercent: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: "power2.out",
+    });
+  });
   
 });
