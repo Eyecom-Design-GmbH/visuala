@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
     gsap.to(video, {
       scrollTrigger: {
         trigger: video,
-        start: "top 70%",
+        start: "top 90%%",
       },
       yPercent: 0,
       opacity: 1,
