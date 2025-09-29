@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  gsap.registerPlugin(ScrollTrigger);
+  // gsap.registerPlugin(ScrollTrigger);
 
   $(".slider-impressionen_component").each(function (index) {
     function updateSlideStyles(swiper) {
@@ -92,29 +92,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  const fimageTl = gsap.timeline();
-
-  // fimageTl.fromTo(
-  //   ".feature-img",
-  //   {
-  //     opacity: 0,
-  //     yPercent: 100,
-  //   },
-  //   {
-  //     opacity: 1,
-  //     yPercent: 0,
-  //     duration: 0.7,
-  //     ease: "power2.inOut",
-  //   },
-  // );
-
-  fimageTl.to(".feature-img", {
-    y: -20,
-    duration: 1.5,
-    ease: "sine.inOut",
-    repeat: -1,
-    yoyo: true,
-  });
 
   gsap.utils.toArray(".image-projects_wrapper").forEach((wrapper) => {
     const images = wrapper.querySelectorAll(".project-image");
@@ -151,23 +128,23 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   gsap.utils.toArray(".product-videos").forEach((wrapper) => {
-    const vids = wrapper.querySelectorAll(".video-iframe");
+    const videos = wrapper.querySelectorAll(".project-video-wrapper");
 
-    gsap.set(vids, {
+    gsap.set(videos, {
       opacity: 0,
       yPercent: 100,
     });
-
-    gsap.to(vids, {
+  
+    gsap.to(videos, {
       scrollTrigger: {
-        trigger: wrapper,
-        start: "top 70%",
+        trigger: wrapper ,
+        start: "top 90%%",
       },
       yPercent: 0,
       opacity: 1,
       duration: 0.6,
       ease: "power2.out",
-      stagger: 0.1,
     });
   });
+  
 });
