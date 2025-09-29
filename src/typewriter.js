@@ -24,6 +24,9 @@ function createTypewriter(selector, words, options = {}) {
   const textContainer = document.createElement("span");
   textContainer.className = "typewriter-text";
   textContainer.style.display = "inline-block";
+  
+  // Performance optimization: Use will-change hint
+  textContainer.style.willChange = "contents";
   element.appendChild(textContainer);
 
   let cursorElement = null;
@@ -54,6 +57,8 @@ function createTypewriter(selector, words, options = {}) {
 
   let currentWordIndex = 0;
   let isRunning = false;
+  let rafId = null;
+  let currentTimeline = null;
 
   function startAnimation() {
     if (isRunning) return;
@@ -68,29 +73,62 @@ function createTypewriter(selector, words, options = {}) {
   }
 
   function typeWord(word) {
+    // Use a single RAF-based animation instead of multiple delayedCalls
+    const chars = word.split('');
     let charIndex = 0;
+    let elapsed = 0;
+    let lastTime = performance.now();
 
-    function typeNextChar() {
-      if (charIndex < word.length) {
-        textContainer.textContent += word[charIndex];
-        charIndex++;
-        gsap.delayedCall(settings.typeSpeed, typeNextChar);
+    function animateTyping(currentTime) {
+      const deltaTime = (currentTime - lastTime) / 1000;
+      lastTime = currentTime;
+      elapsed += deltaTime;
+
+      if (elapsed >= settings.typeSpeed) {
+        elapsed = 0;
+        if (charIndex < chars.length) {
+          // Batch DOM update
+          textContainer.textContent += chars[charIndex];
+          charIndex++;
+        }
+      }
+
+      if (charIndex < chars.length) {
+        rafId = requestAnimationFrame(animateTyping);
       } else {
+        // Typing complete, pause then delete
         gsap.delayedCall(settings.pauseTime, () => {
           deleteWord();
         });
       }
     }
 
-    typeNextChar();
+    rafId = requestAnimationFrame(animateTyping);
   }
 
   function deleteWord() {
-    function deleteNextChar() {
-      if (textContainer.textContent.length > 0) {
-        textContainer.textContent = textContainer.textContent.slice(0, -1);
-        gsap.delayedCall(settings.deleteSpeed, deleteNextChar);
+    let elapsed = 0;
+    let lastTime = performance.now();
+    const currentText = textContainer.textContent;
+    let deleteIndex = currentText.length;
+
+    function animateDeleting(currentTime) {
+      const deltaTime = (currentTime - lastTime) / 1000;
+      lastTime = currentTime;
+      elapsed += deltaTime;
+
+      if (elapsed >= settings.deleteSpeed) {
+        elapsed = 0;
+        if (deleteIndex > 0) {
+          deleteIndex--;
+          textContainer.textContent = currentText.substring(0, deleteIndex);
+        }
+      }
+
+      if (deleteIndex > 0) {
+        rafId = requestAnimationFrame(animateDeleting);
       } else {
+        // Deletion complete
         currentWordIndex = (currentWordIndex + 1) % words.length;
 
         if (settings.loop || currentWordIndex !== 0) {
@@ -104,16 +142,15 @@ function createTypewriter(selector, words, options = {}) {
       }
     }
 
-    deleteNextChar();
+    rafId = requestAnimationFrame(animateDeleting);
   }
 
   startAnimation();
 
   return {
     stop: () => {
-      gsap.killDelayedCallsTo(typeWord);
-      gsap.killDelayedCallsTo(deleteWord);
-      gsap.killDelayedCallsTo(startAnimation);
+      if (rafId) cancelAnimationFrame(rafId);
+      gsap.killTweensOf("*");
       if (cursorElement) {
         gsap.killTweensOf(cursorElement);
         cursorElement.remove();
@@ -123,22 +160,21 @@ function createTypewriter(selector, words, options = {}) {
     },
 
     restart: () => {
-      gsap.killDelayedCallsTo(typeWord);
-      gsap.killDelayedCallsTo(deleteWord);
-      gsap.killDelayedCallsTo(startAnimation);
+      if (rafId) cancelAnimationFrame(rafId);
+      gsap.killTweensOf("*");
       isRunning = false;
       startAnimation();
     },
 
     destroy: () => {
-      gsap.killDelayedCallsTo(typeWord);
-      gsap.killDelayedCallsTo(deleteWord);
-      gsap.killDelayedCallsTo(startAnimation);
+      if (rafId) cancelAnimationFrame(rafId);
+      gsap.killTweensOf("*");
       if (cursorElement) {
         gsap.killTweensOf(cursorElement);
         cursorElement.remove();
       }
       element.innerHTML = originalText;
+      textContainer.style.willChange = "auto";
       isRunning = false;
     },
   };
