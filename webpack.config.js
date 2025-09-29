@@ -10,7 +10,6 @@ module.exports = {
     ["kontakt"]: "./src/kontakt.js",
     ["agentur"]: "./src/agentur.js",
     ["typewriter"]: "./src/typewriter.js",
-    ["text-reveal"]: "./src/text-reveal.js",
     ["marquee"]: "./src/marquee.js",
     ["image-animations"]: "./src/image-animations.js",
     ["title-animations"]: "./src/title-animations.js",
