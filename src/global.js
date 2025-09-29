@@ -1,7 +1,6 @@
 import "./typewriter.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  
   // Typewriter animations
   if (window.createTypewriter) {
     const typewriterElements = document.querySelectorAll('[anim-element="typewriter"]');
@@ -55,13 +54,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let scrollPositionWhenShown = 0;
 
+  const mainNav = document.querySelector(".padding-navbar");
+  let mainNavBottom = mainNav.offsetTop + mainNav.offsetHeight;
+
+  // Recalculate when window resizes
+  window.addEventListener("resize", () => {
+    mainNavBottom = mainNav.offsetTop + mainNav.offsetHeight;
+  });
+
   ScrollTrigger.create({
     start: "top top",
     end: "max",
     onUpdate: (self) => {
-      const mainNav = document.querySelector(".padding-navbar");
-      const mainNavRect = mainNav.getBoundingClientRect();
-      const mainNavCompletelyGone = mainNavRect.bottom < 0;
+      const mainNavCompletelyGone = window.scrollY > mainNavBottom;
 
       if (!mainNavCompletelyGone && showAnim.progress() > 0) {
         showAnim.reverse();
