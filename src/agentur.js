@@ -1,4 +1,3 @@
-import "./typewriter.js";
 import "./marquee.js";
 import "./call-embed.js";
 

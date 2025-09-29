@@ -1,40 +1,5 @@
-// import "./typewriter.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  // //Typewriter animations
-  // if (window.createTypewriter) {
-  //   const typewriterElements = document.querySelectorAll('[anim-element="typewriter"]');
-    
-  //   typewriterElements.forEach((element, index) => {
-  //     const wordsData = element.getAttribute("anim-words");
-  //     if (!wordsData) {
-  //       console.warn("Typewriter element missing anim-words attribute:", element);
-  //       return;
-  //     }
-
-  //     const words = wordsData.split(",").map((word) => word.trim());
-
-  //     if (!element.id) {
-  //       element.id = `typewriter-${Date.now()}-${index}`;
-  //     }
-
-  //     const config = {
-  //       typeSpeed: 0.06,
-  //       deleteSpeed: 0.03,
-  //       pauseTime: 1.2,
-  //       cursor: true,
-  //       cursorWidth: "1px",
-  //       cursorColor: "#f2f200",
-  //       naturalVariation: false,
-  //       blurEffect: false,
-  //       loop: true,
-  //       ease: "power2.out",
-  //     };
-
-  //     createTypewriter(`#${element.id}`, words, config);
-  //   });
-  // }
-
   // // Navbar show/hide animation
   // const showAnim = gsap.fromTo(
   //   ".navbar-fixed_component",

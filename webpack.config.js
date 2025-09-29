@@ -9,7 +9,6 @@ module.exports = {
     ["angebot"]: "./src/angebot.js",
     ["kontakt"]: "./src/kontakt.js",
     ["agentur"]: "./src/agentur.js",
-    ["typewriter"]: "./src/typewriter.js",
     ["marquee"]: "./src/marquee.js",
     ["call-embed"]: "./src/call-embed.js",
     ["projects-detail"]: "./src/projects-detail.js",
