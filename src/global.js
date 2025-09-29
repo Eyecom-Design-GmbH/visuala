@@ -1,4 +1,4 @@
-//import "./typewriter.js";
+// import "./typewriter.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Typewriter animations
