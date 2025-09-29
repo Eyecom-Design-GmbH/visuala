@@ -86,6 +86,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     },
   });
-
-  ScrollTrigger.refresh()
 });
