@@ -1,5 +1,3 @@
-import "./call-embed.js";
-
 
 $(document).ready(function () {
   // Only create yellow cursor on non-touch devices

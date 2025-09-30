@@ -1,5 +1,3 @@
-import "./call-embed.js";
-
 document.addEventListener("DOMContentLoaded", function () {
   gsap.utils.toArray(".contact_component").forEach((wrapper) => {
     const images = wrapper.querySelectorAll(".contact_item");

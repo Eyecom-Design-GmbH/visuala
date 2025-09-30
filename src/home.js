@@ -1,7 +1,4 @@
 import "./marquee.js";
-import "./call-embed.js";
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
   createInfiniteMarquee(".team-marquee", {
