@@ -1,17 +1,16 @@
 import "./marquee.js";
 import "./call-embed.js";
-// import "./title-animations.js";
 
 
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   createInfiniteMarquee(".team-marquee", {
-//     speed: 50,
-//     direction: "left",
-//     pauseOnHover: false,
-//     gap: 0,
-//     duplicateContent: true,
-//     smooth: true,
-//     preserveStyles: true,
-//   });
-// });
+document.addEventListener("DOMContentLoaded", function () {
+  createInfiniteMarquee(".team-marquee", {
+    speed: 50,
+    direction: "left",
+    pauseOnHover: false,
+    gap: 0,
+    duplicateContent: true,
+    smooth: true,
+    preserveStyles: true,
+  });
+});

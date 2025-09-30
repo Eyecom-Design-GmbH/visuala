@@ -165,29 +165,4 @@ $(document).ready(function () {
 
     gsap.set(answer, { height: 0 });
   });
-
-  gsap.utils.toArray(".angebot_img").forEach((img, index) => {
-    gsap.fromTo(
-      img,
-      {
-        y: "50%",
-        opacity: 0,
-        scale: 1,
-      },
-      {
-        y: "0%",
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        ease: "cubic-bezier(0.53, 0.03, 0.83, 0.25)",
-        delay: index * 0.1,
-        scrollTrigger: {
-          trigger: img,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    );
-  });
 });
