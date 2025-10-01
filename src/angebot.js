@@ -1,6 +1,3 @@
-import "./call-embed.js";
-
-
 $(document).ready(function () {
   // Only create yellow cursor on non-touch devices
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;

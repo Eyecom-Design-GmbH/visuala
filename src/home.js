@@ -1,7 +1,4 @@
 import "./marquee.js";
-import "./call-embed.js";
-// import "./title-animations.js";
-
 
 
 document.addEventListener("DOMContentLoaded", function () {

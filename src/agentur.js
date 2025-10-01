@@ -1,7 +1,5 @@
 import "./typewriter.js";
 import "./marquee.js";
-import "./call-embed.js";
-
 
 document.addEventListener("DOMContentLoaded", function () {
   const items = document.querySelectorAll(".testimonial_item");
