@@ -1,4 +1,3 @@
-import "./typewriter.js";
 import "./marquee.js";
 
 document.addEventListener("DOMContentLoaded", function () {
