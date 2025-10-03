@@ -206,7 +206,7 @@ function createInfiniteMarquee(selector, options = {}) {
         duration: duration,
         ease: settings.smooth ? "none" : "power1.inOut",
         repeat: -1,
-        repeatRefresh: true,
+        repeatRefresh: false,
         paused: !settings.autoStart,
         force3D: true,
         transformOrigin: "0 0",
